@@ -1,0 +1,285 @@
+﻿namespace TravelPointSystem.Data
+{
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+
+    using TravelPointSystem.Data.Common.Models;
+    using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Data.Models.MappingTables;
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
+    {
+        private static readonly MethodInfo SetIsDeletedQueryFilterMethod =
+            typeof(ApplicationDbContext).GetMethod(
+                nameof(SetIsDeletedQueryFilter),
+                BindingFlags.NonPublic | BindingFlags.Static);
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+            : base(options)
+        {
+        }
+
+        public DbSet<Bus> Buses { get; set; }
+
+        public DbSet<Destination> Destinations { get; set; }
+
+        public DbSet<DestinationOrganizedTrip> DestinationOrganizedTrips { get; set; }
+
+        public DbSet<DestinationReservation> DestinationReservations { get; set; }
+
+        public DbSet<Flight> Flights { get; set; }
+
+        public DbSet<FlightCompany> FlightCompanies { get; set; }
+
+        public DbSet<Hotel> Hotels { get; set; }
+
+        public DbSet<HotelOrganizedTrip> HotelOrganizedTrips { get; set; }
+
+        public DbSet<OrganizedTrip> OrganizedTrips { get; set; }
+
+        public DbSet<Reservation> Reservations { get; set; }
+
+        public DbSet<ReservationTourist> ReservationTourists { get; set; }
+
+        public DbSet<Setting> Settings { get; set; }
+
+        public DbSet<Tourist> Tourists { get; set; }
+
+        public override int SaveChanges() => this.SaveChanges(true);
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            this.ApplyAuditInfoRules();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
+            this.SaveChangesAsync(true, cancellationToken);
+
+        public override Task<int> SaveChangesAsync(
+            bool acceptAllChangesOnSuccess,
+            CancellationToken cancellationToken = default)
+        {
+            this.ApplyAuditInfoRules();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            // Needed for Identity models configuration
+            base.OnModelCreating(builder);
+
+            ConfigureUserIdentityRelations(builder);
+
+            EntityIndexesConfiguration.Configure(builder);
+
+            var entityTypes = builder.Model.GetEntityTypes().ToList();
+
+            // Set global query filter for not deleted entities only
+            var deletableEntityTypes = entityTypes
+                .Where(et => et.ClrType != null && typeof(IDeletableEntity).IsAssignableFrom(et.ClrType));
+            foreach (var deletableEntityType in deletableEntityTypes)
+            {
+                var method = SetIsDeletedQueryFilterMethod.MakeGenericMethod(deletableEntityType.ClrType);
+                method.Invoke(null, new object[] { builder });
+            }
+
+            // Disable cascade delete
+            var foreignKeys = entityTypes
+                .SelectMany(e => e.GetForeignKeys().Where(f => f.DeleteBehavior == DeleteBehavior.Cascade));
+            foreach (var foreignKey in foreignKeys)
+            {
+                foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+        }
+
+        private static void ConfigureUserIdentityRelations(ModelBuilder builder)
+        {
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.Claims)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.Logins)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.Roles)
+                .WithOne()
+                .HasForeignKey(e => e.UserId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // One-to-many relationship between ApplicationUsers and Reservations
+            builder.Entity<ApplicationUser>()
+                .HasMany(au => au.Reservations)
+                .WithOne(r => r.Creator)
+                .HasForeignKey(r => r.CreatorId);
+
+            builder.Entity<Reservation>()
+                .HasOne<ApplicationUser>(r => r.Creator)
+                .WithMany(au => au.Reservations)
+                .HasForeignKey(r => r.CreatorId);
+
+            // One-to-many relationship between Buses and Destinations
+            builder.Entity<Bus>()
+                .HasOne<Destination>(b => b.StartPoint)
+                .WithMany(sp => sp.DepartureBuses)
+                .HasForeignKey(b => b.StartPointId);
+
+            builder.Entity<Bus>()
+                .HasOne<Destination>(b => b.EndPoint)
+                .WithMany(sp => sp.DepartingBuses)
+                .HasForeignKey(b => b.EndPointId);
+
+            builder.Entity<Destination>()
+                .HasMany(d => d.DepartureBuses)
+                .WithOne(b => b.StartPoint)
+                .HasForeignKey(b => b.StartPointId);
+
+            builder.Entity<Destination>()
+                .HasMany(d => d.DepartingBuses)
+                .WithOne(b => b.EndPoint)
+                .HasForeignKey(b => b.EndPointId);
+
+            // One-to-many relationship between Destinations and Hotels
+            builder.Entity<Destination>()
+                .HasMany(d => d.Hotels)
+                .WithOne(h => h.Destination)
+                .HasForeignKey(h => h.DestinationId);
+
+            builder.Entity<Hotel>()
+                .HasOne<Destination>(h => h.Destination)
+                .WithMany(d => d.Hotels)
+                .HasForeignKey(h => h.DestinationId);
+
+            // One-to-many relationship between Destinations and Flights
+            builder.Entity<Destination>()
+                .HasMany(d => d.DepartureFlights)
+                .WithOne(f => f.StartPoint)
+                .HasForeignKey(f => f.StartPointId);
+
+            builder.Entity<Destination>()
+                .HasMany(d => d.DepartingFlights)
+                .WithOne(f => f.EndPoint)
+                .HasForeignKey(f => f.EndPointId);
+
+            builder.Entity<Flight>()
+                .HasOne<Destination>(f => f.StartPoint)
+                .WithMany(d => d.DepartureFlights)
+                .HasForeignKey(f => f.StartPointId);
+
+            builder.Entity<Flight>()
+                .HasOne<Destination>(f => f.EndPoint)
+                .WithMany(d => d.DepartingFlights)
+                .HasForeignKey(f => f.EndPointId);
+
+            // One-to-many relationship between Flights and FlightCompanies
+            builder.Entity<Flight>()
+                .HasOne<FlightCompany>(f => f.Company)
+                .WithMany(fc => fc.Flights)
+                .HasForeignKey(f => f.CompanyId);
+
+            builder.Entity<FlightCompany>()
+                .HasMany(fc => fc.Flights)
+                .WithOne(f => f.Company)
+                .HasForeignKey(f => f.CompanyId);
+
+            // Many-to-many relationship between Destinations and OrganizedTrips
+            builder.Entity<DestinationOrganizedTrip>()
+                .HasKey(dot => new { dot.DestinationId, dot.OrganizedTripId });
+
+            builder.Entity<DestinationOrganizedTrip>()
+                .HasOne(dot => dot.Destination)
+                .WithMany(d => d.OrganizedTrips)
+                .HasForeignKey(dot => dot.DestinationId);
+
+            builder.Entity<DestinationOrganizedTrip>()
+                .HasOne(dot => dot.OrganizedTrip)
+                .WithMany(o => o.Destinations)
+                .HasForeignKey(dot => dot.OrganizedTripId);
+
+            // Many-to-many unidirectional relationship between Destinations and Reservations
+            builder.Entity<DestinationReservation>()
+                .HasKey(dr => new { dr.DestinationId, dr.ReservationId });
+
+            builder.Entity<DestinationReservation>()
+                .HasOne(dr => dr.Destination)
+                .WithMany()
+                .HasForeignKey(dr => dr.DestinationId);
+
+            builder.Entity<DestinationReservation>()
+                .HasOne(dr => dr.Reservation)
+                .WithMany(r => r.Destinations)
+                .HasForeignKey(dr => dr.ReservationId);
+
+            // Many-to-many relationship between Hotel and OrganizedTrips
+            builder.Entity<HotelOrganizedTrip>()
+                .HasKey(ho => new { ho.HotelId, ho.OrganizedTripId });
+
+            builder.Entity<HotelOrganizedTrip>()
+                .HasOne(ho => ho.Hotel)
+                .WithMany(h => h.OrganizedTrips)
+                .HasForeignKey(ho => ho.HotelId);
+
+            builder.Entity<HotelOrganizedTrip>()
+                .HasOne(ho => ho.OrganizedTrip)
+                .WithMany(o => o.Hotels)
+                .HasForeignKey(ho => ho.OrganizedTripId);
+
+            // Many-to-many relationship between Reservations and Tourists
+            builder.Entity<ReservationTourist>()
+                .HasKey(rt => new { rt.ReservationId, rt.TouristId });
+
+            builder.Entity<ReservationTourist>()
+                .HasOne(rt => rt.Reservation)
+                .WithMany(r => r.Tourists)
+                .HasForeignKey(rt => rt.ReservationId);
+
+            builder.Entity<ReservationTourist>()
+                .HasOne(rt => rt.Tourist)
+                .WithMany(t => t.Reservations)
+                .HasForeignKey(rt => rt.TouristId);
+        }
+
+        private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)
+            where T : class, IDeletableEntity
+        {
+            builder.Entity<T>().HasQueryFilter(e => !e.IsDeleted);
+        }
+
+        private void ApplyAuditInfoRules()
+        {
+            var changedEntries = this.ChangeTracker
+                .Entries()
+                .Where(e =>
+                    e.Entity is IAuditInfo &&
+                    (e.State == EntityState.Added || e.State == EntityState.Modified));
+
+            foreach (var entry in changedEntries)
+            {
+                var entity = (IAuditInfo)entry.Entity;
+                if (entry.State == EntityState.Added && entity.CreatedOn == default)
+                {
+                    entity.CreatedOn = DateTime.UtcNow;
+                }
+                else
+                {
+                    entity.ModifiedOn = DateTime.UtcNow;
+                }
+            }
+        }
+    }
+}
