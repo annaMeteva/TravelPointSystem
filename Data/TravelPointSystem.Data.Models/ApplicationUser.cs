@@ -3,7 +3,7 @@ namespace TravelPointSystem.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations;
     using Microsoft.AspNetCore.Identity;
 
     using TravelPointSystem.Data.Common.Models;
@@ -34,6 +34,15 @@ namespace TravelPointSystem.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        [Required]
+        public string CompanyName { get; set; }
+
+        [Required]
+        public int TravelLicenceNumber { get; set; }
+
+        [Required]
+        public string Address { get; set; }
 
         public HashSet<Reservation> Reservations { get; set; }
     }
