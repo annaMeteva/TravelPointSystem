@@ -7,7 +7,7 @@
 
     using TravelPointSystem.Data.Common.Models;
 
-    public class FlightCompany : BaseDeletableModel<string>
+    public class FlightCompany : BaseDeletableModel<int>
     {
         public FlightCompany()
         {

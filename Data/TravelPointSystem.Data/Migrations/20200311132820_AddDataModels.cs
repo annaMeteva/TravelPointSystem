@@ -7,11 +7,30 @@ namespace TravelPointSystem.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AddColumn<string>(
+                name: "Address",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<string>(
+                name: "CompanyName",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: "");
+
+            migrationBuilder.AddColumn<int>(
+                name: "TravelLicenceNumber",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: 0);
+
             migrationBuilder.CreateTable(
                 name: "Destinations",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -31,7 +50,8 @@ namespace TravelPointSystem.Data.Migrations
                 name: "FlightCompanies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
@@ -133,8 +153,8 @@ namespace TravelPointSystem.Data.Migrations
                     DepartureDateTime = table.Column<DateTime>(nullable: false),
                     ReturnDateTime = table.Column<DateTime>(nullable: true),
                     AvailableSeats = table.Column<int>(nullable: false),
-                    StartPointId = table.Column<string>(nullable: false),
-                    EndPointId = table.Column<string>(nullable: false)
+                    StartPointId = table.Column<int>(nullable: false),
+                    EndPointId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -157,14 +177,15 @@ namespace TravelPointSystem.Data.Migrations
                 name: "Hotels",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 25, nullable: false),
                     Description = table.Column<string>(maxLength: 100, nullable: true),
-                    DestinationId = table.Column<string>(nullable: false),
+                    DestinationId = table.Column<int>(nullable: false),
                     PricePerNightPerPerson = table.Column<double>(nullable: false),
                     Stars = table.Column<int>(nullable: false),
                     AvailableRooms = table.Column<int>(nullable: false)
@@ -184,16 +205,17 @@ namespace TravelPointSystem.Data.Migrations
                 name: "Flights",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CreatedOn = table.Column<DateTime>(nullable: false),
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    CompanyId = table.Column<string>(nullable: false),
+                    CompanyId = table.Column<int>(nullable: false),
                     DepartureDateTime = table.Column<DateTime>(nullable: false),
                     ReturnDateTime = table.Column<DateTime>(nullable: true),
-                    StartPointId = table.Column<string>(nullable: false),
-                    EndPointId = table.Column<string>(nullable: false),
+                    StartPointId = table.Column<int>(nullable: false),
+                    EndPointId = table.Column<int>(nullable: false),
                     FlightTime = table.Column<DateTime>(nullable: false),
                     AvailableSeats = table.Column<int>(nullable: false)
                 },
@@ -224,7 +246,7 @@ namespace TravelPointSystem.Data.Migrations
                 name: "DestinationOrganizedTrips",
                 columns: table => new
                 {
-                    DestinationId = table.Column<string>(nullable: false),
+                    DestinationId = table.Column<int>(nullable: false),
                     OrganizedTripId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -248,7 +270,7 @@ namespace TravelPointSystem.Data.Migrations
                 name: "DestinationReservations",
                 columns: table => new
                 {
-                    DestinationId = table.Column<string>(nullable: false),
+                    DestinationId = table.Column<int>(nullable: false),
                     ReservationId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -296,7 +318,7 @@ namespace TravelPointSystem.Data.Migrations
                 name: "HotelOrganizedTrips",
                 columns: table => new
                 {
-                    HotelId = table.Column<string>(nullable: false),
+                    HotelId = table.Column<int>(nullable: false),
                     OrganizedTripId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -449,6 +471,18 @@ namespace TravelPointSystem.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Destinations");
+
+            migrationBuilder.DropColumn(
+                name: "Address",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "CompanyName",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "TravelLicenceNumber",
+                table: "AspNetUsers");
         }
     }
 }

@@ -7,7 +7,7 @@
     using TravelPointSystem.Data.Common.Models;
     using TravelPointSystem.Data.Models.MappingTables;
 
-    public class Destination : BaseDeletableModel<string>
+    public class Destination : BaseDeletableModel<int>
     {
         public Destination()
         {

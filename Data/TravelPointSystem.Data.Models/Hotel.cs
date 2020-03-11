@@ -7,7 +7,7 @@
     using TravelPointSystem.Data.Common.Models;
     using TravelPointSystem.Data.Models.MappingTables;
 
-    public class Hotel : BaseDeletableModel<string>
+    public class Hotel : BaseDeletableModel<int>
     {
         public Hotel()
         {
@@ -25,7 +25,7 @@
         public string Description { get; set; }
 
         [Required]
-        public string DestinationId { get; set; }
+        public int DestinationId { get; set; }
 
         public Destination Destination { get; set; }
 

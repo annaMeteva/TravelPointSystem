@@ -23,12 +23,12 @@
         public int AvailableSeats { get; set; }
 
         [Required]
-        public string StartPointId { get; set; }
+        public int StartPointId { get; set; }
 
         public Destination StartPoint { get; set; }
 
         [Required]
-        public string EndPointId { get; set; }
+        public int EndPointId { get; set; }
 
         public Destination EndPoint { get; set; }
     }

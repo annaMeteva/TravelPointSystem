@@ -7,7 +7,7 @@
 
     using TravelPointSystem.Data.Common.Models;
 
-    public class Flight : BaseDeletableModel<string>
+    public class Flight : BaseDeletableModel<int>
     {
         public Flight()
         {
@@ -15,7 +15,7 @@
             this.IsDeleted = false;
         }
 
-        public string CompanyId { get; set; }
+        public int CompanyId { get; set; }
 
         [Required]
         public FlightCompany Company { get; set; }
@@ -26,12 +26,12 @@
         public DateTime? ReturnDateTime { get; set; }
 
         [Required]
-        public string StartPointId { get; set; }
+        public int StartPointId { get; set; }
 
         public Destination StartPoint { get; set; }
 
         [Required]
-        public string EndPointId { get; set; }
+        public int EndPointId { get; set; }
 
         public Destination EndPoint { get; set; }
 

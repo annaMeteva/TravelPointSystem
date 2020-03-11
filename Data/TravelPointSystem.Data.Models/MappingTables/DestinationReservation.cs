@@ -2,7 +2,7 @@
 {
     public class DestinationReservation
     {
-        public string DestinationId { get; set; }
+        public int DestinationId { get; set; }
 
         public Destination Destination { get; set; }
 

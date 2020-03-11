@@ -10,8 +10,8 @@ using TravelPointSystem.Data;
 namespace TravelPointSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200311115021_UpdateApplicationUserTable")]
-    partial class UpdateApplicationUserTable
+    [Migration("20200311132820_AddDataModels")]
+    partial class AddDataModels
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -273,9 +273,8 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime>("DepartureDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EndPointId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EndPointId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -286,9 +285,8 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime?>("ReturnDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("StartPointId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("StartPointId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -303,8 +301,10 @@ namespace TravelPointSystem.Data.Migrations
 
             modelBuilder.Entity("TravelPointSystem.Data.Models.Destination", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Continent")
                         .IsRequired()
@@ -346,15 +346,16 @@ namespace TravelPointSystem.Data.Migrations
 
             modelBuilder.Entity("TravelPointSystem.Data.Models.Flight", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AvailableSeats")
                         .HasColumnType("int");
 
-                    b.Property<string>("CompanyId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -365,9 +366,8 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime>("DepartureDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EndPointId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("EndPointId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("FlightTime")
                         .HasColumnType("datetime2");
@@ -381,9 +381,8 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime?>("ReturnDateTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("StartPointId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("StartPointId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -400,8 +399,10 @@ namespace TravelPointSystem.Data.Migrations
 
             modelBuilder.Entity("TravelPointSystem.Data.Models.FlightCompany", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -437,8 +438,10 @@ namespace TravelPointSystem.Data.Migrations
 
             modelBuilder.Entity("TravelPointSystem.Data.Models.Hotel", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("AvailableRooms")
                         .HasColumnType("int");
@@ -453,9 +456,8 @@ namespace TravelPointSystem.Data.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<string>("DestinationId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DestinationId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -485,8 +487,8 @@ namespace TravelPointSystem.Data.Migrations
 
             modelBuilder.Entity("TravelPointSystem.Data.Models.MappingTables.DestinationOrganizedTrip", b =>
                 {
-                    b.Property<string>("DestinationId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DestinationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("OrganizedTripId")
                         .HasColumnType("nvarchar(450)");
@@ -500,8 +502,8 @@ namespace TravelPointSystem.Data.Migrations
 
             modelBuilder.Entity("TravelPointSystem.Data.Models.MappingTables.DestinationReservation", b =>
                 {
-                    b.Property<string>("DestinationId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("DestinationId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ReservationId")
                         .HasColumnType("nvarchar(450)");
@@ -515,8 +517,8 @@ namespace TravelPointSystem.Data.Migrations
 
             modelBuilder.Entity("TravelPointSystem.Data.Models.MappingTables.HotelOrganizedTrip", b =>
                 {
-                    b.Property<string>("HotelId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("HotelId")
+                        .HasColumnType("int");
 
                     b.Property<string>("OrganizedTripId")
                         .HasColumnType("nvarchar(450)");
