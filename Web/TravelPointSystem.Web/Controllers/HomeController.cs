@@ -13,9 +13,28 @@
             return this.View();
         }
 
+        public IActionResult About()
+        {
+            return this.View();
+        }
+
         public IActionResult Privacy()
         {
             return this.View();
+        }
+
+        public IActionResult HttpError(int statusCode)
+        {
+            if (statusCode == 404)
+            {
+                return this.View("NotFoundError");
+            }
+            else if (statusCode == 500)
+            {
+                return this.View("InternalServerError");
+            }
+
+            return this.View("Error");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
