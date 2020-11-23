@@ -28,10 +28,7 @@
         public string Country { get; set; }
 
         [Required]
-        public string Flag { get; set; }
-
-        [Required]
-        public int Town { get; set; }
+        public string Town { get; set; }
 
         [MinLength(5)]
         [MaxLength(100)]
