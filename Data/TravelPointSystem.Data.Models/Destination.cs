@@ -30,10 +30,6 @@
         [Required]
         public string Town { get; set; }
 
-        [MinLength(5)]
-        [MaxLength(100)]
-        public string Description { get; set; }
-
         public ICollection<Hotel> Hotels { get; set; }
 
         public ICollection<Flight> DepartureFlights { get; set; }

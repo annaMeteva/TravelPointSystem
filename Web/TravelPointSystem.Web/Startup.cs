@@ -9,17 +9,16 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
-
     using TravelPointSystem.Data;
-    using TravelPointSystem.Data.Common.Repositories;
-    using TravelPointSystem.Data.Repositories;
     using TravelPointSystem.Data.Common;
+    using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
-    using TravelPointSystem.Services.Messaging;
+    using TravelPointSystem.Data.Repositories;
+    using TravelPointSystem.Data.Seeding;
     using TravelPointSystem.Services.Data;
     using TravelPointSystem.Services.Mapping;
+    using TravelPointSystem.Services.Messaging;
     using TravelPointSystem.Web.ViewModels;
-    using TravelPointSystem.Data.Seeding;
 
     public class Startup
     {
@@ -58,7 +57,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
