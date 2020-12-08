@@ -23,11 +23,6 @@
         public string Name { get; set; }
 
         [Required]
-        [MinLength(5)]
-        [MaxLength(100)]
-        public string Description { get; set; }
-
-        [Required]
         public double PricePerPerson { get; set; }
 
         [Required]
@@ -36,15 +31,13 @@
         [Required]
         public DateTime ReturnDateTime { get; set; }
 
-        public int Days { get; set; }
-
         [Required]
         [Range(1, 3)]
         public int DestinationsNumber { get; set; }
 
-        public HashSet<DestinationOrganizedTrip> Destinations { get; set; }
+        public ICollection<DestinationOrganizedTrip> Destinations { get; set; }
 
-        public HashSet<HotelOrganizedTrip> Hotels { get; set; }
+        public ICollection<HotelOrganizedTrip> Hotels { get; set; }
 
         public TransportType Transport { get; set; }
 

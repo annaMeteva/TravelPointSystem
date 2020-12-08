@@ -32,15 +32,15 @@
         [Range(1, 2)]
         public int NumberOfToursts { get; set; }
 
-        public HashSet<ReservationTourist> Tourists { get; set; }
+        public ICollection<ReservationTourist> Tourists { get; set; }
 
-        public HashSet<DestinationReservation> Destinations { get; set; }
+        public ICollection<DestinationReservation> Destinations { get; set; }
 
         public double Price { get; set; }
 
         public double Balance { get; set; }
 
-        public double MoneyLeft { get; set; }
+        public double Profit { get; set; }
 
         public bool IsPaid { get; set; }
 

@@ -2,6 +2,8 @@
 {
     public class ReservationTourist
     {
+        public int Id { get; set; }
+
         public string ReservationId { get; set; }
 
         public Reservation Reservation { get; set; }

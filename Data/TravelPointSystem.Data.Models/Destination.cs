@@ -34,16 +34,16 @@
         [MaxLength(100)]
         public string Description { get; set; }
 
-        public HashSet<Hotel> Hotels { get; set; }
+        public ICollection<Hotel> Hotels { get; set; }
 
-        public HashSet<Flight> DepartureFlights { get; set; }
+        public ICollection<Flight> DepartureFlights { get; set; }
 
-        public HashSet<Flight> DepartingFlights { get; set; }
+        public ICollection<Flight> DepartingFlights { get; set; }
 
-        public HashSet<Bus> DepartureBuses { get; set; }
+        public ICollection<Bus> DepartureBuses { get; set; }
 
-        public HashSet<Bus> DepartingBuses { get; set; }
+        public ICollection<Bus> DepartingBuses { get; set; }
 
-        public HashSet<DestinationOrganizedTrip> OrganizedTrips { get; set; }
+        public ICollection<DestinationOrganizedTrip> OrganizedTrips { get; set; }
     }
 }

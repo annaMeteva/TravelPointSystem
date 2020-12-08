@@ -20,13 +20,6 @@
         [MaxLength(25)]
         public string Name { get; set; }
 
-        [MinLength(5)]
-        [MaxLength(100)]
-        public string Description { get; set; }
-
-        [Required]
-        public string Logo { get; set; }
-
-        public HashSet<Flight> Flights { get; set; }
+        public ICollection<Flight> Flights { get; set; }
     }
 }

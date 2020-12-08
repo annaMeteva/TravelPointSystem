@@ -4,6 +4,7 @@ namespace TravelPointSystem.Data.Models
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using Microsoft.AspNetCore.Identity;
 
     using TravelPointSystem.Data.Common.Models;
@@ -44,6 +45,6 @@ namespace TravelPointSystem.Data.Models
         [Required]
         public string Address { get; set; }
 
-        public HashSet<Reservation> Reservations { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

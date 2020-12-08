@@ -20,10 +20,6 @@
         [MaxLength(25)]
         public string Name { get; set; }
 
-        [MinLength(5)]
-        [MaxLength(100)]
-        public string Description { get; set; }
-
         [Required]
         public int DestinationId { get; set; }
 
@@ -38,6 +34,6 @@
         [Required]
         public int AvailableRooms { get; set; }
 
-        public HashSet<HotelOrganizedTrip> OrganizedTrips { get; set; }
+        public ICollection<HotelOrganizedTrip> OrganizedTrips { get; set; }
     }
 }

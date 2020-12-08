@@ -29,6 +29,6 @@
 
         public string PhoneNumber { get; set; }
 
-        public HashSet<ReservationTourist> Reservations { get; set; }
+        public ICollection<ReservationTourist> Reservations { get; set; }
     }
 }
