@@ -3,14 +3,22 @@
     using System.Diagnostics;
 
     using Microsoft.AspNetCore.Mvc;
-
+    using TravelPointSystem.Services.Data;
     using TravelPointSystem.Web.ViewModels;
 
     public class HomeController : BaseController
     {
+        private readonly IDestinationsService destinationsService;
+
+        public HomeController(IDestinationsService destinationsService)
+        {
+            this.destinationsService = destinationsService;
+        }
+
         public IActionResult Index()
         {
-            return this.View();
+            var viewModel = this.destinationsService.GetDestinationsCount();
+            return this.View(viewModel);
         }
 
         public IActionResult About()

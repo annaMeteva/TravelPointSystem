@@ -1,13 +1,6 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
-    white-space: normal;
-    text-align: center;
-    word-break: break-all;
-}
-
-
 html {
     font-size: 14px;
 }
@@ -40,10 +33,32 @@ html {
     min-height: 100%;
 }
 
+
+/*Navigation bar settings*/
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.main-navbar a {
+    border-bottom: 2px solid transparent;
+}
+
+.main-navbar a.nav-link-hover:hover {
+    border-bottom: 2px solid orange;
+}
+
+    .main-navbar a.nav-link-hover:active {
+        border-bottom: 2px solid orange;
+    }
+
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
 }
+
 
 main {
     padding-top: 70px;
@@ -58,6 +73,9 @@ main {
     height: 60px;
     line-height: 60px; /* Vertically center the text there */
 }
+
+
+ /*Home page settings*/
 
 .home-banner-container {
     height: 400px;
@@ -76,6 +94,9 @@ main {
     height: 400px;
 }
 
+
+   /*About page settings*/
+
 .about-us-cards .card, .about-us-benefits-cards .card {
     height: 250px;
 }
@@ -90,13 +111,22 @@ main {
     height: 70px;
 }
 
-    .four-zero-four-bg {
+
+/*Privacy page settings*/
+
+.privacy-banner-container {
+    height: 400px;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(/img/PrivacyPolicy.jpg);
+    background-size: cover;
+}
+
+/*Error pages settings*/
+
+.four-zero-four-bg {
     height: 400px;
     background: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
     background-repeat: no-repeat;
     background-position: center;
-
-
 }
 
 .five-zero-zero-bg {

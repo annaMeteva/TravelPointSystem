@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\TravelPointSystem.Data.Common\TravelPointSystem.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\TravelPointSystem.Data.Models\TravelPointSystem.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Web\TravelPointSystem.Web.ViewModels\TravelPointSystem.Web.ViewModels.csproj" />
     <ProjectReference Include="..\TravelPointSystem.Services.Mapping\TravelPointSystem.Services.Mapping.csproj" />
   </ItemGroup>
 

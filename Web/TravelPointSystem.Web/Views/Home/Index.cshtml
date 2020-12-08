@@ -1,4 +1,5 @@
 ﻿@using TravelPointSystem.Common
+@model TravelPointSystem.Web.ViewModels.Home.IndexViewModel
 @{
     this.ViewData["Title"] = "Travel Point";
 }
@@ -36,7 +37,7 @@
                             <img class="img-fluid" src="~/img/Luggage.jpg">
                             <div class="card-body">
                                 <h4 class="card-title">Organized Trips</h4>
-                                <p class="card-text">Access to more than 50 destinations worldwide!</p>
+                                <p class="card-text">Access to @Model.DestinationsCount destinations worldwide!</p>
                             </div>
 
                         </div>
