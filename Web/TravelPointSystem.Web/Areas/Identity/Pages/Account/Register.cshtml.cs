@@ -61,6 +61,24 @@ namespace TravelPointSystem.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 3)]
+            [Display(Name = "Company name")]
+            public string CompanyName { get; set; }
+
+            [Required]
+            [RegularExpression("^[0-9]{6}$", ErrorMessage = "The {0} must be exactly 6 digits.")]
+            [Display(Name = "Travel Licence Number")]
+            public int TravelLicenceNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Company Address")]
+            public string Address { get; set; }
+
+            [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,7 +93,7 @@ namespace TravelPointSystem.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, CompanyName = Input.CompanyName, TravelLicenceNumber = Input.TravelLicenceNumber, Address = Input.Address, PhoneNumber = Input.PhoneNumber};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
