@@ -9,6 +9,7 @@
     {
         public Bus()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
         }
@@ -16,7 +17,8 @@
         [Required]
         public DateTime DepartureDateTime { get; set; }
 
-        public DateTime? ReturnDateTime { get; set; }
+        [Required]
+        public TimeSpan TravellingTime { get; set; }
 
         [Required]
         [Range(1, 60)]

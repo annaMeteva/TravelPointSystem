@@ -11,19 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200224172635_AddDataModels.cs" />
-    <Compile Remove="Migrations\20200224172635_AddDataModels.Designer.cs" />
-    <Compile Remove="Migrations\20200310104332_AddDataModels.cs" />
-    <Compile Remove="Migrations\20200310104332_AddDataModels.Designer.cs" />
-    <Compile Remove="Migrations\20200310105150_AddDataModels.cs" />
-    <Compile Remove="Migrations\20200310105150_AddDataModels.Designer.cs" />
-    <Compile Remove="Migrations\20200311115021_UpdateApplicationUserTable.cs" />
-    <Compile Remove="Migrations\20200311115021_UpdateApplicationUserTable.Designer.cs" />
-    <Compile Remove="Migrations\20200311132340_UpdateDataModels.cs" />
-    <Compile Remove="Migrations\20200311132340_UpdateDataModels.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" />
   </ItemGroup>
 

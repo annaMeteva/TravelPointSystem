@@ -11,6 +11,7 @@
     {
         public Tourist()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
             this.Reservations = new HashSet<ReservationTourist>();

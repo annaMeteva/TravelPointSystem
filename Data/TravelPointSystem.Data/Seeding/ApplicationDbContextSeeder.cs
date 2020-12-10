@@ -28,6 +28,11 @@
                               new RolesSeeder(),
                               new SettingsSeeder(),
                               new DestinationsSeeder(),
+                              new HotelsSeeder(),
+                              new FlightCompaniesSeeder(),
+                              new FlightsSeeder(),
+                              new BusesSeeder(),
+                              new OrganizedTripsSeeder(),
                           };
 
             foreach (var seeder in seeders)

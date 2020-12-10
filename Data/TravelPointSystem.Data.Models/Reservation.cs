@@ -12,29 +12,24 @@
     {
         public Reservation()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
             this.Tourists = new HashSet<ReservationTourist>();
-            this.Destinations = new HashSet<DestinationReservation>();
         }
 
         public string Name { get; set; }
 
+        [Required]
         public ReservationType Type { get; set; }
 
-        public DateTime DepartureDateTime { get; set; }
-
-        public DateTime? ReturnDateTime { get; set; }
-
-        public int DaysLeft { get; set; }
+        public int DepartureDaysLeft { get; set; }
 
         [Required]
         [Range(1, 2)]
         public int NumberOfToursts { get; set; }
 
         public ICollection<ReservationTourist> Tourists { get; set; }
-
-        public ICollection<DestinationReservation> Destinations { get; set; }
 
         public double Price { get; set; }
 

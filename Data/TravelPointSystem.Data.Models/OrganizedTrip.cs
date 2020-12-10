@@ -12,14 +12,13 @@
     {
         public OrganizedTrip()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
-            this.Destinations = new HashSet<DestinationOrganizedTrip>();
-            this.Hotels = new HashSet<HotelOrganizedTrip>();
         }
 
         [Required]
-        [MaxLength(25)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         [Required]
@@ -32,15 +31,18 @@
         public DateTime ReturnDateTime { get; set; }
 
         [Required]
-        [Range(1, 3)]
-        public int DestinationsNumber { get; set; }
+        public int DestinationId { get; set; }
 
-        public ICollection<DestinationOrganizedTrip> Destinations { get; set; }
+        public Destination Destination { get; set; }
 
-        public ICollection<HotelOrganizedTrip> Hotels { get; set; }
+        [Required]
+        public int HotelId { get; set; }
+
+        public Hotel Hotel { get; set; }
 
         public TransportType Transport { get; set; }
 
+        [Required]
         public int AvailableSeats { get; set; }
     }
 }

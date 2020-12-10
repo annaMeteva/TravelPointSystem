@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using TravelPointSystem.Data.Common.Models;
+    using TravelPointSystem.Data.Models.Enums;
     using TravelPointSystem.Data.Models.MappingTables;
 
     public class Hotel : BaseDeletableModel<int>
@@ -13,11 +14,11 @@
         {
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
-            this.OrganizedTrips = new HashSet<HotelOrganizedTrip>();
+            this.OrganizedTrips = new HashSet<OrganizedTrip>();
         }
 
         [Required]
-        [MaxLength(25)]
+        [MaxLength(50)]
         public string Name { get; set; }
 
         [Required]
@@ -34,6 +35,8 @@
         [Required]
         public int AvailableRooms { get; set; }
 
-        public ICollection<HotelOrganizedTrip> OrganizedTrips { get; set; }
+        public FeedingType FeedingType { get; set; }
+
+        public ICollection<OrganizedTrip> OrganizedTrips { get; set; }
     }
 }

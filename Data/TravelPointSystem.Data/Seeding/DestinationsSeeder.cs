@@ -16,14 +16,14 @@
                 return;
             }
 
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "Austria", Town = "Vienna" });
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "Belgium", Town = "Brussels" });
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "Bulgaria", Town = "Sofia" });
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "Croatia", Town = "Zagreb" });
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "Czechia", Town = "Prague" });
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "France", Town = "Paris" });
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "Germany", Town = "Berlin" });
-            await dbContext.Destinations.AddAsync(new Destination {Continent = "Europe", Country = "Greece", Town = "Athens" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Austria", Town = "Vienna" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Belgium", Town = "Brussels" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Bulgaria", Town = "Sofia" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Croatia", Town = "Zagreb" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Czechia", Town = "Prague" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "France", Town = "Paris" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Germany", Town = "Berlin" });
+            await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Greece", Town = "Athens" });
             await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Hungary", Town = "Budapest" });
             await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Italy", Town = "Rome" });
             await dbContext.Destinations.AddAsync(new Destination { Continent = "Europe", Country = "Spain", Town = "Madrid" });

@@ -18,7 +18,7 @@
             this.DepartingFlights = new HashSet<Flight>();
             this.DepartureBuses = new HashSet<Bus>();
             this.DepartingBuses = new HashSet<Bus>();
-            this.OrganizedTrips = new HashSet<DestinationOrganizedTrip>();
+            this.OrganizedTrips = new HashSet<OrganizedTrip>();
         }
 
         [Required]
@@ -40,6 +40,6 @@
 
         public ICollection<Bus> DepartingBuses { get; set; }
 
-        public ICollection<DestinationOrganizedTrip> OrganizedTrips { get; set; }
+        public ICollection<OrganizedTrip> OrganizedTrips { get; set; }
     }
 }

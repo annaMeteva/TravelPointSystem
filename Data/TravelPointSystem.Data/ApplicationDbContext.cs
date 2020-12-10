@@ -29,17 +29,11 @@
 
         public DbSet<Destination> Destinations { get; set; }
 
-        public DbSet<DestinationOrganizedTrip> DestinationOrganizedTrips { get; set; }
-
-        public DbSet<DestinationReservation> DestinationReservations { get; set; }
-
         public DbSet<Flight> Flights { get; set; }
 
         public DbSet<FlightCompany> FlightCompanies { get; set; }
 
         public DbSet<Hotel> Hotels { get; set; }
-
-        public DbSet<HotelOrganizedTrip> HotelOrganizedTrips { get; set; }
 
         public DbSet<OrganizedTrip> OrganizedTrips { get; set; }
 
@@ -133,15 +127,37 @@
                 .WithMany(au => au.Reservations)
                 .HasForeignKey(r => r.CreatorId);
 
+            // One-to-many relationship between OrganizedTrips and Destinations
+            builder.Entity<OrganizedTrip>()
+                .HasOne<Destination>(ot => ot.Destination)
+                .WithMany(d => d.OrganizedTrips)
+                .HasForeignKey(ot => ot.DestinationId);
+
+            builder.Entity<Destination>()
+                .HasMany<OrganizedTrip>(d => d.OrganizedTrips)
+                .WithOne(ot => ot.Destination)
+                .HasForeignKey(ot => ot.DestinationId);
+
+            // One-to-many relationship between OrganizedTrips and Hotels
+            builder.Entity<OrganizedTrip>()
+               .HasOne<Hotel>(ot => ot.Hotel)
+               .WithMany(h => h.OrganizedTrips)
+               .HasForeignKey(ot => ot.HotelId);
+
+            builder.Entity<Hotel>()
+                .HasMany<OrganizedTrip>(h => h.OrganizedTrips)
+                .WithOne(ot => ot.Hotel)
+                .HasForeignKey(ot => ot.HotelId);
+
             // One-to-many relationship between Buses and Destinations
             builder.Entity<Bus>()
                 .HasOne<Destination>(b => b.StartPoint)
-                .WithMany(sp => sp.DepartureBuses)
+                .WithMany(d => d.DepartureBuses)
                 .HasForeignKey(b => b.StartPointId);
 
             builder.Entity<Bus>()
                 .HasOne<Destination>(b => b.EndPoint)
-                .WithMany(sp => sp.DepartingBuses)
+                .WithMany(d => d.DepartingBuses)
                 .HasForeignKey(b => b.EndPointId);
 
             builder.Entity<Destination>()
@@ -196,48 +212,6 @@
                 .HasMany(fc => fc.Flights)
                 .WithOne(f => f.Company)
                 .HasForeignKey(f => f.CompanyId);
-
-            // Many-to-many relationship between Destinations and OrganizedTrips
-            builder.Entity<DestinationOrganizedTrip>()
-                .HasKey(dot => new { dot.DestinationId, dot.OrganizedTripId });
-
-            builder.Entity<DestinationOrganizedTrip>()
-                .HasOne(dot => dot.Destination)
-                .WithMany(d => d.OrganizedTrips)
-                .HasForeignKey(dot => dot.DestinationId);
-
-            builder.Entity<DestinationOrganizedTrip>()
-                .HasOne(dot => dot.OrganizedTrip)
-                .WithMany(o => o.Destinations)
-                .HasForeignKey(dot => dot.OrganizedTripId);
-
-            // Many-to-many unidirectional relationship between Destinations and Reservations
-            builder.Entity<DestinationReservation>()
-                .HasKey(dr => new { dr.DestinationId, dr.ReservationId });
-
-            builder.Entity<DestinationReservation>()
-                .HasOne(dr => dr.Destination)
-                .WithMany()
-                .HasForeignKey(dr => dr.DestinationId);
-
-            builder.Entity<DestinationReservation>()
-                .HasOne(dr => dr.Reservation)
-                .WithMany(r => r.Destinations)
-                .HasForeignKey(dr => dr.ReservationId);
-
-            // Many-to-many relationship between Hotel and OrganizedTrips
-            builder.Entity<HotelOrganizedTrip>()
-                .HasKey(ho => new { ho.HotelId, ho.OrganizedTripId });
-
-            builder.Entity<HotelOrganizedTrip>()
-                .HasOne(ho => ho.Hotel)
-                .WithMany(h => h.OrganizedTrips)
-                .HasForeignKey(ho => ho.HotelId);
-
-            builder.Entity<HotelOrganizedTrip>()
-                .HasOne(ho => ho.OrganizedTrip)
-                .WithMany(o => o.Hotels)
-                .HasForeignKey(ho => ho.OrganizedTripId);
 
             // Many-to-many relationship between Reservations and Tourists
             builder.Entity<ReservationTourist>()
