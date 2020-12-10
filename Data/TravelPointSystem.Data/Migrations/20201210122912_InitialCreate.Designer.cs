@@ -10,7 +10,7 @@ using TravelPointSystem.Data;
 namespace TravelPointSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201210112416_InitialCreate")]
+    [Migration("20201210122912_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -544,6 +544,12 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("CheckIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOut")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -556,6 +562,9 @@ namespace TravelPointSystem.Data.Migrations
 
                     b.Property<int>("DepartureDaysLeft")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

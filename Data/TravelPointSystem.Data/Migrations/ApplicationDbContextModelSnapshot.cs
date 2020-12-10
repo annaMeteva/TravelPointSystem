@@ -542,6 +542,12 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("CheckIn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CheckOut")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -554,6 +560,9 @@ namespace TravelPointSystem.Data.Migrations
 
                     b.Property<int>("DepartureDaysLeft")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

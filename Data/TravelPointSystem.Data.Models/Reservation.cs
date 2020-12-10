@@ -23,6 +23,13 @@
         [Required]
         public ReservationType Type { get; set; }
 
+        // For Hotel Reservation Type
+        public DateTime CheckIn { get; set; }
+
+        public DateTime CheckOut { get; set; }
+
+        public bool IsAccepted { get; set; }
+
         public int DepartureDaysLeft { get; set; }
 
         [Required]
