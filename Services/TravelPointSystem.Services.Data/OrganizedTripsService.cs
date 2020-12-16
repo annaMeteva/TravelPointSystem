@@ -6,6 +6,9 @@
     using System.Text;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Services.Mapping;
+    using TravelPointSystem.Web.ViewModels.Destinations;
+    using TravelPointSystem.Web.ViewModels.OrganizedTrips;
 
     public class OrganizedTripsService : IOrganizedTripsService
     {
@@ -23,6 +26,13 @@
                 x.Id,
                 x.Name,
             }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name)).OrderBy(x => x.Value);
+        }
+
+        public IEnumerable<OrganizedTripViewModel> GetAllByDestinationId(int destinationId)
+        {
+            return this.organizedTripsRepository.AllAsNoTracking()
+                .Where(h => h.DestinationId == destinationId)
+                .OrderBy(h => h.Name).To<OrganizedTripViewModel>();
         }
     }
 }

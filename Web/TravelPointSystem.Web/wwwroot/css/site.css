@@ -135,3 +135,13 @@ main {
     background-repeat: no-repeat;
     background-position: center;
 }
+
+#card-img-cover {
+    object-fit: cover;
+    height: 190px;
+}
+
+.hotel-page-img {
+    object-fit: cover;
+    height: 400px;
+}

@@ -1,0 +1,31 @@
+﻿@model TravelPointSystem.Web.ViewModels.Hotels.HotelsByDestinationIdListViewModel
+@{
+    this.ViewData["Title"] = "Hotels in ";
+    string starSymbol = "\u2B50";
+}
+
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"] @Model.Hotels.FirstOrDefault().Destination.Country, @Model.Hotels.FirstOrDefault().Destination.Town</div>
+
+<div class="row d-flex justify-content-evenly ml-5">
+    @foreach (var hotel in this.Model.Hotels)
+    {
+        <div class="col-md-3 my-5">
+            <div class="card" style="width: 17rem;">
+                <img src=@hotel.ImageUrl class="card-img-top" id="card-img-cover">
+                <div class="card-body">
+                    <h5 class="card-title">@hotel.Name</h5>
+                    <p class="card-text">@string.Concat(Enumerable.Repeat(starSymbol, hotel.Stars))</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Price Per Person: $@hotel.PricePerNightPerPerson</li>
+                    <li class="list-group-item">Board: @hotel.FeedingType</li>
+                </ul>
+                <div class="card-body d-flex justify-content-between">
+                    <a class="btn btn-outline-primary" asp-action="ById" asp-route-id="@hotel.Id">View more</a>
+                    <a class="btn btn-outline-primary">Reservation</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

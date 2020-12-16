@@ -60,7 +60,7 @@
             return this.View();
         }
 
-        public IActionResult BusReservationCreate(int numberOfTourists)
+        public IActionResult BusReservationCreate()
         {
             var inputModel = new BusCreateInputModel();
             inputModel.BusesItems = this.busesService.GetAllAsKeyValuePair();

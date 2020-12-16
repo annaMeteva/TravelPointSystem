@@ -1,0 +1,50 @@
+﻿@model TravelPointSystem.Web.ViewModels.Hotels.HotelViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+    string starSymbol = "\u2B50";
+}
+
+<div class="row mt-4">
+
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+
+        <img src="@Model.ImageUrl" class="img-fluid" alt="">
+
+    </div>
+    <!--Grid column-->
+    <!--Grid column-->
+    <div class="col-md-6 mb-4">
+
+        <!--Content-->
+        <div class="p-4">
+            <div class="mb-3 h1">@this.ViewData["Title"] <span>@string.Concat(Enumerable.Repeat(starSymbol, Model.Stars))</span></div>
+            <p class="lead">
+                <span>$@Model.PricePerNightPerPerson    <i class="fa fa-user"></i></span>
+            </p>
+
+            <p class="lead font-weight-bold">
+                Board: <span class="lead font-weight-normal">@Model.FeedingType</span>
+            </p>
+
+            <p class="lead font-weight-bold">
+                Available Rooms: <span class="lead font-weight-normal">@Model.AvailableRooms</span>
+            </p>
+
+            <p class="lead font-weight-bold">
+                Address: <span class="lead font-weight-normal">@Model.Address</span>
+            </p>
+
+            <p class="lead font-weight-bold">Description</p>
+
+            <p>
+                @Model.Description
+            </p>
+
+        </div>
+        <!--Content-->
+
+    </div>
+    <!--Grid column-->
+
+</div>

@@ -252,7 +252,9 @@ namespace TravelPointSystem.Data.Migrations
                     TravellingTime = table.Column<TimeSpan>(nullable: false),
                     AvailableSeats = table.Column<int>(nullable: false),
                     StartPointId = table.Column<int>(nullable: false),
-                    EndPointId = table.Column<int>(nullable: false)
+                    StartPointStation = table.Column<string>(nullable: false),
+                    EndPointId = table.Column<int>(nullable: false),
+                    EndPointStation = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -281,7 +283,10 @@ namespace TravelPointSystem.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Name = table.Column<string>(maxLength: 50, nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    ImageUrl = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
+                    Address = table.Column<string>(nullable: false),
                     DestinationId = table.Column<int>(nullable: false),
                     PricePerNightPerPerson = table.Column<double>(nullable: false),
                     Stars = table.Column<int>(nullable: false),
@@ -313,7 +318,9 @@ namespace TravelPointSystem.Data.Migrations
                     DepartureDateTime = table.Column<DateTime>(nullable: false),
                     FlightTime = table.Column<TimeSpan>(nullable: false),
                     StartPointId = table.Column<int>(nullable: false),
+                    StartPointAirPort = table.Column<string>(nullable: false),
                     EndPointId = table.Column<int>(nullable: false),
+                    EndPointAirPort = table.Column<string>(nullable: false),
                     AvailableSeats = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -349,6 +356,8 @@ namespace TravelPointSystem.Data.Migrations
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
                     Name = table.Column<string>(maxLength: 50, nullable: false),
+                    ImageUrl = table.Column<string>(nullable: false),
+                    Description = table.Column<string>(nullable: false),
                     PricePerPerson = table.Column<double>(nullable: false),
                     DepartureDateTime = table.Column<DateTime>(nullable: false),
                     ReturnDateTime = table.Column<DateTime>(nullable: false),

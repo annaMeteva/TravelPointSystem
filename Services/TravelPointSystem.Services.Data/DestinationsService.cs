@@ -19,11 +19,13 @@
             this.destinationsRepository = destinationsRepository;
         }
 
-        public IEnumerable<string> GetAllCountries()
+        public IEnumerable<KeyValuePair<string, string>> GetAllCountriesAsKeyValuePairs()
         {
-            var countries = this.destinationsRepository.AllAsNoTracking().OrderBy(d => d.Country).Select(d => d.Country).Distinct().ToList();
-
-            return countries;
+            return this.destinationsRepository.All().Select(x => new
+            {
+                Key = x.Id,
+                Value = string.Format("{0}, {1}", x.Country, x.Town),
+            }).ToList().Select(x => new KeyValuePair<string, string>(x.Key.ToString(), x.Value)).OrderBy(x => x.Value);
         }
 
         public IndexViewModel GetDestinationsCount()

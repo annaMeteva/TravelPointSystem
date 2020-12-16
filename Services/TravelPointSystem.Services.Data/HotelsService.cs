@@ -6,6 +6,8 @@
     using System.Text;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Services.Mapping;
+    using TravelPointSystem.Web.ViewModels.Hotels;
 
     public class HotelsService : IHotelsService
     {
@@ -22,6 +24,20 @@
             {
                 x.Id, x.Name,
             }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name)).OrderBy(x => x.Value);
+        }
+
+        public IEnumerable<HotelViewModel> GetAllByDestinationId(int destinationId)
+        {
+            return this.hotelsRepository.AllAsNoTracking()
+                .Where(h => h.DestinationId == destinationId)
+                .OrderBy(h => h.Name).To<HotelViewModel>();
+        }
+
+        public HotelViewModel GetById(int id)
+        {
+            return this.hotelsRepository.AllAsNoTracking()
+                .Where(h => h.Id == id)
+                .To<HotelViewModel>().FirstOrDefault();
         }
     }
 }

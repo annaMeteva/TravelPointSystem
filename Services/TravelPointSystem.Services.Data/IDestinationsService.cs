@@ -10,6 +10,6 @@
     {
         IndexViewModel GetDestinationsCount();
 
-        IEnumerable<string> GetAllCountries();
+        IEnumerable<KeyValuePair<string, string>> GetAllCountriesAsKeyValuePairs();
     }
 }

@@ -19,8 +19,16 @@
         }
 
         [Required]
-        [MaxLength(50)]
         public string Name { get; set; }
+
+        [Required]
+        public string ImageUrl { get; set; }
+
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
+        public string Address { get; set; }
 
         [Required]
         public int DestinationId { get; set; }

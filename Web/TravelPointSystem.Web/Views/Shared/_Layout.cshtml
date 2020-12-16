@@ -8,6 +8,7 @@
 
     <environment names="Development">
         <link href="~/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" asp-append-version="true" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
@@ -35,7 +36,10 @@
                         @if (this.User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item mx-2">
-                                <a class="nav-link nav-link-hover text-dark" asp-area="" asp-controller="Hotels" asp-action="">Hotels</a>
+                                <a class="nav-link nav-link-hover text-dark" asp-area="" asp-controller="Hotels" asp-action="CheckDestinationId">Hotels</a>
+                            </li>
+                            <li class="nav-item mx-2">
+                                <a class="nav-link nav-link-hover text-dark" asp-area="" asp-controller="OrganizedTrips" asp-action="CheckDestinationId">Organized Trips</a>
                             </li>
                         }
                     </ul>

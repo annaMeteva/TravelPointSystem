@@ -35,9 +35,15 @@
         public Destination StartPoint { get; set; }
 
         [Required]
+        public string StartPointStation { get; set; }
+
+        [Required]
         public int EndPointId { get; set; }
 
         public Destination EndPoint { get; set; }
+
+        [Required]
+        public string EndPointStation { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }
     }

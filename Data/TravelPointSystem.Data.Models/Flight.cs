@@ -37,9 +37,15 @@
         public Destination StartPoint { get; set; }
 
         [Required]
+        public string StartPointAirPort { get; set; }
+
+        [Required]
         public int EndPointId { get; set; }
 
         public Destination EndPoint { get; set; }
+
+        [Required]
+        public string EndPointAirPort { get; set; }
 
         [Required]
         [Range(1, 900)]

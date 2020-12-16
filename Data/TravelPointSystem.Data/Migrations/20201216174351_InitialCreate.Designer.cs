@@ -10,7 +10,7 @@ using TravelPointSystem.Data;
 namespace TravelPointSystem.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201215162614_InitialCreate")]
+    [Migration("20201216174351_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -280,6 +280,10 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<int>("EndPointId")
                         .HasColumnType("int");
 
+                    b.Property<string>("EndPointStation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -288,6 +292,10 @@ namespace TravelPointSystem.Data.Migrations
 
                     b.Property<int>("StartPointId")
                         .HasColumnType("int");
+
+                    b.Property<string>("StartPointStation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<TimeSpan>("TravellingTime")
                         .HasColumnType("time");
@@ -361,6 +369,10 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime>("DepartureDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("EndPointAirPort")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EndPointId")
                         .HasColumnType("int");
 
@@ -376,6 +388,10 @@ namespace TravelPointSystem.Data.Migrations
 
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("StartPointAirPort")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StartPointId")
                         .HasColumnType("int");
@@ -431,6 +447,10 @@ namespace TravelPointSystem.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("AvailableRooms")
                         .HasColumnType("int");
 
@@ -440,11 +460,19 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DestinationId")
                         .HasColumnType("int");
 
                     b.Property<int>("FeedingType")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -454,8 +482,7 @@ namespace TravelPointSystem.Data.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("PricePerNightPerPerson")
                         .HasColumnType("float");
@@ -507,11 +534,19 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime>("DepartureDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DestinationId")
                         .HasColumnType("int");
 
                     b.Property<int>("HotelId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
