@@ -1,6 +1,7 @@
 ﻿namespace TravelPointSystem.Data.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using TravelPointSystem.Data.Common.Models;
@@ -12,7 +13,11 @@
             this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
+            this.Reservations = new HashSet<Reservation>();
         }
+
+        [Required]
+        public string BusNumber { get; set; }
 
         [Required]
         public DateTime DepartureDateTime { get; set; }
@@ -33,5 +38,7 @@
         public int EndPointId { get; set; }
 
         public Destination EndPoint { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

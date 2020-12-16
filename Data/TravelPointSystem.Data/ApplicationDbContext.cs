@@ -55,7 +55,7 @@
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
             this.SaveChangesAsync(true, cancellationToken);
-
+        
         public override Task<int> SaveChangesAsync(
             bool acceptAllChangesOnSuccess,
             CancellationToken cancellationToken = default)
@@ -212,6 +212,50 @@
                 .HasMany(fc => fc.Flights)
                 .WithOne(f => f.Company)
                 .HasForeignKey(f => f.CompanyId);
+
+            // One-to-many relationship between Hotels and Reservations
+            builder.Entity<Reservation>()
+                .HasOne<Hotel>(r => r.Hotel)
+                .WithMany(h => h.Reservations)
+                .HasForeignKey(r => r.HotelId);
+
+            builder.Entity<Hotel>()
+                .HasMany(h => h.Reservations)
+                .WithOne(r => r.Hotel)
+                .HasForeignKey(r => r.HotelId);
+
+            // One-to-many relationship between OrganizedTrips and Reservations
+            builder.Entity<Reservation>()
+                .HasOne<OrganizedTrip>(r => r.OrganizedTrip)
+                .WithMany(ot => ot.Reservations)
+                .HasForeignKey(r => r.OrganizedTripId);
+
+            builder.Entity<OrganizedTrip>()
+                .HasMany(ot => ot.Reservations)
+                .WithOne(r => r.OrganizedTrip)
+                .HasForeignKey(r => r.OrganizedTripId);
+
+            // One-to-many relationship between Flight and Reservations
+            builder.Entity<Reservation>()
+                .HasOne<Flight>(r => r.Flight)
+                .WithMany(f => f.Reservations)
+                .HasForeignKey(r => r.FlightId);
+
+            builder.Entity<Flight>()
+                .HasMany(f => f.Reservations)
+                .WithOne(r => r.Flight)
+                .HasForeignKey(r => r.FlightId);
+
+            // One-to-many relationship between Flight and Reservations
+            builder.Entity<Reservation>()
+                .HasOne<Bus>(r => r.Bus)
+                .WithMany(b => b.Reservations)
+                .HasForeignKey(r => r.BusId);
+
+            builder.Entity<Bus>()
+                .HasMany(b => b.Reservations)
+                .WithOne(r => r.Bus)
+                .HasForeignKey(r => r.BusId);
 
             // Many-to-many relationship between Reservations and Tourists
             builder.Entity<ReservationTourist>()

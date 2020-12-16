@@ -15,6 +15,7 @@
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
             this.OrganizedTrips = new HashSet<OrganizedTrip>();
+            this.Reservations = new HashSet<Reservation>();
         }
 
         [Required]
@@ -38,5 +39,7 @@
         public FeedingType FeedingType { get; set; }
 
         public ICollection<OrganizedTrip> OrganizedTrips { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

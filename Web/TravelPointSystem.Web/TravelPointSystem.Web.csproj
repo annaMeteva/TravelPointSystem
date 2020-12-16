@@ -52,4 +52,8 @@
     <ProjectReference Include="..\TravelPointSystem.Web.ViewModels\TravelPointSystem.Web.ViewModels.csproj" />
     <ProjectReference Include="..\TravelPointSystem.Web.ViewModels\TravelPointSystem.Web.ViewModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Destinations\" />
+  </ItemGroup>
 </Project>

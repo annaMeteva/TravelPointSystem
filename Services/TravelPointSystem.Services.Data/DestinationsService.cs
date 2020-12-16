@@ -7,6 +7,7 @@
 
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Services.Mapping;
     using TravelPointSystem.Web.ViewModels.Home;
 
     public class DestinationsService : IDestinationsService
@@ -16,6 +17,13 @@
         public DestinationsService(IDeletableEntityRepository<Destination> destinationsRepository)
         {
             this.destinationsRepository = destinationsRepository;
+        }
+
+        public IEnumerable<string> GetAllCountries()
+        {
+            var countries = this.destinationsRepository.AllAsNoTracking().OrderBy(d => d.Country).Select(d => d.Country).Distinct().ToList();
+
+            return countries;
         }
 
         public IndexViewModel GetDestinationsCount()

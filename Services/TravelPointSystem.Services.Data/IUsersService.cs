@@ -6,10 +6,8 @@
 
     using TravelPointSystem.Web.ViewModels.Home;
 
-    public interface IDestinationsService
+    public interface IUsersService
     {
-        IndexViewModel GetDestinationsCount();
-
-        IEnumerable<string> GetAllCountries();
+        IndexLoggedInViewModel GetUserCompanyName(string userId);
     }
 }

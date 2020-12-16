@@ -1,0 +1,18 @@
+﻿@model TravelPointSystem.Web.ViewModels.Reservations.OrganizedTripCreateInputModel
+
+@{
+    this.ViewData["Title"] = "New Organized Trip reservation";
+    var organizedTripsItems = Model.OrganizedTripsItems.Select(x => new SelectListItem(x.Value, x.Key));
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<form method="post" class="col-md-6 offset-md-3">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="OrganizedTripName" class="control-label"></label>
+        <select asp-for="OrganizedTripName" class="form-control" asp-items="organizedTripsItems"></select>
+        <span asp-validation-for="OrganizedTripName" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>

@@ -1,0 +1,27 @@
+﻿@model TravelPointSystem.Web.ViewModels.Reservations.ReservationCreateInputModel
+@{
+    this.ViewData["Title"] = "Create reservation";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<form method="post" class="col-md-6 offset-md-3">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="ReservationType" class="control-label"></label>
+        <select asp-for="ReservationType" class="form-control">
+            <option value="null">Select Reservation Type</option>
+            <option value="Hotel">Hotel</option>
+            <option value="Bus">Bus</option>
+            <option value="Flight">Flight</option>
+            <option value="OrganizedTrip">Organized Trip</option>
+        </select>
+        <span asp-validation-for="ReservationType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NumberOfTourists" class="control-label"></label>
+        <input asp-for="NumberOfTourists" class="form-control" />
+        <span asp-validation-for="NumberOfTourists" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Next</button>
+</form>

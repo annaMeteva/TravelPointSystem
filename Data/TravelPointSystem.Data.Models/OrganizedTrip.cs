@@ -15,6 +15,7 @@
             this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
+            this.Reservations = new HashSet<Reservation>();
         }
 
         [Required]
@@ -44,5 +45,7 @@
 
         [Required]
         public int AvailableSeats { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

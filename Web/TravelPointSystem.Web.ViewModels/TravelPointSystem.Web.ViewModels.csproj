@@ -23,4 +23,8 @@
     <ProjectReference Include="..\..\Services\TravelPointSystem.Services.Mapping\TravelPointSystem.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Destinations\" />
+  </ItemGroup>
+
 </Project>
