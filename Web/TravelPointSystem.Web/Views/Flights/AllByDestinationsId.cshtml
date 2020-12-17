@@ -1,0 +1,43 @@
+﻿@model TravelPointSystem.Web.ViewModels.Flights.FlightsByDestinationsIdListViewModel
+@{
+    this.ViewData["Title"] = "Flights";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"] from @Model.Flights.FirstOrDefault().StartPoint.Town to @Model.Flights.FirstOrDefault().EndPoint.Town</div>
+
+<div class="row mx-5">
+    @foreach (var flight in Model.Flights)
+    {
+        var arriveDateTime = flight.DepartureDateTime.Add(flight.FlightTime);
+        <div class="col-md-12 my-5">
+            <div class="card border border-info">
+                <div class="card-header bg-info text-white">
+                    <h4 class="text-center">Flight Number: @flight.FlightNumber</h4>
+                    <h5 class="text-center">Company: @flight.Company.Name</h5>
+                </div>
+                <div class="card-body d-flex justify-content-around align-items-center">
+                    <div class="d-inline-block">
+                        <h5 class="card-title">@flight.StartPoint.Town</h5>
+                        <p class="card-text">@flight.StartPointAirPort</p>
+                        <p class="card-text">Departure At: @flight.DepartureDateTime</p>
+                    </div>
+                    <div class="d-inline-block">
+                        <h1 class="card-title text-center">&rarr;</h1>
+                        <p class="card-text">Flight Time: @flight.FlightTime</p>
+                        <p class="card-text">Available Seats: @flight.AvailableSeats</p>
+                    </div>
+                    <div class="d-inline-block">
+                        <h5 class="card-title">@flight.EndPoint.Town</h5>
+                        <p class="card-text">@flight.EndPointAirPort</p>
+                        <p class="card-text">Arrive At: @arriveDateTime</p>
+                    </div>
+                    <div class="d-inline-block border border-info rounded py-4 px-5 text-center">
+                        <h5 class="card-title">Price</h5>
+                        <p class="card-text">$@flight.PricePerPerson <i class="fa fa-user"></i> <i class="fa fa-suitcase"></i></p>
+                        <a class="btn btn-info" style="width: 100px;">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

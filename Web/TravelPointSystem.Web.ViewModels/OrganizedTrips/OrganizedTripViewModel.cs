@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using TravelPointSystem.Data.Models;
@@ -22,8 +23,10 @@
 
         public double PricePerPerson { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DepartureDateTime { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime ReturnDateTime { get; set; }
 
         public int DestinationId { get; set; }

@@ -26,8 +26,7 @@
         public IActionResult CheckDestinationId()
         {
             var inputModel = new OrganizedTripsByDestinationIdInputModel();
-            inputModel.DestinationItems = this.destinationsService.GetAllCountriesAsKeyValuePairs();
-
+            inputModel.DestinationItems = this.destinationsService.GetAllCountriesForTripsAsKeyValuePairs();
             return this.View(inputModel);
         }
 
@@ -35,6 +34,11 @@
         [HttpPost]
         public IActionResult CheckDestinationId(OrganizedTripsByDestinationIdInputModel inputModel)
         {
+            if (!this.ModelState.IsValid)
+            {
+                inputModel.DestinationItems = this.destinationsService.GetAllCountriesForTripsAsKeyValuePairs();
+            }
+
             return this.RedirectToAction("AllByDestinationId", new { destinationId = int.Parse(inputModel.DestinationId) });
         }
 
@@ -42,12 +46,21 @@
         [HttpGet]
         public IActionResult AllByDestinationId(int destinationId)
         {
-            var organizedTripsViewModel = new OrganizedTripsByDestinationIdListViewModel
+            var organizedTrips = new OrganizedTripsByDestinationIdListViewModel
             {
                 OrganizedTrips = this.organizedTripsService.GetAllByDestinationId(destinationId),
             };
 
-            return this.View(organizedTripsViewModel);
+            return this.View(organizedTrips);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult ById(string id)
+        {
+            var trip = this.organizedTripsService.GetById(id);
+
+            return this.View(trip);
         }
     }
 }

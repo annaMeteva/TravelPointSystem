@@ -32,7 +32,17 @@
         {
             return this.organizedTripsRepository.AllAsNoTracking()
                 .Where(h => h.DestinationId == destinationId)
-                .OrderBy(h => h.Name).To<OrganizedTripViewModel>();
+                .Distinct()
+                .OrderBy(h => h.Name)
+                .To<OrganizedTripViewModel>();
+        }
+
+        public OrganizedTripViewModel GetById(string id)
+        {
+            return this.organizedTripsRepository.AllAsNoTracking()
+                .Where(t => t.Id == id)
+                .To<OrganizedTripViewModel>()
+                .FirstOrDefault();
         }
     }
 }

@@ -288,6 +288,12 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("PricePerPerson")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ReservationType")
+                        .HasColumnType("int");
+
                     b.Property<int>("StartPointId")
                         .HasColumnType("int");
 
@@ -387,6 +393,12 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<double>("PricePerPerson")
+                        .HasColumnType("float");
+
+                    b.Property<int>("ReservationType")
+                        .HasColumnType("int");
+
                     b.Property<string>("StartPointAirPort")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -485,6 +497,9 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<double>("PricePerNightPerPerson")
                         .HasColumnType("float");
 
+                    b.Property<int>("ReservationType")
+                        .HasColumnType("int");
+
                     b.Property<int>("Stars")
                         .HasColumnType("int");
 
@@ -559,6 +574,9 @@ namespace TravelPointSystem.Data.Migrations
 
                     b.Property<double>("PricePerPerson")
                         .HasColumnType("float");
+
+                    b.Property<int>("ReservationType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("ReturnDateTime")
                         .HasColumnType("datetime2");

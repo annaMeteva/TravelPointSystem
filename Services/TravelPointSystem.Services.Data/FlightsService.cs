@@ -7,6 +7,8 @@
 
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Services.Mapping;
+    using TravelPointSystem.Web.ViewModels.Flights;
 
     public class FlightsService : IFlightsService
     {
@@ -24,6 +26,14 @@
                 x.Id,
                 x.FlightNumber,
             }).ToList().Select(x => new KeyValuePair<string, string>(x.Id, x.FlightNumber)).OrderBy(x => x.Value);
+        }
+
+        public IEnumerable<FlightViewModel> GetAllByDestinationsId(int startDestinationId, int endDestinationId)
+        {
+            return this.flightsRepository.AllAsNoTracking()
+                .Where(f => f.StartPointId == startDestinationId && f.EndPointId == endDestinationId)
+                .OrderBy(f => f.FlightNumber)
+                .To<FlightViewModel>();
         }
     }
 }

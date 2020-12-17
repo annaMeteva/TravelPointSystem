@@ -5,6 +5,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using TravelPointSystem.Data.Common.Models;
+    using TravelPointSystem.Data.Models.Enums;
 
     public class Bus : BaseDeletableModel<string>
     {
@@ -18,6 +19,9 @@
 
         [Required]
         public string BusNumber { get; set; }
+
+        [Required]
+        public double PricePerPerson { get; set; }
 
         [Required]
         public DateTime DepartureDateTime { get; set; }
@@ -44,6 +48,9 @@
 
         [Required]
         public string EndPointStation { get; set; }
+
+        [Required]
+        public ReservationType ReservationType { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }
     }

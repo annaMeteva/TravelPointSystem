@@ -52,6 +52,9 @@
         [Required]
         public int AvailableSeats { get; set; }
 
+        [Required]
+        public ReservationType ReservationType { get; set; }
+
         public ICollection<Reservation> Reservations { get; set; }
     }
 }

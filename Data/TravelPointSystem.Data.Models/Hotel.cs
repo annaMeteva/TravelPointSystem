@@ -48,6 +48,9 @@
 
         public ICollection<OrganizedTrip> OrganizedTrips { get; set; }
 
+        [Required]
+        public ReservationType ReservationType { get; set; }
+
         public ICollection<Reservation> Reservations { get; set; }
     }
 }

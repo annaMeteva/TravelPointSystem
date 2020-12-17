@@ -27,9 +27,9 @@
         public IActionResult CheckDestinationId()
         {
             var inputModel = new HotelsByDestinationIdInputModel();
-            inputModel.DestinationItems = this.destinationsService.GetAllCountriesAsKeyValuePairs();
+            inputModel.DestinationItems = this.destinationsService.GetAllCountriesForHotelsAsKeyValuePairs();
 
-            return View(inputModel);
+            return this.View(inputModel);
         }
 
         [Authorize]
@@ -38,7 +38,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                inputModel.DestinationItems = this.destinationsService.GetAllCountriesAsKeyValuePairs();
+                inputModel.DestinationItems = this.destinationsService.GetAllCountriesForHotelsAsKeyValuePairs();
                 return this.View(inputModel);
             }
 
@@ -49,12 +49,12 @@
         [HttpGet]
         public IActionResult AllByDestinationId(int destinationId)
         {
-            var hotelsViewModel = new HotelsByDestinationIdListViewModel
+            var hotels = new HotelsByDestinationIdListViewModel
             {
                 Hotels = this.hotelsService.GetAllByDestinationId(destinationId),
             };
 
-            return this.View(hotelsViewModel);
+            return this.View(hotels);
         }
 
         [Authorize]

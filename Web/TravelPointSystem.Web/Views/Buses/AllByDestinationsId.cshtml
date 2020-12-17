@@ -1,0 +1,42 @@
+﻿@model TravelPointSystem.Web.ViewModels.Buses.BusesByDestinationsIdListViewModel
+@{
+    this.ViewData["Title"] = "Buses";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"] from @Model.Buses.FirstOrDefault().StartPoint.Town to @Model.Buses.FirstOrDefault().EndPoint.Town</div>
+
+<div class="row mx-5">
+    @foreach (var bus in Model.Buses)
+    {
+        var arriveDateTime = bus.DepartureDateTime.Add(bus.TravellingTime);
+        <div class="col-md-12 my-5">
+            <div class="card border border-info">
+                <div class="card-header bg-info text-white">
+                    <h4 class="text-center">Bus Number: @bus.BusNumber</h4>
+                </div>
+                <div class="card-body d-flex justify-content-around align-items-center">
+                    <div class="d-inline-block">
+                        <h5 class="card-title">@bus.StartPoint.Town</h5>
+                        <p class="card-text">@bus.StartPointStation</p>
+                        <p class="card-text">Departure At: @bus.DepartureDateTime</p>
+                    </div>
+                    <div class="d-inline-block">
+                        <h1 class="card-title text-center">&rarr;</h1>
+                        <p class="card-text">Travelling Time: @bus.TravellingTime</p>
+                        <p class="card-text">Available Seats: @bus.AvailableSeats</p>
+                    </div>
+                    <div class="d-inline-block">
+                        <h5 class="card-title">@bus.EndPoint.Town</h5>
+                        <p class="card-text">@bus.EndPointStation</p>
+                        <p class="card-text">Arrive At: @arriveDateTime</p>
+                    </div>
+                    <div class="d-inline-block border border-info rounded py-4 px-5 text-center">
+                        <h5 class="card-title">Price</h5>
+                        <p class="card-text">$@bus.PricePerPerson <i class="fa fa-user"></i></p>
+                        <a class="btn btn-info" style="width: 100px;">Book</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>

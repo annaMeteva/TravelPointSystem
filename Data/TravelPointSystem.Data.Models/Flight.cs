@@ -6,6 +6,7 @@
     using System.Text;
 
     using TravelPointSystem.Data.Common.Models;
+    using TravelPointSystem.Data.Models.Enums;
 
     public class Flight : BaseDeletableModel<string>
     {
@@ -19,6 +20,9 @@
 
         [Required]
         public string FlightNumber { get; set; }
+
+        [Required]
+        public double PricePerPerson { get; set; }
 
         [Required]
         public int CompanyId { get; set; }
@@ -50,6 +54,9 @@
         [Required]
         [Range(1, 900)]
         public int AvailableSeats { get; set; }
+
+        [Required]
+        public ReservationType ReservationType { get; set; }
 
         public ICollection<Reservation> Reservations { get; set; }
     }

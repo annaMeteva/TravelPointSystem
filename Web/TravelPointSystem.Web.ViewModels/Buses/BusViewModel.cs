@@ -1,4 +1,4 @@
-﻿namespace TravelPointSystem.Web.ViewModels.Flights
+﻿namespace TravelPointSystem.Web.ViewModels.Buses
 {
     using System;
     using System.Collections.Generic;
@@ -8,26 +8,25 @@
     using TravelPointSystem.Services.Mapping;
     using TravelPointSystem.Web.ViewModels.Destinations;
 
-    public class FlightViewModel : IMapFrom<Flight>
+    public class BusViewModel : IMapFrom<Bus>
     {
-        public string FlightNumber { get; set; }
+        public string BusNumber { get; set; }
 
         public double PricePerPerson { get; set; }
 
-        public FlightCompanyViewModel Company { get; set; }
-
         public DateTime DepartureDateTime { get; set; }
 
-        public TimeSpan FlightTime { get; set; }
+        public TimeSpan TravellingTime { get; set; }
+
+        public int AvailableSeats { get; set; }
 
         public DestinationViewModel StartPoint { get; set; }
 
-        public string StartPointAirPort { get; set; }
+        public string StartPointStation { get; set; }
 
         public DestinationViewModel EndPoint { get; set; }
 
-        public string EndPointAirPort { get; set; }
+        public string EndPointStation { get; set; }
 
-        public int AvailableSeats { get; set; }
     }
 }

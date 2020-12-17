@@ -30,7 +30,9 @@
         {
             return this.hotelsRepository.AllAsNoTracking()
                 .Where(h => h.DestinationId == destinationId)
-                .OrderBy(h => h.Name).To<HotelViewModel>();
+                .Distinct()
+                .OrderBy(h => h.Name)
+                .To<HotelViewModel>();
         }
 
         public HotelViewModel GetById(int id)
