@@ -42,7 +42,7 @@
             </p>
 
             <p class="d-flex justify-content-center">
-                <a class="btn btn-primary btn-lg">Book</a>
+                <a class="btn btn-primary btn-lg"asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id.ToString()">Book</a>
             </p>
         </div>
         <!--Content-->

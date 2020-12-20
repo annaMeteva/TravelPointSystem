@@ -40,5 +40,7 @@
         public TransportType Transport { get; set; }
 
         public int AvailableSeats { get; set; }
+
+        public ReservationType ReservationType { get; set; }
     }
 }

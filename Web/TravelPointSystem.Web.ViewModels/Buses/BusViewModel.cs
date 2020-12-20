@@ -5,11 +5,14 @@
     using System.Text;
 
     using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Data.Models.Enums;
     using TravelPointSystem.Services.Mapping;
     using TravelPointSystem.Web.ViewModels.Destinations;
 
     public class BusViewModel : IMapFrom<Bus>
     {
+        public string Id { get; set; }
+
         public string BusNumber { get; set; }
 
         public double PricePerPerson { get; set; }
@@ -27,6 +30,8 @@
         public DestinationViewModel EndPoint { get; set; }
 
         public string EndPointStation { get; set; }
+
+        public ReservationType ReservationType { get; set; }
 
     }
 }

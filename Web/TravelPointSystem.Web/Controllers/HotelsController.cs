@@ -54,7 +54,14 @@
                 Hotels = this.hotelsService.GetAllByDestinationId(destinationId),
             };
 
-            return this.View(hotels);
+            if (hotels.Hotels.Count() == 0)
+            {
+                return this.View("NoResult");
+            }
+            else
+            {
+                return this.View(hotels);
+            }
         }
 
         [Authorize]

@@ -6,7 +6,6 @@
 
     using TravelPointSystem.Data.Common.Models;
     using TravelPointSystem.Data.Models.Enums;
-    using TravelPointSystem.Data.Models.MappingTables;
 
     public class Tourist : BaseDeletableModel<string>
     {
@@ -15,7 +14,6 @@
             this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
-            this.Reservations = new HashSet<ReservationTourist>();
         }
 
         [Required]
@@ -25,13 +23,15 @@
 
         [Required]
         public ulong PersonalNumber { get; set; }
-      
+
         public ulong PassportNumber { get; set; }
 
         public string PhoneNumber { get; set; }
 
         public TouristType TouristType { get; set; }
 
-        public ICollection<ReservationTourist> Reservations { get; set; }
+        public string ReservationId { get; set; }
+
+        public Reservation Reservation { get; set; }
     }
 }

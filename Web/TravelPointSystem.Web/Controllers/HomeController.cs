@@ -1,6 +1,7 @@
 ﻿namespace TravelPointSystem.Web.Controllers
 {
     using System.Diagnostics;
+    using System.Linq;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -12,11 +13,13 @@
     {
         private readonly IDestinationsService destinationsService;
         private readonly IUsersService usersService;
+        private readonly IReservationService reservationService;
 
-        public HomeController(IDestinationsService destinationsService, IUsersService usersService)
+        public HomeController(IDestinationsService destinationsService, IUsersService usersService, IReservationService reservationService)
         {
             this.destinationsService = destinationsService;
             this.usersService = usersService;
+            this.reservationService = reservationService;
         }
 
         [HttpGet]
@@ -37,8 +40,21 @@
         [Route("/Home")]
         public IActionResult IndexLoggedIn()
         {
-            var viewModel = this.usersService.GetUserCompanyName(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
-            return this.View(viewModel);
+            var userViewModel = this.usersService.GetUserCompanyName(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var indexLoggedInViewModel = new IndexLoggedInViewModel
+            {
+                CurrentUser = userViewModel,
+                Reservations = this.reservationService.GetAllReservationsByUserId(this.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+            };
+
+            if (indexLoggedInViewModel.Reservations.Count() == 0)
+            {
+                return this.View("NoResult", indexLoggedInViewModel);
+            }
+            else
+            {
+                return this.View(indexLoggedInViewModel);
+            }
         }
 
         public IActionResult About()

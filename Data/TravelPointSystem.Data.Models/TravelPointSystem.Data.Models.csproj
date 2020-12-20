@@ -22,5 +22,9 @@
   <ItemGroup>
     <ProjectReference Include="..\TravelPointSystem.Data.Common\TravelPointSystem.Data.Common.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MappingTables\" />
+  </ItemGroup>
   
 </Project>

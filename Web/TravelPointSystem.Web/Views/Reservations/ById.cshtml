@@ -1,0 +1,173 @@
+﻿@model TravelPointSystem.Web.ViewModels.Reservations.ReservationViewModel
+@{
+    this.ViewData["Title"] = "Reservation Details";
+    string arrow = "\u2192";
+}
+
+<div class="text-center mt-5 mb-3 h1">@ViewData["Title"]</div>
+
+<div class="row my-5">
+    <div class="col-md-6 offset-md-3">
+        <div class="card">
+            <div class="card-header">Reservation ID</div>
+            <div class="card-body">
+                <h5 class="card-title">@Model.Id</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-5 d-flex justify-content-center">
+
+    <div class="col-md-8">
+        <div class="card-group">
+            <div class="card w-20">
+                <div class="card-header">Total Price</div>
+                <div class="card-body">
+                    <h5 class="card-title">$@Model.Price</h5>
+                </div>
+            </div>
+
+            <div class="card w-20">
+                <div class="card-header">Paid</div>
+                <div class="card-body">
+                    <h5 class="card-title">$@Model.Balance</h5>
+                </div>
+            </div>
+
+            <div class="card w-20">
+                <div class="card-header">Profit</div>
+                <div class="card-body">
+                    <h5 class="card-title">$@Model.Profit</h5>
+                </div>
+            </div>
+
+            <div class="card w-20">
+                <div class="card-header">Status</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @if (Model.IsAccepted)
+                        {
+                            <span class="badge badge-success">Accepted</span>
+                        }
+                        else
+                        {
+                            <span class="badge badge-danger">Not Accepted</span>
+                        }
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-5 d-flex justify-content-center">
+    <div class="col-md-8">
+        <div class="card-group">
+            <div class="card">
+                <div class="card-header">@Model.ReservationType</div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        @if (Model.ReservationType.ToString() == "Hotel")
+                        {
+                            @(Model.Hotel.Name);
+                        }
+                        else if (Model.ReservationType.ToString() == "OrganizedTrip")
+                        {
+                            @(Model.OrganizedTrip.Name);
+                        }
+                        else if (Model.ReservationType.ToString() == "Bus")
+                        {
+                            @(Model.Bus.BusNumber);
+                        }
+                        else if (Model.ReservationType.ToString() == "Flight")
+                        {
+                            @(Model.Flight.FlightNumber);
+                        }
+                    </h5>
+                    <p class="card-text">
+                        @if (Model.ReservationType.ToString() == "Hotel")
+                        {
+                            @(Model.Hotel.Destination.Town + ", " + Model.Hotel.Destination.Country);
+                        }
+                        else if (Model.ReservationType.ToString() == "OrganizedTrip")
+                        {
+                            @(Model.OrganizedTrip.Destination.Town + ", " + Model.OrganizedTrip.Destination.Country);
+                        }
+                        else if (Model.ReservationType.ToString() == "Bus")
+                        {
+                            @(Model.Bus.StartPoint.Town + ", " + Model.Bus.StartPoint.Country + " " + arrow + " " + Model.Bus.EndPoint.Town + ", " + Model.Bus.EndPoint.Country);
+                        }
+                        else if (Model.ReservationType.ToString() == "Flight")
+                        {
+                            @(Model.Flight.StartPoint.Town + ", " + Model.Flight.StartPoint.Country + " " + arrow + " " + Model.Flight.EndPoint.Town + ", " + Model.Flight.EndPoint.Country);
+                        }
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Dates</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        @if (Model.ReservationType.ToString() == "Hotel")
+                        {
+                            @("Check in: " + Model.Departure);
+                        }
+                        else if (Model.ReservationType.ToString() == "OrganizedTrip")
+                        {
+                            @("Departure: " + Model.Departure);
+                        }
+                        else if (Model.ReservationType.ToString() == "Bus")
+                        {
+                            @("Departure: " + Model.Departure);
+                        }
+                        else if (Model.ReservationType.ToString() == "Flight")
+                        {
+                            @("Departure: " + Model.Departure);
+                        }
+                    </p>
+                    <p class="card-text">
+                        @if (Model.ReservationType.ToString() == "Hotel")
+                        {
+                            @("Check out: " + Model.Return);
+                        }
+                        else if (Model.ReservationType.ToString() == "OrganizedTrip")
+                        {
+                            @("Return: " + Model.Return);
+                        }
+                        else if (Model.ReservationType.ToString() == "Flight")
+                        {
+                            @("Fligh Time: " + Model.Flight.FlightTime);
+                        }
+                        else if (Model.ReservationType.ToString() == "Bus")
+                        {
+                            @("Travelling Time: " + Model.Bus.TravellingTime);
+                        }
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row my-5">
+    <div class="col-md-10 offset-md-1">
+        <div class="card">
+            <div class="card-header">Tourists</div>
+            <div class="card-body">
+                <p class="card-text">
+                    <ul class="list-unstyled">
+                        @foreach (var tourist in Model.Tourists)
+                        {
+                        <li>
+                            <h5><i class="fa fa-user"></i> @tourist.FullName</h5>
+                            Personal Number: @tourist.PersonalNumber  Passport Number: @tourist.PassportNumber  Phone Number: @tourist.PhoneNumber
+                        </li>
+                        }
+                   </ul>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

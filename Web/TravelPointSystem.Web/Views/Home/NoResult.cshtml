@@ -1,0 +1,8 @@
+﻿@model TravelPointSystem.Web.ViewModels.Home.IndexLoggedInViewModel
+@{
+    this.ViewData["Title"] = "Workplace";
+}
+
+<div class="text-center mt-5 mb-3 h1">Welcome to <span class="font-weight-light">@Model.CurrentUser.CompanyName</span> @this.ViewData["Title"]</div>
+
+<div class="text-center mt-5 h4 font-weight-light border border-light">No reservations added yet.</div>

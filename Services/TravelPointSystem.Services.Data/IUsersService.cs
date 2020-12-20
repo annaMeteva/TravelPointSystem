@@ -5,9 +5,10 @@
     using System.Text;
 
     using TravelPointSystem.Web.ViewModels.Home;
+    using TravelPointSystem.Web.ViewModels.Users;
 
     public interface IUsersService
     {
-        IndexLoggedInViewModel GetUserCompanyName(string userId);
+        UserViewModel GetUserCompanyName(string userId);
     }
 }

@@ -34,7 +34,7 @@
                     <div class="d-inline-block border border-info rounded py-4 px-5 text-center">
                         <h5 class="card-title">Price</h5>
                         <p class="card-text">$@flight.PricePerPerson <i class="fa fa-user"></i> <i class="fa fa-suitcase"></i></p>
-                        <a class="btn btn-info" style="width: 100px;">Book</a>
+                        <a class="btn btn-info" style="width: 100px;"asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@flight.ReservationType" asp-route-id="@flight.Id">Book</a>
                     </div>
                 </div>
             </div>

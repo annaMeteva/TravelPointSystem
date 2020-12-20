@@ -1,0 +1,9 @@
+﻿@{
+    this.ViewData["Title"] = "Hotels";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<div class="text-center mt-5 mb-3 h4">@this.ViewData["Title"] with this destination do not exist yet.</div>
+
+<div class="d-flex justify-content-center"><a class="btn btn-primary" asp-controller="Hotels" asp-action="CheckDestinationId">Try other destination</a></div>

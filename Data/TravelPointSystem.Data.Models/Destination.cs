@@ -5,7 +5,6 @@
     using System.ComponentModel.DataAnnotations;
 
     using TravelPointSystem.Data.Common.Models;
-    using TravelPointSystem.Data.Models.MappingTables;
 
     public class Destination : BaseDeletableModel<int>
     {
@@ -19,6 +18,7 @@
             this.DepartureBuses = new HashSet<Bus>();
             this.DepartingBuses = new HashSet<Bus>();
             this.OrganizedTrips = new HashSet<OrganizedTrip>();
+            this.Reservations = new HashSet<Reservation>();
         }
 
         [Required]
@@ -41,5 +41,7 @@
         public ICollection<Bus> DepartingBuses { get; set; }
 
         public ICollection<OrganizedTrip> OrganizedTrips { get; set; }
+
+        public ICollection<Reservation> Reservations { get; set; }
     }
 }

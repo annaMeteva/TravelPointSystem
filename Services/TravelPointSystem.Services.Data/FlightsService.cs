@@ -30,7 +30,7 @@
 
         public IEnumerable<FlightViewModel> GetAllByDestinationsId(int startDestinationId, int endDestinationId)
         {
-            return this.flightsRepository.AllAsNoTracking()
+            return this.flightsRepository.All()
                 .Where(f => f.StartPointId == startDestinationId && f.EndPointId == endDestinationId)
                 .OrderBy(f => f.FlightNumber)
                 .To<FlightViewModel>();

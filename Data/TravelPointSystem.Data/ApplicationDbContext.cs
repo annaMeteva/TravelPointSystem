@@ -11,7 +11,6 @@
 
     using TravelPointSystem.Data.Common.Models;
     using TravelPointSystem.Data.Models;
-    using TravelPointSystem.Data.Models.MappingTables;
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
@@ -38,8 +37,6 @@
         public DbSet<OrganizedTrip> OrganizedTrips { get; set; }
 
         public DbSet<Reservation> Reservations { get; set; }
-
-        public DbSet<ReservationTourist> ReservationTourists { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 
@@ -257,19 +254,27 @@
                 .WithOne(r => r.Bus)
                 .HasForeignKey(r => r.BusId);
 
-            // Many-to-many relationship between Reservations and Tourists
-            builder.Entity<ReservationTourist>()
-                .HasKey(rt => new { rt.ReservationId, rt.TouristId });
-
-            builder.Entity<ReservationTourist>()
-                .HasOne(rt => rt.Reservation)
+            // One-to-many relationship between Tourist and Reservations
+            builder.Entity<Tourist>()
+                .HasOne<Reservation>(t => t.Reservation)
                 .WithMany(r => r.Tourists)
-                .HasForeignKey(rt => rt.ReservationId);
+                .HasForeignKey(t => t.ReservationId);
 
-            builder.Entity<ReservationTourist>()
-                .HasOne(rt => rt.Tourist)
-                .WithMany(t => t.Reservations)
-                .HasForeignKey(rt => rt.TouristId);
+            builder.Entity<Reservation>()
+                .HasMany(r => r.Tourists)
+                .WithOne(t => t.Reservation)
+                .HasForeignKey(t => t.ReservationId);
+
+            // One-to-many relationship between Reservations and Destinations
+            builder.Entity<Reservation>()
+                .HasOne<Destination>(r => r.Destination)
+                .WithMany(d => d.Reservations)
+                .HasForeignKey(r => r.DestinationId);
+
+            builder.Entity<Destination>()
+                .HasMany(d => d.Reservations)
+                .WithOne(r => r.Destination)
+                .HasForeignKey(r => r.DestinationId);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

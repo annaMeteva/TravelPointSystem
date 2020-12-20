@@ -30,7 +30,7 @@
 
         public IEnumerable<BusViewModel> GetAllByDestinationsId(int startDestinationId, int endDestinationId)
         {
-            return this.busesRepository.AllAsNoTracking()
+            return this.busesRepository.All()
                 .Where(b => b.StartPointId == startDestinationId && b.EndPointId == endDestinationId)
                 .OrderBy(f => f.BusNumber)
                 .To<BusViewModel>();

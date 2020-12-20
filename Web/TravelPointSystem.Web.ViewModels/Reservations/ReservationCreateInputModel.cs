@@ -4,17 +4,26 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Text;
+
     using TravelPointSystem.Data.Models.Enums;
 
     public class ReservationCreateInputModel
     {
-        [Required]
-        [Display(Name = "Select reservation type")]
         public ReservationType ReservationType { get; set; }
 
-        [Required]
-        [Range(1, 4)]
-        [Display(Name = "Number of tourists (1 or 4)")]
+        public string ProductId { get; set; }
+
         public int NumberOfTourists { get; set; }
+
+        // For Hotel Reservation
+        [DataType(DataType.Date)]
+        [Display(Name = "Check In")]
+        public DateTime CheckIn { get; set; }
+
+        [DataType(DataType.Date)]
+        [Display(Name = "Check Out")]
+        public DateTime CheckOut { get; set; }
+
+        public IList<TouristCreateInputModel> Tourists { get; set; }
     }
 }

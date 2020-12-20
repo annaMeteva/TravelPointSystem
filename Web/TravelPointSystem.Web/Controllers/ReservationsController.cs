@@ -3,155 +3,79 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TravelPointSystem.Data.Models.Enums;
     using TravelPointSystem.Services.Data;
+    using TravelPointSystem.Web.ViewModels.Home;
     using TravelPointSystem.Web.ViewModels.Reservations;
 
     public class ReservationsController : BaseController
     {
-        private readonly IHotelsService hotelsService;
-        private readonly IOrganizedTripsService organizedTripsService;
-        private readonly IFlightsService flightsService;
-        private readonly IBusesService busesService;
+        private readonly IReservationService reservationService;
+        private readonly IUsersService usersService;
 
-        public ReservationsController(IHotelsService hotelsService, IOrganizedTripsService organizedTripsService, IFlightsService flightsService, IBusesService busesService)
+        public ReservationsController(IReservationService reservationService, IUsersService usersService)
         {
-            this.hotelsService = hotelsService;
-            this.organizedTripsService = organizedTripsService;
-            this.flightsService = flightsService;
-            this.busesService = busesService;
+            this.reservationService = reservationService;
+            this.usersService = usersService;
         }
 
-        public IActionResult Create()
+        [Authorize]
+        [HttpGet]
+        public IActionResult Create(ReservationType reservationType)
         {
             var inputModel = new ReservationCreateInputModel();
+            inputModel.ReservationType = reservationType;
+
             return this.View(inputModel);
         }
 
+        [Authorize]
         [HttpPost]
-        public IActionResult Create(ReservationCreateInputModel inputModel)
+        public async Task<IActionResult> Create(ReservationCreateInputModel inputModel, ReservationType reservationType, string id)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View();
-            }
-
-
-            if (inputModel.ReservationType.ToString() == "Bus")
-            {
-                return this.RedirectToAction("BusReservationCreate");
-            }
-            else if (inputModel.ReservationType.ToString() == "Flight")
-            {
-                return this.RedirectToAction("FlightReservationCreate");
-            }
-            else if (inputModel.ReservationType.ToString() == "Hotel")
-            {
-                return this.RedirectToAction("HotelReservationCreate");
-            }
-            else if (inputModel.ReservationType.ToString() == "OrganizedTrip")
-            {
-                return this.RedirectToAction("OrganizedTripReservationCreate");
-            }
-
-            return this.View();
-        }
-
-        public IActionResult BusReservationCreate()
-        {
-            var inputModel = new BusCreateInputModel();
-            inputModel.BusesItems = this.busesService.GetAllAsKeyValuePair();
-            return this.View(inputModel);
-        }
-
-        [HttpPost]
-        public IActionResult BusReservationCreate(BusCreateInputModel inputModel)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                inputModel.BusesItems = this.busesService.GetAllAsKeyValuePair();
+                inputModel.ReservationType = reservationType;
+                inputModel.ProductId = id;
                 return this.View(inputModel);
             }
 
-            return this.View();
-        }
+            inputModel.ProductId = id;
 
-        public IActionResult FlightReservationCreate()
-        {
-            var inputModel = new FlightCreateInputModel();
-            inputModel.FlightsItems = this.flightsService.GetAllAsKeyValuePair();
-            return this.View(inputModel);
-        }
-
-        [HttpPost]
-        public IActionResult FlightReservationCreate(FlightCreateInputModel inputModel)
-        {
-            if (!this.ModelState.IsValid)
+            try
             {
-                inputModel.FlightsItems = this.flightsService.GetAllAsKeyValuePair();
+                await this.reservationService.CreateAsync(inputModel, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                inputModel.ReservationType = reservationType;
+                inputModel.ProductId = id;
                 return this.View(inputModel);
             }
 
-            // Redirect to reservation info page
-            return this.View();
-        }
-
-        public IActionResult HotelReservationCreate()
-        {
-            var inputModel = new HotelCreateInputModel();
-            inputModel.HotelsItems = this.hotelsService.GetAllAsKeyValuePairs();
-            return this.View(inputModel);
-        }
-
-        [HttpPost]
-        public IActionResult HotelReservationCreate(HotelCreateInputModel inputModel)
-        {
-            if (!this.ModelState.IsValid)
+            var userViewModel = this.usersService.GetUserCompanyName(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var viewModel = new IndexLoggedInViewModel
             {
-                inputModel.HotelsItems = this.hotelsService.GetAllAsKeyValuePairs();
-                return this.View(inputModel);
-            }
+                CurrentUser = userViewModel,
+                Reservations = this.reservationService.GetAllReservationsByUserId(this.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+            };
 
-            return this.Json(inputModel);
-
-            // Redirect to reservation info page
-            return this.View();
+            return this.Redirect("/");
         }
 
-        public IActionResult OrganizedTripReservationCreate()
+        [Authorize]
+        [HttpGet]
+        public IActionResult ById(string id)
         {
-            var inputModel = new OrganizedTripCreateInputModel();
-            inputModel.OrganizedTripsItems = this.organizedTripsService.GetAllAsKeyValuePair();
-            return this.View(inputModel);
-        }
+            var reservation = this.reservationService.GetById(id);
 
-        [HttpPost]
-        public IActionResult OrganizedTripReservationCreate(OrganizedTripCreateInputModel inputModel)
-        {
-            if (!this.ModelState.IsValid)
-            {
-                inputModel.OrganizedTripsItems = this.organizedTripsService.GetAllAsKeyValuePair();
-                return this.View(inputModel);
-            }
-            // Redirect to reservation info page
-            return this.View();
-        }
-
-        public IActionResult TouristReservationCreate()
-        {
-            var inputModel = new TouristCreateInputModel();
-            return this.View(inputModel);
-        }
-
-        [HttpPost]
-        public IActionResult TouristReservationCreate(TouristCreateInputModel inputModel)
-        {
-
-            // Redirect to reservation info page
-            return this.View();
+            return this.View(reservation);
         }
     }
 }

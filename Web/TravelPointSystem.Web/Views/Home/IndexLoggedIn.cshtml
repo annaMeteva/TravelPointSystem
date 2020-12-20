@@ -1,6 +1,68 @@
 ﻿@model TravelPointSystem.Web.ViewModels.Home.IndexLoggedInViewModel
 @{
     this.ViewData["Title"] = "Workplace";
+    string productName = "";
 }
 
-<div class="text-center mt-5 mb-3 h1">Welcome to @Model.CompanyName @this.ViewData["Title"]</div>
+
+<div class="text-center mt-5 mb-3 h1">Welcome to @Model.CurrentUser.CompanyName @this.ViewData["Title"]</div>
+
+<div class="row my-5 d-flex justify-content-center">
+    <div class="col-md-11">
+        <table class="table">
+            <thead>
+                <tr class="bg-info text-white">
+                    <th scope="col">Reservation ID</th>
+                    <th scope="col">Reservation Date</th>
+                    <th scope="col">Reservation For</th>
+                    <th scope="col">Passenger</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Status</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var reservation in Model.Reservations)
+                {
+                    <tr>
+                        <th scope="row">@reservation.Id</th>
+                        <td>@reservation.CreatedOn</td>
+                        <td>
+                            @if (reservation.ReservationType.ToString() == "Hotel")
+                            {
+                                @("Hotel: " + reservation.Hotel.Name);
+                            }
+                            else if (reservation.ReservationType.ToString() == "OrganizedTrip")
+                            {
+                                @("Organized Trip: " + reservation.OrganizedTrip.Name);
+                            }
+                            else if (reservation.ReservationType.ToString() == "Bus")
+                            {
+                                @("Bus: " + reservation.Bus.BusNumber);
+                            }
+                            else if (reservation.ReservationType.ToString() == "Flight")
+                            {
+                                @("Flight: " + reservation.Flight.FlightNumber);
+                            }
+                        </td>
+                        <td>@reservation.Tourists.FirstOrDefault().FullName</td>
+                        <td>@reservation.Destination.Town, @reservation.Destination.Country</td>
+                        <td>$@reservation.Price</td>
+                        <td>
+                            @if (reservation.IsAccepted)
+                            {
+                                <span class="badge badge-success">Accepted</span>
+                            }
+                            else
+                            {
+                                <span class="badge badge-danger">Not Accepted</span>
+                            }
+                        </td>
+                        <td><a class="btn btn-outline-info" asp-controller="Reservations" asp-action="ById" asp-route-id="@reservation.Id">Details</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -2,9 +2,9 @@
 {
     public enum ReservationType
     {
-        Hotel = 1,
-        Bus = 2,
-        Flight = 3,
-        OrganizedTrip = 4,
+        Hotel = 0,
+        Bus = 1,
+        Flight = 2,
+        OrganizedTrip = 3,
     }
 }

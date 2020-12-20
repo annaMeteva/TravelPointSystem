@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Mapping;
@@ -28,16 +29,15 @@
 
         public IEnumerable<HotelViewModel> GetAllByDestinationId(int destinationId)
         {
-            return this.hotelsRepository.AllAsNoTracking()
+            return this.hotelsRepository.All()
                 .Where(h => h.DestinationId == destinationId)
-                .Distinct()
                 .OrderBy(h => h.Name)
                 .To<HotelViewModel>();
         }
 
         public HotelViewModel GetById(int id)
         {
-            return this.hotelsRepository.AllAsNoTracking()
+            return this.hotelsRepository.All()
                 .Where(h => h.Id == id)
                 .To<HotelViewModel>().FirstOrDefault();
         }

@@ -6,7 +6,6 @@
 
     using TravelPointSystem.Data.Common.Models;
     using TravelPointSystem.Data.Models.Enums;
-    using TravelPointSystem.Data.Models.MappingTables;
 
     public class Hotel : BaseDeletableModel<int>
     {

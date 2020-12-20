@@ -5,11 +5,14 @@
     using System.Text;
 
     using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Data.Models.Enums;
     using TravelPointSystem.Services.Mapping;
     using TravelPointSystem.Web.ViewModels.Destinations;
 
     public class FlightViewModel : IMapFrom<Flight>
     {
+        public string Id { get; set; }
+
         public string FlightNumber { get; set; }
 
         public double PricePerPerson { get; set; }
@@ -29,5 +32,7 @@
         public string EndPointAirPort { get; set; }
 
         public int AvailableSeats { get; set; }
+
+        public ReservationType ReservationType { get; set; }
     }
 }

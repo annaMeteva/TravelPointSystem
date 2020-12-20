@@ -112,27 +112,6 @@ namespace TravelPointSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tourists",
-                columns: table => new
-                {
-                    Id = table.Column<string>(nullable: false),
-                    CreatedOn = table.Column<DateTime>(nullable: false),
-                    ModifiedOn = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    DeletedOn = table.Column<DateTime>(nullable: true),
-                    FullName = table.Column<string>(nullable: false),
-                    DateOfBirth = table.Column<DateTime>(nullable: false),
-                    PersonalNumber = table.Column<decimal>(nullable: false),
-                    PassportNumber = table.Column<decimal>(nullable: false),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    TouristType = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tourists", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -398,21 +377,20 @@ namespace TravelPointSystem.Data.Migrations
                     ModifiedOn = table.Column<DateTime>(nullable: true),
                     IsDeleted = table.Column<bool>(nullable: false),
                     DeletedOn = table.Column<DateTime>(nullable: true),
-                    Type = table.Column<int>(nullable: false),
-                    NumberOfToursts = table.Column<int>(nullable: false),
+                    ReservationType = table.Column<int>(nullable: false),
                     Price = table.Column<double>(nullable: false),
                     Balance = table.Column<double>(nullable: false),
                     Profit = table.Column<double>(nullable: false),
                     IsPaid = table.Column<bool>(nullable: false),
                     IsAccepted = table.Column<bool>(nullable: false),
-                    DepartureDaysLeft = table.Column<int>(nullable: false),
+                    DestinationId = table.Column<int>(nullable: false),
                     CreatorId = table.Column<string>(nullable: false),
-                    HotelId = table.Column<int>(nullable: false),
-                    CheckIn = table.Column<DateTime>(nullable: false),
-                    CheckOut = table.Column<DateTime>(nullable: false),
+                    HotelId = table.Column<int>(nullable: true),
                     OrganizedTripId = table.Column<string>(nullable: true),
                     FlightId = table.Column<string>(nullable: true),
-                    BusId = table.Column<string>(nullable: true)
+                    BusId = table.Column<string>(nullable: true),
+                    Departure = table.Column<DateTime>(nullable: true),
+                    Return = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -427,6 +405,12 @@ namespace TravelPointSystem.Data.Migrations
                         name: "FK_Reservations_AspNetUsers_CreatorId",
                         column: x => x.CreatorId,
                         principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Destinations_DestinationId",
+                        column: x => x.DestinationId,
+                        principalTable: "Destinations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -450,26 +434,29 @@ namespace TravelPointSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReservationTourists",
+                name: "Tourists",
                 columns: table => new
                 {
-                    ReservationId = table.Column<string>(nullable: false),
-                    TouristId = table.Column<string>(nullable: false),
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<string>(nullable: false),
+                    CreatedOn = table.Column<DateTime>(nullable: false),
+                    ModifiedOn = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    DeletedOn = table.Column<DateTime>(nullable: true),
+                    FullName = table.Column<string>(nullable: false),
+                    DateOfBirth = table.Column<DateTime>(nullable: false),
+                    PersonalNumber = table.Column<decimal>(nullable: false),
+                    PassportNumber = table.Column<decimal>(nullable: false),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    TouristType = table.Column<int>(nullable: false),
+                    ReservationId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ReservationTourists", x => new { x.ReservationId, x.TouristId });
+                    table.PrimaryKey("PK_Tourists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ReservationTourists_Reservations_ReservationId",
+                        name: "FK_Tourists_Reservations_ReservationId",
                         column: x => x.ReservationId,
                         principalTable: "Reservations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_ReservationTourists_Tourists_TouristId",
-                        column: x => x.TouristId,
-                        principalTable: "Tourists",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -604,6 +591,11 @@ namespace TravelPointSystem.Data.Migrations
                 column: "CreatorId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Reservations_DestinationId",
+                table: "Reservations",
+                column: "DestinationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_FlightId",
                 table: "Reservations",
                 column: "FlightId");
@@ -624,11 +616,6 @@ namespace TravelPointSystem.Data.Migrations
                 column: "OrganizedTripId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReservationTourists_TouristId",
-                table: "ReservationTourists",
-                column: "TouristId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Settings_IsDeleted",
                 table: "Settings",
                 column: "IsDeleted");
@@ -637,6 +624,11 @@ namespace TravelPointSystem.Data.Migrations
                 name: "IX_Tourists_IsDeleted",
                 table: "Tourists",
                 column: "IsDeleted");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tourists_ReservationId",
+                table: "Tourists",
+                column: "ReservationId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -657,19 +649,16 @@ namespace TravelPointSystem.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ReservationTourists");
+                name: "Settings");
 
             migrationBuilder.DropTable(
-                name: "Settings");
+                name: "Tourists");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Reservations");
-
-            migrationBuilder.DropTable(
-                name: "Tourists");
 
             migrationBuilder.DropTable(
                 name: "Buses");

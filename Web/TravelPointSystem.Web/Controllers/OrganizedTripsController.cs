@@ -51,7 +51,14 @@
                 OrganizedTrips = this.organizedTripsService.GetAllByDestinationId(destinationId),
             };
 
-            return this.View(organizedTrips);
+            if (organizedTrips.OrganizedTrips.Count() == 0)
+            {
+                return this.View("NoResult");
+            }
+            else
+            {
+                return this.View(organizedTrips);
+            }
         }
 
         [Authorize]

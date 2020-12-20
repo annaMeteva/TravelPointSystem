@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -45,7 +46,10 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(configure => {
+                configure.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
+
             services.AddRazorPages();
 
             services.AddSingleton(this.configuration);
@@ -63,6 +67,7 @@
             services.AddTransient<IOrganizedTripsService, OrganizedTripsService>();
             services.AddTransient<IFlightsService, FlightsService>();
             services.AddTransient<IBusesService, BusesService>();
+            services.AddTransient<IReservationService, ReservationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

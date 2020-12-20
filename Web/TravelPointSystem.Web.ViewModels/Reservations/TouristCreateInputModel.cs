@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Text;
+
     using TravelPointSystem.Data.Models.Enums;
 
     public class TouristCreateInputModel
@@ -17,7 +18,7 @@
         public DateTime DateOfBirth { get; set; }
 
         [Required]
-        [Display(Name = "Child or Adult")]
+        [Display(Name = "Adult or Child")]
         public TouristType TouristType { get; set; }
 
         [Required]

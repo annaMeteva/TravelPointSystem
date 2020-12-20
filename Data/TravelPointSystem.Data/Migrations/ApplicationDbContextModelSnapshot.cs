@@ -512,24 +512,6 @@ namespace TravelPointSystem.Data.Migrations
                     b.ToTable("Hotels");
                 });
 
-            modelBuilder.Entity("TravelPointSystem.Data.Models.MappingTables.ReservationTourist", b =>
-                {
-                    b.Property<string>("ReservationId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TouristId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("ReservationId", "TouristId");
-
-                    b.HasIndex("TouristId");
-
-                    b.ToTable("ReservationTourists");
-                });
-
             modelBuilder.Entity("TravelPointSystem.Data.Models.OrganizedTrip", b =>
                 {
                     b.Property<string>("Id")
@@ -606,12 +588,6 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<string>("BusId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime>("CheckIn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CheckOut")
-                        .HasColumnType("datetime2");
-
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -622,13 +598,16 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DepartureDaysLeft")
+                    b.Property<DateTime?>("Departure")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DestinationId")
                         .HasColumnType("int");
 
                     b.Property<string>("FlightId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("HotelId")
+                    b.Property<int?>("HotelId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsAccepted")
@@ -643,9 +622,6 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<DateTime?>("ModifiedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("NumberOfToursts")
-                        .HasColumnType("int");
-
                     b.Property<string>("OrganizedTripId")
                         .HasColumnType("nvarchar(450)");
 
@@ -655,14 +631,19 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<double>("Profit")
                         .HasColumnType("float");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("ReservationType")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("Return")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("BusId");
 
                     b.HasIndex("CreatorId");
+
+                    b.HasIndex("DestinationId");
 
                     b.HasIndex("FlightId");
 
@@ -740,12 +721,17 @@ namespace TravelPointSystem.Data.Migrations
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ReservationId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("TouristType")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("ReservationId");
 
                     b.ToTable("Tourists");
                 });
@@ -846,21 +832,6 @@ namespace TravelPointSystem.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TravelPointSystem.Data.Models.MappingTables.ReservationTourist", b =>
-                {
-                    b.HasOne("TravelPointSystem.Data.Models.Reservation", "Reservation")
-                        .WithMany("Tourists")
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("TravelPointSystem.Data.Models.Tourist", "Tourist")
-                        .WithMany("Reservations")
-                        .HasForeignKey("TouristId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TravelPointSystem.Data.Models.OrganizedTrip", b =>
                 {
                     b.HasOne("TravelPointSystem.Data.Models.Destination", "Destination")
@@ -888,19 +859,30 @@ namespace TravelPointSystem.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("TravelPointSystem.Data.Models.Destination", "Destination")
+                        .WithMany("Reservations")
+                        .HasForeignKey("DestinationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("TravelPointSystem.Data.Models.Flight", "Flight")
                         .WithMany("Reservations")
                         .HasForeignKey("FlightId");
 
                     b.HasOne("TravelPointSystem.Data.Models.Hotel", "Hotel")
                         .WithMany("Reservations")
-                        .HasForeignKey("HotelId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .HasForeignKey("HotelId");
 
                     b.HasOne("TravelPointSystem.Data.Models.OrganizedTrip", "OrganizedTrip")
                         .WithMany("Reservations")
                         .HasForeignKey("OrganizedTripId");
+                });
+
+            modelBuilder.Entity("TravelPointSystem.Data.Models.Tourist", b =>
+                {
+                    b.HasOne("TravelPointSystem.Data.Models.Reservation", "Reservation")
+                        .WithMany("Tourists")
+                        .HasForeignKey("ReservationId");
                 });
 #pragma warning restore 612, 618
         }

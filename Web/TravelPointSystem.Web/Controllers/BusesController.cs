@@ -31,6 +31,7 @@
             return this.View(inputModel);
         }
 
+        [Authorize]
         [HttpPost]
         public IActionResult CheckDestinationsId(BusesByDestinationsIdInputModel inputModel)
         {

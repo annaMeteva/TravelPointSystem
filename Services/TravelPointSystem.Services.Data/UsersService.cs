@@ -7,7 +7,9 @@
 
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Services.Mapping;
     using TravelPointSystem.Web.ViewModels.Home;
+    using TravelPointSystem.Web.ViewModels.Users;
 
     public class UsersService : IUsersService
     {
@@ -18,14 +20,14 @@
             this.usersRepository = usersRepository;
         }
 
-        public IndexLoggedInViewModel GetUserCompanyName(string userId)
+        public UserViewModel GetUserCompanyName(string userId)
         {
-            var companyName = new IndexLoggedInViewModel()
+            var userViewModel = new UserViewModel
             {
                 CompanyName = this.usersRepository.All().FirstOrDefault(u => u.Id == userId).CompanyName,
             };
 
-            return companyName;
+            return userViewModel;
         }
     }
 }

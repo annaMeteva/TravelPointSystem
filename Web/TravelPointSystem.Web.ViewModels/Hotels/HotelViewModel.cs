@@ -30,5 +30,7 @@
         public int AvailableRooms { get; set; }
 
         public FeedingType FeedingType { get; set; }
+
+        public ReservationType ReservationType { get; set; }
     }
 }

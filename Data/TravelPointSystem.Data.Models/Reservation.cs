@@ -6,7 +6,6 @@
 
     using TravelPointSystem.Data.Common.Models;
     using TravelPointSystem.Data.Models.Enums;
-    using TravelPointSystem.Data.Models.MappingTables;
 
     public class Reservation : BaseDeletableModel<string>
     {
@@ -15,16 +14,12 @@
             this.Id = Guid.NewGuid().ToString();
             this.CreatedOn = DateTime.UtcNow;
             this.IsDeleted = false;
-            this.Tourists = new HashSet<ReservationTourist>();
+            this.Tourists = new HashSet<Tourist>();
         }
 
 
         [Required]
-        public ReservationType Type { get; set; }
-
-        [Required]
-        [Range(1, 4)]
-        public int NumberOfToursts { get; set; }
+        public ReservationType ReservationType { get; set; }
 
         public double Price { get; set; }
 
@@ -36,23 +31,21 @@
 
         public bool IsAccepted { get; set; }
 
-        public int DepartureDaysLeft { get; set; }
+        public int DestinationId { get; set; }
+
+        public Destination Destination { get; set; }
 
         [Required]
         public string CreatorId { get; set; }
 
         public ApplicationUser Creator { get; set; }
 
-        public ICollection<ReservationTourist> Tourists { get; set; }
+        public ICollection<Tourist> Tourists { get; set; }
 
         // For Hotel Reservation Type
-        public int HotelId { get; set; }
+        public int? HotelId { get; set; }
 
         public Hotel Hotel { get; set; }
-
-        public DateTime CheckIn { get; set; }
-
-        public DateTime CheckOut { get; set; }
 
         // For OrganizedTrip Type
         public string OrganizedTripId { get; set; }
@@ -68,5 +61,9 @@
         public string BusId { get; set; }
 
         public Bus Bus { get; set; }
+
+        public DateTime? Departure { get; set; }
+
+        public DateTime? Return { get; set; }
     }
 }
