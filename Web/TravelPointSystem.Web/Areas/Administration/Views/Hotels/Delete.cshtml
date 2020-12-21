@@ -1,0 +1,102 @@
+﻿@model TravelPointSystem.Data.Models.Hotel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+<div class="text-center mt-5 mb-3 h3">Are you sure you want to delete this?</div>
+
+<h4>Hotel</h4>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Name)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Name)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ImageUrl)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ImageUrl)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Description)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Description)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Address)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Address)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Destination)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Destination.Continent)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.PricePerNightPerPerson)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.PricePerNightPerPerson)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Stars)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Stars)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.AvailableRooms)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.AvailableRooms)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.FeedingType)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.FeedingType)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ReservationType)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ReservationType)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.IsDeleted)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.IsDeleted)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.DeletedOn)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.DeletedOn)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.CreatedOn)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.CreatedOn)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ModifiedOn)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ModifiedOn)
+    </dd>
+</dl>
+
+<form class="text-center" asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="btn btn-danger px-5" />
+</form>

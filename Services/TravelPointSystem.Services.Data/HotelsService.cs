@@ -1,10 +1,11 @@
 ﻿namespace TravelPointSystem.Services.Data
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using System.Threading.Tasks;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Mapping;
@@ -19,11 +20,19 @@
             this.hotelsRepository = hotelsRepository;
         }
 
+        public async Task<IEnumerable<HotelViewModel>> GetAllAsync()
+        {
+            var hotels = await this.hotelsRepository.All().OrderBy(h => h.Name).To<HotelViewModel>().ToListAsync();
+
+            return hotels;
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
         {
             return this.hotelsRepository.All().Select(x => new
             {
-                x.Id, x.Name,
+                x.Id,
+                x.Name,
             }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name)).OrderBy(x => x.Value);
         }
 
@@ -35,11 +44,36 @@
                 .To<HotelViewModel>();
         }
 
-        public HotelViewModel GetById(int id)
+        public async Task<HotelViewModel> GetByIdAsync(int? id)
         {
-            return this.hotelsRepository.All()
+            var hotel = await this.hotelsRepository.All()
                 .Where(h => h.Id == id)
-                .To<HotelViewModel>().FirstOrDefault();
+                .To<HotelViewModel>().FirstOrDefaultAsync();
+
+            return hotel;
+        }
+
+        public async Task CreateAsync(HotelInputModel inputModel)
+        {
+            var hotel = new Hotel
+            {
+                Name = inputModel.Name,
+                ImageUrl = inputModel.ImageUrl,
+                Description = inputModel.Description,
+                Address = inputModel.Address,
+                DestinationId = inputModel.DestinationId,
+                PricePerNightPerPerson = inputModel.PricePerNightPerPerson,
+                Stars = inputModel.Stars,
+                AvailableRooms = inputModel.AvailableRooms,
+                ReservationType = inputModel.ReservationType,
+                FeedingType = inputModel.FeedingType,
+                CreatedOn = DateTime.UtcNow,
+                DeletedOn = inputModel.DeletedOn,
+                IsDeleted = inputModel.IsDeleted,
+            };
+
+            await this.hotelsRepository.AddAsync(hotel);
+            await this.hotelsRepository.SaveChangesAsync();
         }
     }
 }

@@ -104,19 +104,26 @@
                 reservation.HotelId = int.Parse(input.ProductId);
                 reservation.Departure = input.CheckIn + new TimeSpan(14, 00, 00);
                 reservation.Return = input.CheckOut + new TimeSpan(12, 00, 00);
-                productPrice *= (input.CheckOut - input.CheckIn).TotalDays;
+                productPrice *= (input.CheckOut - input.CheckIn).Days;
             }
-
-            reservation.Price = productPrice;
-            reservation.Profit = Math.Round(0.1 * productPrice, 2);
 
             foreach (var inputTourist in input.Tourists)
             {
                 reservation.Tourists.Add(new Tourist { FullName = inputTourist.FullName, DateOfBirth = inputTourist.DateOfBirth, TouristType = inputTourist.TouristType, PersonalNumber = inputTourist.PersonalNumber, PassportNumber = inputTourist.PassportNumber, PhoneNumber = inputTourist.PhoneNumber });
             }
 
+            reservation.Price = productPrice * reservation.Tourists.Count();
+            reservation.Profit = Math.Round(0.1 * productPrice, 2);
+
             await this.reservationRepository.AddAsync(reservation);
             await this.reservationRepository.SaveChangesAsync();
+        }
+
+        public int GetAllNotAcceptedReservationsCount()
+        {
+            return this.reservationRepository.All()
+                .Where(x => x.IsAccepted == false)
+                .Count();
         }
 
         public IEnumerable<ReservationViewModel> GetAllReservationsByUserId(string userId)
@@ -127,12 +134,25 @@
                 .To<ReservationViewModel>();
         }
 
+        public int GetAllReservationsCount()
+        {
+            return this.reservationRepository.All().Count();
+        }
+
         public ReservationViewModel GetById(string id)
         {
             return this.reservationRepository.All()
                 .Where(x => x.Id == id)
                 .To<ReservationViewModel>()
                 .FirstOrDefault();
+        }
+
+        public IEnumerable<ReservationViewModel> GetLastest5Reservations()
+        {
+            return this.reservationRepository.All()
+                .OrderByDescending(x => x.CreatedOn)
+                .Take(5)
+                .To<ReservationViewModel>();
         }
     }
 }

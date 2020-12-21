@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
-
+    using System.Threading.Tasks;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Mapping;
@@ -28,6 +28,11 @@
             };
 
             return userViewModel;
+        }
+
+        public int GetUsersCount()
+        {
+            return this.usersRepository.All().Count();
         }
     }
 }

@@ -70,11 +70,11 @@
                     <h5 class="card-title">
                         @if (Model.ReservationType.ToString() == "Hotel")
                         {
-                            @(Model.Hotel.Name);
+                            <a asp-controller="Hotels" asp-action="ById" asp-route-id="@Model.Hotel.Id">@Model.Hotel.Name</a>
                         }
                         else if (Model.ReservationType.ToString() == "OrganizedTrip")
                         {
-                            @(Model.OrganizedTrip.Name);
+                            <a asp-controller="OrganizedTrips" asp-action="ById" asp-route-id="@Model.OrganizedTrip.Id">@Model.OrganizedTrip.Name</a>
                         }
                         else if (Model.ReservationType.ToString() == "Bus")
                         {
@@ -160,12 +160,12 @@
                     <ul class="list-unstyled">
                         @foreach (var tourist in Model.Tourists)
                         {
-                        <li>
-                            <h5><i class="fa fa-user"></i> @tourist.FullName</h5>
-                            Personal Number: @tourist.PersonalNumber  Passport Number: @tourist.PassportNumber  Phone Number: @tourist.PhoneNumber
-                        </li>
+                            <li>
+                                <h5><i class="fa fa-user"></i> @tourist.FullName</h5>
+                                Personal Number: @tourist.PersonalNumber  Passport Number: @tourist.PassportNumber  Phone Number: @tourist.PhoneNumber
+                            </li>
                         }
-                   </ul>
+                    </ul>
                 </p>
             </div>
         </div>

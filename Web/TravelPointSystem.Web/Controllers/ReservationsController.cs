@@ -7,7 +7,9 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using TravelPointSystem.Data.Models;
     using TravelPointSystem.Data.Models.Enums;
     using TravelPointSystem.Services.Data;
     using TravelPointSystem.Web.ViewModels.Home;
@@ -17,11 +19,13 @@
     {
         private readonly IReservationService reservationService;
         private readonly IUsersService usersService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public ReservationsController(IReservationService reservationService, IUsersService usersService)
+        public ReservationsController(IReservationService reservationService, IUsersService usersService, UserManager<ApplicationUser> userManager)
         {
             this.reservationService = reservationService;
             this.usersService = usersService;
+            this.userManager = userManager;
         }
 
         [Authorize]
@@ -46,10 +50,11 @@
             }
 
             inputModel.ProductId = id;
+            var userId = this.userManager.GetUserId(this.User);
 
             try
             {
-                await this.reservationService.CreateAsync(inputModel, this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                await this.reservationService.CreateAsync(inputModel, userId);
             }
             catch (Exception ex)
             {
@@ -59,11 +64,11 @@
                 return this.View(inputModel);
             }
 
-            var userViewModel = this.usersService.GetUserCompanyName(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userViewModel = this.usersService.GetUserCompanyName(userId);
             var viewModel = new IndexLoggedInViewModel
             {
                 CurrentUser = userViewModel,
-                Reservations = this.reservationService.GetAllReservationsByUserId(this.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                Reservations = this.reservationService.GetAllReservationsByUserId(userId),
             };
 
             return this.Redirect("/");

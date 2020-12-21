@@ -7,16 +7,25 @@
 
     public class DashboardController : AdministrationController
     {
-        private readonly ISettingsService settingsService;
+        private readonly IUsersService usersService;
+        private readonly IReservationService reservationService;
 
-        public DashboardController(ISettingsService settingsService)
+        public DashboardController(IUsersService usersService, IReservationService reservationService)
         {
-            this.settingsService = settingsService;
+            this.usersService = usersService;
+            this.reservationService = reservationService;
         }
 
         public IActionResult Index()
         {
-            var viewModel = new IndexViewModel { SettingsCount = this.settingsService.GetCount(), };
+            var viewModel = new IndexViewModel
+            {
+                ReservationsCount = this.reservationService.GetAllReservationsCount(),
+                NotAcceptedReservationsCount = this.reservationService.GetAllNotAcceptedReservationsCount(),
+                UsersCount = this.usersService.GetUsersCount(),
+                Lastest5Reservations = this.reservationService.GetLastest5Reservations()
+            };
+
             return this.View(viewModel);
         }
     }

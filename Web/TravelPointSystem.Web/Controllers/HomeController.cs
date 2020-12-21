@@ -4,7 +4,10 @@
     using System.Linq;
     using System.Security.Claims;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using TravelPointSystem.Common;
+    using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Data;
     using TravelPointSystem.Web.ViewModels;
     using TravelPointSystem.Web.ViewModels.Home;
@@ -14,21 +17,27 @@
         private readonly IDestinationsService destinationsService;
         private readonly IUsersService usersService;
         private readonly IReservationService reservationService;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(IDestinationsService destinationsService, IUsersService usersService, IReservationService reservationService)
+        public HomeController(IDestinationsService destinationsService, IUsersService usersService, IReservationService reservationService, UserManager<ApplicationUser> userManager)
         {
             this.destinationsService = destinationsService;
             this.usersService = usersService;
             this.reservationService = reservationService;
+            this.userManager = userManager;
         }
 
         [HttpGet]
         [Route("/")]
         public IActionResult Index()
         {
-            if (this.User.Identity.IsAuthenticated)
+            if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
             {
-                return this.RedirectToAction(nameof(this.IndexLoggedIn));
+                return this.RedirectToAction("Index", "Dashboard", new { area = "Administration" });
+            }
+            else if (this.User.Identity.IsAuthenticated)
+            {
+                return this.RedirectToAction("IndexLoggedIn");
             }
 
             var viewModel = this.destinationsService.GetDestinationsCount();
@@ -40,11 +49,13 @@
         [Route("/Home")]
         public IActionResult IndexLoggedIn()
         {
-            var userViewModel = this.usersService.GetUserCompanyName(this.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            var userId = this.userManager.GetUserId(this.User);
+
+            var userViewModel = this.usersService.GetUserCompanyName(userId);
             var indexLoggedInViewModel = new IndexLoggedInViewModel
             {
                 CurrentUser = userViewModel,
-                Reservations = this.reservationService.GetAllReservationsByUserId(this.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                Reservations = this.reservationService.GetAllReservationsByUserId(userId),
             };
 
             if (indexLoggedInViewModel.Reservations.Count() == 0)

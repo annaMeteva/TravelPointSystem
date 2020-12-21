@@ -66,9 +66,9 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult ById(int id)
+        public async Task<IActionResult> ByIdAsync(int id)
         {
-            var hotel = this.hotelsService.GetById(id);
+            var hotel = await this.hotelsService.GetByIdAsync(id);
 
             return this.View(hotel);
         }

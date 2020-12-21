@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using TravelPointSystem.Web.ViewModels.Hotels;
 
     public interface IHotelsService
@@ -11,6 +12,10 @@
 
         IEnumerable<HotelViewModel> GetAllByDestinationId(int destinationId);
 
-        HotelViewModel GetById(int id);
+        Task<HotelViewModel> GetByIdAsync(int? id);
+
+        Task<IEnumerable<HotelViewModel>> GetAllAsync();
+
+        Task CreateAsync(HotelInputModel inputModel);
     }
 }

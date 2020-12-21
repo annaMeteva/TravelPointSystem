@@ -1,7 +1,63 @@
 ﻿@model TravelPointSystem.Web.ViewModels.Administration.Dashboard.IndexViewModel
-@{
-    this.ViewData["Title"] = "Admin dashboard";
-}
+@{ this.ViewData["Title"] = "Admin dashboard"; }
 
-<h1>@this.ViewData["Title"]</h1>
-Settings: @this.Model.SettingsCount
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<div class="row my-5">
+    <div class="col-md-8 offset-md-2">
+        <div class="card-group text-center">
+            <div class="card text-white bg-info">
+                <div class="card-header">Reservations</div>
+                <div class="card-body">
+                    <h5 class="card-title">All reservations from users</h5>
+                    <h4 class="card-title text-center">@Model.ReservationsCount</h4>
+                </div>
+            </div>
+
+            <div class="card text-white bg-danger">
+                <div class="card-header">Reservations</div>
+                <div class="card-body">
+                    <h5 class="card-title">All not accepted reservations</h5>
+                    <h4 class="card-title text-center">@Model.NotAcceptedReservationsCount</h4>
+                </div>
+            </div>
+
+            <div class="card text-white bg-info">
+                <div class="card-header">Users</div>
+                <div class="card-body">
+                    <h5 class="card-title">All users in your App</h5>
+                    <h4 class="card-title text-center">@Model.UsersCount</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="text-center mt-5 h4">Lastest reservations</div>
+<div class="row my-4">
+    <div class="col-md-10 offset-1">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Id</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Destination</th>
+                    <th scope="col">Tourists</th>
+                </tr>
+            </thead>
+            @foreach (var reservation in Model.Lastest5Reservations)
+            {
+<tbody>
+    <tr>
+        <th scope="row"></th>
+        <td>@reservation.Id</td>
+        <td>@reservation.ReservationType</td>
+        <td>@reservation.Destination.Town, @reservation.Destination.Country</td>
+        <td>@reservation.Tourists.Count()</td>
+    </tr>
+</tbody>
+}
+        </table>
+    </div>
+</div>

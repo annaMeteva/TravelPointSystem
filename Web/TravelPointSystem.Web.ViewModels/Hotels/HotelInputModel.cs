@@ -1,55 +1,56 @@
-﻿namespace TravelPointSystem.Data.Models
+﻿namespace TravelPointSystem.Web.ViewModels.Hotels
 {
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-
-    using TravelPointSystem.Data.Common.Models;
+    using System.Text;
     using TravelPointSystem.Data.Models.Enums;
 
-    public class Hotel : BaseDeletableModel<int>
+    public class HotelInputModel
     {
-        public Hotel()
-        {
-            this.CreatedOn = DateTime.UtcNow;
-            this.IsDeleted = false;
-            this.OrganizedTrips = new HashSet<OrganizedTrip>();
-            this.Reservations = new HashSet<Reservation>();
-        }
-
         [Required]
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Image URL")]
         public string ImageUrl { get; set; }
 
         [Required]
+        [MaxLength(500)]
         public string Description { get; set; }
 
         [Required]
         public string Address { get; set; }
 
         [Required]
+        [Display(Name = "Destination Town")]
         public int DestinationId { get; set; }
 
-        public Destination Destination { get; set; }
-
         [Required]
+        [Display(Name = "Price per person per night")]
         public double PricePerNightPerPerson { get; set; }
 
         [Required]
+        [Range(1, 6)]
         public int Stars { get; set; }
 
         [Required]
+        [Display(Name = "Available Rooms")]
         public int AvailableRooms { get; set; }
 
+        [Required]
+        [Display(Name = "Feeding Type")]
+        [EnumDataType(typeof(FeedingType))]
         public FeedingType FeedingType { get; set; }
 
         [Required]
+        [Display(Name = "Reservation Type")]
         public ReservationType ReservationType { get; set; }
 
-        public ICollection<OrganizedTrip> OrganizedTrips { get; set; }
+        public bool IsDeleted { get; set; }
 
-        public ICollection<Reservation> Reservations { get; set; }
+        public DateTime? DeletedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
     }
 }

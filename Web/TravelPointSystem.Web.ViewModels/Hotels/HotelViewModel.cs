@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     using TravelPointSystem.Data.Models;
@@ -23,14 +24,25 @@
 
         public DestinationViewModel Destination { get; set; }
 
+        [Display(Name = "Price")]
         public double PricePerNightPerPerson { get; set; }
 
         public int Stars { get; set; }
 
+        [Display(Name = "Available Rooms")]
         public int AvailableRooms { get; set; }
 
+        [Display(Name = "Feeding Type")]
         public FeedingType FeedingType { get; set; }
 
         public ReservationType ReservationType { get; set; }
+
+        public DateTime? CreatedOn { get; set; }
+
+        public DateTime? ModifiedOn { get; set; }
+
+        public DateTime? DeletedOn { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

@@ -10,5 +10,7 @@
     public interface IUsersService
     {
         UserViewModel GetUserCompanyName(string userId);
+
+        int GetUsersCount();
     }
 }

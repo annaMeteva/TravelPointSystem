@@ -1,5 +1,6 @@
 ﻿namespace TravelPointSystem.Web
 {
+    using System.Globalization;
     using System.Reflection;
 
     using Microsoft.AspNetCore.Builder;
@@ -46,7 +47,8 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
-            services.AddControllersWithViews(configure => {
+            services.AddControllersWithViews(configure =>
+            {
                 configure.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
             });
 
@@ -116,6 +118,10 @@
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
+
+            var cultureInfo = new CultureInfo("en-US");
+            cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
+            System.Threading.Thread.CurrentThread.CurrentUICulture = cultureInfo;
         }
     }
 }

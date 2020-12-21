@@ -15,5 +15,10 @@
 
         ReservationViewModel GetById(string id);
 
+        int GetAllNotAcceptedReservationsCount();
+
+        int GetAllReservationsCount();
+
+        IEnumerable<ReservationViewModel> GetLastest5Reservations();
     }
 }
