@@ -1,9 +1,11 @@
 ﻿namespace TravelPointSystem.Services.Data
 {
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Mapping;
@@ -19,6 +21,37 @@
             this.organizedTripsRepository = organizedTripsRepository;
         }
 
+        public async Task CreateAsync(OrganizedTripInputModel inputModel)
+        {
+            var trip = new OrganizedTrip
+            {
+                Name = inputModel.Name,
+                ImageUrl = inputModel.ImageUrl,
+                Description = inputModel.Description,
+                PricePerPerson = inputModel.PricePerPerson,
+                DepartureDateTime = inputModel.DepartureDateTime,
+                ReturnDateTime = inputModel.ReturnDateTime,
+                DestinationId = inputModel.DestinationId,
+                HotelId = inputModel.HotelId,
+                AvailableSeats = inputModel.AvailableSeats,
+                Transport = inputModel.Transport,
+                ReservationType = inputModel.ReservationType,
+            };
+
+            await this.organizedTripsRepository.AddAsync(trip);
+            await this.organizedTripsRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            var trip = await this.organizedTripsRepository.All()
+               .FirstOrDefaultAsync(x => x.Id == id);
+
+            this.organizedTripsRepository.Delete(trip);
+
+            await this.organizedTripsRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePair()
         {
             return this.organizedTripsRepository.All().Select(x => new
@@ -28,21 +61,31 @@
             }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name)).OrderBy(x => x.Value);
         }
 
-        public IEnumerable<OrganizedTripViewModel> GetAllByDestinationId(int destinationId)
+        public async Task<IEnumerable<OrganizedTripViewModel>> GetAllAsync()
         {
-            return this.organizedTripsRepository.AllAsNoTracking()
-                .Where(h => h.DestinationId == destinationId)
-                .Distinct()
-                .OrderBy(h => h.Name)
-                .To<OrganizedTripViewModel>();
+            var trips = await this.organizedTripsRepository.All().OrderBy(x => x.Name).To<OrganizedTripViewModel>().ToListAsync();
+
+            return trips;
         }
 
-        public OrganizedTripViewModel GetById(string id)
+        public async Task<IEnumerable<OrganizedTripViewModel>> GetAllByDestinationIdAsync(int destinationId)
         {
-            return this.organizedTripsRepository.AllAsNoTracking()
-                .Where(t => t.Id == id)
+            return await this.organizedTripsRepository.All()
+                .Where(x => x.DestinationId == destinationId)
+                .Distinct()
+                .OrderBy(x => x.Name)
                 .To<OrganizedTripViewModel>()
-                .FirstOrDefault();
+                .ToListAsync();
+        }
+
+        public async Task<OrganizedTripViewModel> GetByIdAsync(string id)
+        {
+            var trip = await this.organizedTripsRepository.All()
+                .Where(x => x.Id == id)
+                .To<OrganizedTripViewModel>()
+                .FirstOrDefaultAsync();
+
+            return trip;
         }
     }
 }

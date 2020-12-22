@@ -1,0 +1,135 @@
+﻿@model TravelPointSystem.Web.ViewModels.Reservations.ReservationViewModel
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+<div class="text-center mt-5 mb-3 h3">Are you sure you want to delete this?</div>
+
+<h4>Reservation</h4>
+<hr />
+<dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Creator)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Creator.CompanyName)
+    </dd>
+    @if (Model.ReservationType.ToString() == "Bus")
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Bus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Bus.BusNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Bus.StartPoint)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Bus.StartPoint.Town), @Html.DisplayFor(model => model.Bus.StartPoint.Country)
+        </dd>
+    }
+    else if (Model.ReservationType.ToString() == "Flight")
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Flight)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Flight.FlightNumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Flight.StartPoint)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Flight.StartPoint.Town), @Html.DisplayFor(model => model.Flight.StartPoint.Country)
+        </dd>
+    }
+    else if (Model.ReservationType.ToString() == "Hotel")
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Hotel)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Hotel.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Hotel.Destination)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Hotel.Destination.Town), @Html.DisplayFor(model => model.Hotel.Destination.Country)
+        </dd>
+    }
+    else if (Model.ReservationType.ToString() == "OrganizedTrip")
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrganizedTrip)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrganizedTrip.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OrganizedTrip.Destination)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OrganizedTrip.Destination.Town), @Html.DisplayFor(model => model.OrganizedTrip.Destination.Country)
+        </dd>
+    }
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.Departure)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.Departure)
+    </dd>
+    @if (Model.ReservationType.ToString() != "Bus" && Model.ReservationType.ToString() != "Flight")
+    {
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Return)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Return)
+        </dd>
+    }
+    <dt class="col-sm-2">
+        <label asp-for="Price"></label>
+    </dt>
+    <dd class="col-sm-10">
+        $@Model.Price
+    </dd>
+    <dt class="col-sm-2">
+        <label asp-for="Balance"></label>
+    </dt>
+    <dd class="col-sm-10">
+        $@Model.Balance
+    </dd>
+    <dt class="col-sm-2">
+        <label asp-for="IsAccepted"></label>
+    </dt>
+    <dd class="col-sm-10">
+        <input asp-for="IsAccepted" class="check-box" disabled="disabled" type="checkbox">
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.IsDeleted)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.IsDeleted)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.CreatedOn)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.CreatedOn)
+    </dd>
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.ModifiedOn)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.ModifiedOn)
+    </dd>
+</dl>
+
+<form class="text-center" asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="btn btn-danger px-5" />
+</form>

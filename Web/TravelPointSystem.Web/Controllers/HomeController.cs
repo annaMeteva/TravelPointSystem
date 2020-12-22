@@ -3,6 +3,7 @@
     using System.Diagnostics;
     using System.Linq;
     using System.Security.Claims;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,10 @@
     {
         private readonly IDestinationsService destinationsService;
         private readonly IUsersService usersService;
-        private readonly IReservationService reservationService;
+        private readonly IReservationsService reservationService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public HomeController(IDestinationsService destinationsService, IUsersService usersService, IReservationService reservationService, UserManager<ApplicationUser> userManager)
+        public HomeController(IDestinationsService destinationsService, IUsersService usersService, IReservationsService reservationService, UserManager<ApplicationUser> userManager)
         {
             this.destinationsService = destinationsService;
             this.usersService = usersService;
@@ -47,7 +48,7 @@
         [Authorize]
         [HttpGet]
         [Route("/Home")]
-        public IActionResult IndexLoggedIn()
+        public async Task<IActionResult> IndexLoggedIn()
         {
             var userId = this.userManager.GetUserId(this.User);
 
@@ -55,7 +56,7 @@
             var indexLoggedInViewModel = new IndexLoggedInViewModel
             {
                 CurrentUser = userViewModel,
-                Reservations = this.reservationService.GetAllReservationsByUserId(userId),
+                Reservations = await this.reservationService.GetAllReservationsByUserIdAsync(userId),
             };
 
             if (indexLoggedInViewModel.Reservations.Count() == 0)

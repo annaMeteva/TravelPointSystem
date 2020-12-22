@@ -1,4 +1,4 @@
-﻿@model TravelPointSystem.Data.Models.Hotel
+﻿@model TravelPointSystem.Web.ViewModels.Hotels.HotelViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -38,13 +38,13 @@
         @Html.DisplayNameFor(model => model.Destination)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.Destination.Continent)
+        @Html.DisplayFor(model => model.Destination.Town), @Html.DisplayFor(model => model.Destination.Country)
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.PricePerNightPerPerson)
     </dt>
     <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.PricePerNightPerPerson)
+        $@Html.DisplayFor(model => model.PricePerNightPerPerson)
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.Stars)
@@ -69,18 +69,6 @@
     </dt>
     <dd class="col-sm-10">
         @Html.DisplayFor(model => model.ReservationType)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.IsDeleted)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.IsDeleted)
-    </dd>
-    <dt class="col-sm-2">
-        @Html.DisplayNameFor(model => model.DeletedOn)
-    </dt>
-    <dd class="col-sm-10">
-        @Html.DisplayFor(model => model.DeletedOn)
     </dd>
     <dt class="col-sm-2">
         @Html.DisplayNameFor(model => model.CreatedOn)

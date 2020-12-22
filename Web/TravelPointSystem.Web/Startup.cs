@@ -69,7 +69,8 @@
             services.AddTransient<IOrganizedTripsService, OrganizedTripsService>();
             services.AddTransient<IFlightsService, FlightsService>();
             services.AddTransient<IBusesService, BusesService>();
-            services.AddTransient<IReservationService, ReservationService>();
+            services.AddTransient<IReservationsService, ReservationsService>();
+            services.AddTransient<IFlightCompaniesService, FlightCompaniesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -9,18 +9,21 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using TravelPointSystem.Data;
+    using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Data;
     using TravelPointSystem.Web.ViewModels.Hotels;
 
     public class HotelsController : AdministrationController
     {
-        private readonly ApplicationDbContext db;
+        private readonly IDeletableEntityRepository<Hotel> hotelsRepository;
+        private readonly IDestinationsService destinationsService;
         private readonly IHotelsService hotelsService;
 
-        public HotelsController(ApplicationDbContext context, IHotelsService hotelsService)
+        public HotelsController(IDeletableEntityRepository<Hotel> hotelsRepository, IDestinationsService destinationsService, IHotelsService hotelsService)
         {
-            this.db = context;
+            this.hotelsRepository = hotelsRepository;
+            this.destinationsService = destinationsService;
             this.hotelsService = hotelsService;
         }
 
@@ -51,7 +54,7 @@
         [HttpGet]
         public IActionResult Create()
         {
-            this.ViewData["DestinationId"] = new SelectList(this.db.Destinations, "Id", "Town");
+            this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town");
             var inputModel = new HotelInputModel();
 
             return this.View(inputModel);
@@ -63,7 +66,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                this.ViewData["DestinationId"] = new SelectList(this.db.Destinations, "Id", "Town", inputModel.DestinationId);
+                this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", inputModel.DestinationId);
                 return this.View(inputModel);
             }
 
@@ -80,13 +83,13 @@
                 return this.NotFound();
             }
 
-            var hotel = await this.db.Hotels.FindAsync(id);
+            var hotel = await this.hotelsRepository.All().FirstOrDefaultAsync(x => x.Id == id);
             if (hotel == null)
             {
                 return this.NotFound();
             }
 
-            this.ViewData["DestinationId"] = new SelectList(this.db.Destinations, "Id", "Town", hotel.DestinationId);
+            this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", hotel.DestinationId);
             return this.View(hotel);
         }
 
@@ -103,8 +106,8 @@
             {
                 try
                 {
-                    this.db.Update(hotel);
-                    await this.db.SaveChangesAsync();
+                    this.hotelsRepository.Update(hotel);
+                    await this.hotelsRepository.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -121,7 +124,7 @@
                 return this.RedirectToAction(nameof(this.Index));
             }
 
-            this.ViewData["DestinationId"] = new SelectList(this.db.Destinations, "Id", "Town", hotel.DestinationId);
+            this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", hotel.DestinationId);
             return this.View(hotel);
         }
 
@@ -133,9 +136,7 @@
                 return this.NotFound();
             }
 
-            var hotel = await this.db.Hotels
-                .Include(h => h.Destination)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var hotel = await this.hotelsService.GetByIdAsync(id);
             if (hotel == null)
             {
                 return this.NotFound();
@@ -149,15 +150,14 @@
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var hotel = await this.db.Hotels.FindAsync(id);
-            this.db.Hotels.Remove(hotel);
-            await this.db.SaveChangesAsync();
+            await this.hotelsService.DeleteAsync(id);
+
             return this.RedirectToAction(nameof(this.Index));
         }
 
         private bool HotelExists(int id)
         {
-            return this.db.Hotels.Any(e => e.Id == id);
+            return this.hotelsRepository.All().Any(e => e.Id == id);
         }
     }
 }

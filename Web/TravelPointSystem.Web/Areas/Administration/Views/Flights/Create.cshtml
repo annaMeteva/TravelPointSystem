@@ -1,0 +1,72 @@
+﻿@using TravelPointSystem.Data.Models.Enums;
+@model TravelPointSystem.Web.ViewModels.Flights.FlightInputModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<h4 class="text-center">Flight</h4>
+<hr />
+<div class="row">
+    <form class="col-md-6 offset-md-3" asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="FlightNumber" class="control-label"></label>
+            <input asp-for="FlightNumber" class="form-control" />
+            <span asp-validation-for="FlightNumber" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PricePerPerson" class="control-label"></label>
+            <input asp-for="PricePerPerson" class="form-control" />
+            <span asp-validation-for="PricePerPerson" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CompanyId" class="control-label"></label>
+            <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="DepartureDateTime" class="control-label"></label>
+            <input asp-for="DepartureDateTime" class="form-control" />
+            <span asp-validation-for="DepartureDateTime" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FlightTime" class="control-label"></label>
+            <input asp-for="FlightTime" class="form-control" />
+            <span asp-validation-for="FlightTime" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartPointId" class="control-label"></label>
+            <select asp-for="StartPointId" class="form-control" asp-items="ViewBag.StartPointId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="StartPointAirPort" class="control-label"></label>
+            <input asp-for="StartPointAirPort" class="form-control" />
+            <span asp-validation-for="StartPointAirPort" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndPointId" class="control-label"></label>
+            <select asp-for="EndPointId" class="form-control" asp-items="ViewBag.EndPointId"></select>
+        </div>
+        <div class="form-group">
+            <label asp-for="EndPointAirPort" class="control-label"></label>
+            <input asp-for="EndPointAirPort" class="form-control" />
+            <span asp-validation-for="EndPointAirPort" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AvailableSeats" class="control-label"></label>
+            <input asp-for="AvailableSeats" class="form-control" />
+            <span asp-validation-for="AvailableSeats" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReservationType" class="control-label"></label>
+            <select asp-for="ReservationType" asp-items="Html.GetEnumSelectList<ReservationType>()" class="form-control"></select>
+            <span asp-validation-for="ReservationType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+

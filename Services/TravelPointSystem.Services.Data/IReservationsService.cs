@@ -7,18 +7,22 @@
 
     using TravelPointSystem.Web.ViewModels.Reservations;
 
-    public interface IReservationService
+    public interface IReservationsService
     {
-        IEnumerable<ReservationViewModel> GetAllReservationsByUserId(string userId);
+        Task<IEnumerable<ReservationViewModel>> GetAllReservationsByUserIdAsync(string userId);
 
         Task CreateAsync(ReservationCreateInputModel input, string userId);
 
-        ReservationViewModel GetById(string id);
+        Task<ReservationViewModel> GetByIdAsync(string id);
 
         int GetAllNotAcceptedReservationsCount();
 
         int GetAllReservationsCount();
 
         IEnumerable<ReservationViewModel> GetLastest5Reservations();
+
+        Task<IEnumerable<ReservationViewModel>> GetAllAsync();
+
+        Task DeleteAsync(string id);
     }
 }

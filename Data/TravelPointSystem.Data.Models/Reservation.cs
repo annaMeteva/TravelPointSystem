@@ -27,8 +27,6 @@
 
         public double Profit { get; set; }
 
-        public bool IsPaid { get; set; }
-
         public bool IsAccepted { get; set; }
 
         public int DestinationId { get; set; }

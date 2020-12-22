@@ -4,7 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Mapping;
@@ -19,6 +21,36 @@
             this.busesRepository = busesRepository;
         }
 
+        public async Task CreateAsync(BusInputModel inputModel)
+        {
+            var bus = new Bus
+            {
+                BusNumber = inputModel.BusNumber,
+                PricePerPerson = inputModel.PricePerPerson,
+                DepartureDateTime = inputModel.DepartureDateTime,
+                TravellingTime = inputModel.TravellingTime,
+                AvailableSeats = inputModel.AvailableSeats,
+                StartPointId = inputModel.StartPointId,
+                StartPointStation = inputModel.StartPointStation,
+                EndPointId = inputModel.EndPointId,
+                EndPointStation = inputModel.EndPointStation,
+                ReservationType = inputModel.ReservationType,
+            };
+
+            await this.busesRepository.AddAsync(bus);
+            await this.busesRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(string id)
+        {
+            var bus = await this.busesRepository.All()
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            this.busesRepository.Delete(bus);
+
+            await this.busesRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePair()
         {
             return this.busesRepository.All().Select(x => new
@@ -28,12 +60,29 @@
             }).ToList().Select(x => new KeyValuePair<string, string>(x.Id, x.BusNumber)).OrderBy(x => x.Value);
         }
 
-        public IEnumerable<BusViewModel> GetAllByDestinationsId(int startDestinationId, int endDestinationId)
+        public async Task<IEnumerable<BusViewModel>> GetAllAsync()
         {
-            return this.busesRepository.All()
+            var buses = await this.busesRepository.All().OrderBy(x => x.BusNumber).To<BusViewModel>().ToListAsync();
+
+            return buses;
+        }
+
+        public async Task<IEnumerable<BusViewModel>> GetAllByDestinationsIdAsync(int startDestinationId, int endDestinationId)
+        {
+            return await this.busesRepository.All()
                 .Where(b => b.StartPointId == startDestinationId && b.EndPointId == endDestinationId)
                 .OrderBy(f => f.BusNumber)
-                .To<BusViewModel>();
+                .To<BusViewModel>()
+                .ToListAsync();
+        }
+
+        public async Task<BusViewModel> GetByIdAsync(string id)
+        {
+            var bus = await this.busesRepository.All()
+                .Where(x => x.Id == id)
+                .To<BusViewModel>().FirstOrDefaultAsync();
+
+            return bus;
         }
     }
 }

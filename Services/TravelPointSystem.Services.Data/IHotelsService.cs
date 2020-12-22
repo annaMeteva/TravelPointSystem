@@ -10,12 +10,16 @@
     {
         IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs();
 
-        IEnumerable<HotelViewModel> GetAllByDestinationId(int destinationId);
+        Task<IEnumerable<HotelViewModel>> GetAllByDestinationIdAsync(int destinationId);
 
         Task<HotelViewModel> GetByIdAsync(int? id);
 
         Task<IEnumerable<HotelViewModel>> GetAllAsync();
 
+        IEnumerable<HotelViewModel> GetAll();
+
         Task CreateAsync(HotelInputModel inputModel);
+
+        Task DeleteAsync(int id);
     }
 }

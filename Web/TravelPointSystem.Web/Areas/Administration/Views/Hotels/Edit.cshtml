@@ -9,72 +9,73 @@
 
 <h4 class="text-center">Hotel</h4>
 <hr />
-
-<form class="col-md-6 offset-md-3" asp-action="Edit">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Name" class="control-label"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ImageUrl" class="control-label"></label>
-        <input asp-for="ImageUrl" class="form-control" />
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description" class="control-label"></label>
-        <input asp-for="Description" class="form-control" />
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Address" class="control-label"></label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DestinationId" class="control-label"></label>
-        <select asp-for="DestinationId" class="form-control" asp-items="ViewBag.DestinationId"></select>
-        <span asp-validation-for="DestinationId" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PricePerNightPerPerson" class="control-label"></label>
-        <input asp-for="PricePerNightPerPerson" class="form-control" />
-        <span asp-validation-for="PricePerNightPerPerson" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Stars" class="control-label"></label>
-        <input asp-for="Stars" class="form-control" />
-        <span asp-validation-for="Stars" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="AvailableRooms" class="control-label"></label>
-        <input asp-for="AvailableRooms" class="form-control" />
-        <span asp-validation-for="AvailableRooms" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="FeedingType" class="control-label"></label>
-        <select asp-for="FeedingType" asp-items="Html.GetEnumSelectList<FeedingType>()" class="form-control"></select>
-        <span asp-validation-for="FeedingType" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ReservationType" class="control-label"></label>
-        <select asp-for="ReservationType" asp-items="Html.GetEnumSelectList<ReservationType>()" class="form-control"></select>
-        <span asp-validation-for="ReservationType" class="text-danger"></span>
-    </div>
-    <div class="form-group form-check">
-        <label class="form-check-label">
-            <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
-        </label>
-    </div>
-    <div class="form-group">
-        <label asp-for="DeletedOn" class="control-label"></label>
-        <input asp-for="DeletedOn" class="form-control" />
-        <span asp-validation-for="DeletedOn" class="text-danger"></span>
-    </div>
-    <input type="hidden" asp-for="Id" />
-    <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-    </div>
-</form>
+<div class="row">
+    <form class="col-md-6 offset-md-3" asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ImageUrl" class="control-label"></label>
+            <input asp-for="ImageUrl" class="form-control" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Address" class="control-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="DestinationId" class="control-label"></label>
+            <select asp-for="DestinationId" class="form-control" asp-items="ViewBag.DestinationId"></select>
+            <span asp-validation-for="DestinationId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PricePerNightPerPerson" class="control-label"></label>
+            <input asp-for="PricePerNightPerPerson" class="form-control" />
+            <span asp-validation-for="PricePerNightPerPerson" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Stars" class="control-label"></label>
+            <input asp-for="Stars" class="form-control" />
+            <span asp-validation-for="Stars" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="AvailableRooms" class="control-label"></label>
+            <input asp-for="AvailableRooms" class="form-control" />
+            <span asp-validation-for="AvailableRooms" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="FeedingType" class="control-label"></label>
+            <select asp-for="FeedingType" asp-items="Html.GetEnumSelectList<FeedingType>()" class="form-control"></select>
+            <span asp-validation-for="FeedingType" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReservationType" class="control-label"></label>
+            <select asp-for="ReservationType" asp-items="Html.GetEnumSelectList<ReservationType>()" class="form-control"></select>
+            <span asp-validation-for="ReservationType" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+            </label>
+        </div>
+        <div class="form-group">
+            <label asp-for="DeletedOn" class="control-label"></label>
+            <input asp-for="DeletedOn" class="form-control" />
+            <span asp-validation-for="DeletedOn" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
 

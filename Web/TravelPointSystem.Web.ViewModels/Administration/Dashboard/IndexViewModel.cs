@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using TravelPointSystem.Web.ViewModels.Reservations;
-
-namespace TravelPointSystem.Web.ViewModels.Administration.Dashboard
+﻿namespace TravelPointSystem.Web.ViewModels.Administration.Dashboard
 {
+    using System.Collections.Generic;
+
+    using TravelPointSystem.Web.ViewModels.Reservations;
+
     public class IndexViewModel
     {
         public int ReservationsCount { get; set; }

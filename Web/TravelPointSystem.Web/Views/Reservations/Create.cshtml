@@ -1,6 +1,7 @@
-﻿@model TravelPointSystem.Web.ViewModels.Reservations.ReservationCreateInputModel
+﻿@using TravelPointSystem.Data.Models.Enums;
+@model TravelPointSystem.Web.ViewModels.Reservations.ReservationCreateInputModel
 @{
-    this.ViewData["Title"] = "Create reservation";
+this.ViewData["Title"] = "Create reservation";
 }
 
 <div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
@@ -45,9 +46,7 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label asp-for="Tourists[i].TouristType" class="control-label"></label>
-                    <select asp-for="Tourists[i].TouristType" class="form-control">
-                        <option value="Adult">Adult</option>
-                        <option value="Child">Child</option>
+                    <select asp-for="Tourists[i].TouristType" asp-items="Html.GetEnumSelectList<TouristType>()" class="form-control">
                     </select>
                     <span asp-validation-for="Tourists[i].TouristType" class="text-danger"></span>
                 </div>

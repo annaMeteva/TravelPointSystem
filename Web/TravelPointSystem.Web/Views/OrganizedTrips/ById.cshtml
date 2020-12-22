@@ -50,7 +50,14 @@
             </p>
 
             <p class="d-flex justify-content-center">
-                <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id">Book</a>
+                @if (Model.AvailableSeats == 0)
+                {
+                    <a class="btn btn-primary disabled">No Seats</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id">Book</a>
+                }
             </p>
 
         </div>

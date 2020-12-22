@@ -42,7 +42,14 @@
             </p>
 
             <p class="d-flex justify-content-center">
-                <a class="btn btn-primary btn-lg"asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id.ToString()">Book</a>
+                @if (Model.AvailableRooms == 0)
+                {
+                    <a class="btn btn-primary disabled">No rooms</a>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id.ToString()">Book</a>
+                }
             </p>
         </div>
         <!--Content-->

@@ -1,0 +1,36 @@
+﻿@model TravelPointSystem.Data.Models.FlightCompany
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<h4 class="text-center">FlightCompany</h4>
+<hr />
+<div class="row">
+    <form class="col-md-6 offset-md-3" asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group form-check">
+            <label class="form-check-label">
+                <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
+            </label>
+        </div>
+        <div class="form-group">
+            <label asp-for="DeletedOn" class="control-label"></label>
+            <input asp-for="DeletedOn" class="form-control" />
+            <span asp-validation-for="DeletedOn" class="text-danger"></span>
+        </div>
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+
+

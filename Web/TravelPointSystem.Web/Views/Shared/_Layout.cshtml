@@ -40,13 +40,27 @@
                         <a class="nav-link nav-link-hover text-dark" asp-area="Administration" asp-controller="Hotels" asp-action="Index">Hotels</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link nav-link-hover text-dark" asp-area="Adminitration" asp-controller="" asp-action="">Organized Trips</a>
+                        <a class="nav-link nav-link-hover text-dark" asp-area="Administration" asp-controller="OrganizedTrips" asp-action="Index">Organized Trips</a>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link nav-link-hover text-dark" asp-area="" asp-controller="" asp-action="">Flights</a>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Flights
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Flights" asp-action="Index">Flights</a>
+                                <a class="nav-link text-dark" asp-area="Administration" asp-controller="FlightCompanies" asp-action="Index">Flight Companies</a>
+                            </div>
+                        </div>
                     </li>
                     <li class="nav-item mx-2">
-                        <a class="nav-link nav-link-hover text-dark" asp-area="" asp-controller="" asp-action="">Buses</a>
+                        <a class="nav-link nav-link-hover text-dark" asp-area="Administration" asp-controller="Buses" asp-action="Index">Buses</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link nav-link-hover text-dark" asp-area="Administration" asp-controller="Destinations" asp-action="Index">Destinations</a>
+                    </li>
+                    <li class="nav-item mx-2">
+                        <a class="nav-link nav-link-hover text-dark" asp-area="Administration" asp-controller="Reservations" asp-action="Index">Reservations</a>
                     </li>
                 </ul>
                     }

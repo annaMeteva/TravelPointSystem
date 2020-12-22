@@ -47,11 +47,11 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult AllByDestinationId(int destinationId)
+        public async Task<IActionResult> AllByDestinationId(int destinationId)
         {
             var hotels = new HotelsByDestinationIdListViewModel
             {
-                Hotels = this.hotelsService.GetAllByDestinationId(destinationId),
+                Hotels = await this.hotelsService.GetAllByDestinationIdAsync(destinationId),
             };
 
             if (hotels.Hotels.Count() == 0)
@@ -66,7 +66,7 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> ByIdAsync(int id)
+        public async Task<IActionResult> ById(int id)
         {
             var hotel = await this.hotelsService.GetByIdAsync(id);
 

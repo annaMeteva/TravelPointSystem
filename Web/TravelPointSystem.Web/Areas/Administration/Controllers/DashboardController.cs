@@ -8,9 +8,9 @@
     public class DashboardController : AdministrationController
     {
         private readonly IUsersService usersService;
-        private readonly IReservationService reservationService;
+        private readonly IReservationsService reservationService;
 
-        public DashboardController(IUsersService usersService, IReservationService reservationService)
+        public DashboardController(IUsersService usersService, IReservationsService reservationService)
         {
             this.usersService = usersService;
             this.reservationService = reservationService;

@@ -1,0 +1,100 @@
+﻿@model IEnumerable<TravelPointSystem.Web.ViewModels.Flights.FlightViewModel>
+
+@{
+    ViewData["Title"] = "All Flights";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<p class="text-center">
+    <a class="btn btn-outline-primary" asp-action="Create">Create New</a>
+</p>
+<div class="row my-5 d-flex justify-content-center">
+    <div class="col-md-12">
+        <table class="table">
+            <thead>
+                <tr class="bg-info text-white">
+                    <th>
+                        @Html.DisplayNameFor(model => model.FlightNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PricePerPerson)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Company)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DepartureDateTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FlightTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartPoint)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StartPointAirPort)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndPoint)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.EndPointAirPort)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AvailableSeats)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.IsDeleted)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FlightNumber)
+                        </td>
+                        <td>
+                            $@Html.DisplayFor(modelItem => item.PricePerPerson)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Company.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DepartureDateTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FlightTime)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartPoint.Town), @Html.DisplayFor(modelItem => item.StartPoint.Country)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartPointAirPort)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndPoint.Town), @Html.DisplayFor(modelItem => item.EndPoint.Country)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndPointAirPort)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AvailableSeats)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.IsDeleted)
+                        </td>
+                        <td>
+                            <p><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></p>
+                            <p><a asp-action="Details" asp-route-id="@item.Id">Details</a></p>
+                            <p><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></p>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

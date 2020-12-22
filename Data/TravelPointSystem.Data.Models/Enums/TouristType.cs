@@ -6,7 +6,7 @@
 
     public enum TouristType
     {
-        Child = 0,
-        Adult = 1,
+        Adult = 0,
+        Child = 1,
     }
 }

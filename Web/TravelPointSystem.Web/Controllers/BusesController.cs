@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using TravelPointSystem.Services.Data;
@@ -46,11 +47,11 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult AllByDestinationsId(int startDestinationId, int endDestinationId)
+        public async Task<IActionResult> AllByDestinationsId(int startDestinationId, int endDestinationId)
         {
             var buses = new BusesByDestinationsIdListViewModel
             {
-                Buses = this.busesService.GetAllByDestinationsId(startDestinationId, endDestinationId),
+                Buses = await this.busesService.GetAllByDestinationsIdAsync(startDestinationId, endDestinationId),
             };
 
             if (buses.Buses.Count() == 0)

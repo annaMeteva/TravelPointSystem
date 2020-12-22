@@ -1,0 +1,153 @@
+﻿namespace TravelPointSystem.Web.Areas.Administration.Controllers
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.EntityFrameworkCore;
+    using TravelPointSystem.Data;
+    using TravelPointSystem.Data.Common.Repositories;
+    using TravelPointSystem.Data.Models;
+    using TravelPointSystem.Services.Data;
+    using TravelPointSystem.Web.ViewModels.Destinations;
+
+    public class DestinationsController : AdministrationController
+    {
+        private readonly IDestinationsService destinationsService;
+        private readonly IDeletableEntityRepository<Destination> destinationRepository;
+
+        public DestinationsController(IDestinationsService destinationsService, IDeletableEntityRepository<Destination> destinationRepository)
+        {
+            this.destinationsService = destinationsService;
+            this.destinationRepository = destinationRepository;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
+        {
+            return this.View(await this.destinationsService.GetAllAsync());
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var destination = await this.destinationsService.GetByIdAsync(id);
+            if (destination == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(destination);
+        }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var inputModel = new DestinationInputModel();
+            return this.View(inputModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(DestinationInputModel inputModel)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(inputModel);
+            }
+
+            await this.destinationsService.CreateAsync(inputModel);
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var destination = await this.destinationRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            if (destination == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(destination);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Continent,Country,Town,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Destination destination)
+        {
+            if (id != destination.Id)
+            {
+                return this.NotFound();
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(destination);
+            }
+
+            try
+            {
+                this.destinationRepository.Update(destination);
+                await this.destinationRepository.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!this.DestinationExists(destination.Id))
+                {
+                    return this.NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return this.NotFound();
+            }
+
+            var destination = await this.destinationsService.GetByIdAsync(id);
+            if (destination == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(destination);
+        }
+
+        [HttpPost]
+        [ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await this.destinationsService.DeleteAsync(id);
+            return this.RedirectToAction(nameof(this.Index));
+        }
+
+        private bool DestinationExists(int id)
+        {
+            return this.destinationRepository.All().Any(e => e.Id == id);
+        }
+    }
+}

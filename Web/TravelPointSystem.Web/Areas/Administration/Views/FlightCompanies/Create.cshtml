@@ -1,0 +1,24 @@
+﻿@model TravelPointSystem.Web.ViewModels.FlightCompanies.FlightCompanyInputModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="text-center mt-5 mb-3 h1">@this.ViewData["Title"]</div>
+
+<h4 class="text-center">Flight Company</h4>
+<hr />
+<div class="row">
+    <form class="col-md-6 offset-md-3" asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
+

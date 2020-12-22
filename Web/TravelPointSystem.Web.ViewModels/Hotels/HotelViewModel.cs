@@ -14,6 +14,7 @@
     {
         public int Id { get; set; }
 
+        [Display(Name = "Image Link")]
         public string ImageUrl { get; set; }
 
         public string Name { get; set; }
@@ -35,14 +36,19 @@
         [Display(Name = "Feeding Type")]
         public FeedingType FeedingType { get; set; }
 
+        [Display(Name = "Reservation Type")]
         public ReservationType ReservationType { get; set; }
 
+        [Display(Name = "Created On")]
         public DateTime? CreatedOn { get; set; }
 
+        [Display(Name = "Modified On")]
         public DateTime? ModifiedOn { get; set; }
 
+        [Display(Name = "Deleted On")]
         public DateTime? DeletedOn { get; set; }
 
+        [Display(Name = "Is Deleted")]
         public bool IsDeleted { get; set; }
     }
 }

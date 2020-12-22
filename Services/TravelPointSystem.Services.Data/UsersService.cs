@@ -24,7 +24,7 @@
         {
             var userViewModel = new UserViewModel
             {
-                CompanyName = this.usersRepository.All().FirstOrDefault(u => u.Id == userId).CompanyName,
+                CompanyName = this.usersRepository.All().FirstOrDefault(x => x.Id == userId).CompanyName,
             };
 
             return userViewModel;

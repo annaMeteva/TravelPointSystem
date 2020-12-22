@@ -44,11 +44,11 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult AllByDestinationId(int destinationId)
+        public async Task<IActionResult> AllByDestinationId(int destinationId)
         {
             var organizedTrips = new OrganizedTripsByDestinationIdListViewModel
             {
-                OrganizedTrips = this.organizedTripsService.GetAllByDestinationId(destinationId),
+                OrganizedTrips = await this.organizedTripsService.GetAllByDestinationIdAsync(destinationId),
             };
 
             if (organizedTrips.OrganizedTrips.Count() == 0)
@@ -63,9 +63,9 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult ById(string id)
+        public async Task<IActionResult> ById(string id)
         {
-            var trip = this.organizedTripsService.GetById(id);
+            var trip = await this.organizedTripsService.GetByIdAsync(id);
 
             return this.View(trip);
         }

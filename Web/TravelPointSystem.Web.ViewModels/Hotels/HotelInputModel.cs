@@ -12,7 +12,7 @@
         public string Name { get; set; }
 
         [Required]
-        [Display(Name = "Image URL")]
+        [Display(Name = "Image Link")]
         public string ImageUrl { get; set; }
 
         [Required]
@@ -46,11 +46,5 @@
         [Required]
         [Display(Name = "Reservation Type")]
         public ReservationType ReservationType { get; set; }
-
-        public bool IsDeleted { get; set; }
-
-        public DateTime? DeletedOn { get; set; }
-
-        public DateTime? ModifiedOn { get; set; }
     }
 }

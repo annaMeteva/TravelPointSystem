@@ -22,7 +22,7 @@
 
         public async Task<IEnumerable<HotelViewModel>> GetAllAsync()
         {
-            var hotels = await this.hotelsRepository.All().OrderBy(h => h.Name).To<HotelViewModel>().ToListAsync();
+            var hotels = await this.hotelsRepository.All().OrderBy(x => x.Name).To<HotelViewModel>().ToListAsync();
 
             return hotels;
         }
@@ -36,18 +36,19 @@
             }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name)).OrderBy(x => x.Value);
         }
 
-        public IEnumerable<HotelViewModel> GetAllByDestinationId(int destinationId)
+        public async Task<IEnumerable<HotelViewModel>> GetAllByDestinationIdAsync(int destinationId)
         {
-            return this.hotelsRepository.All()
-                .Where(h => h.DestinationId == destinationId)
-                .OrderBy(h => h.Name)
-                .To<HotelViewModel>();
+            return await this.hotelsRepository.All()
+                .Where(x => x.DestinationId == destinationId)
+                .OrderBy(x => x.Name)
+                .To<HotelViewModel>()
+                .ToListAsync();
         }
 
         public async Task<HotelViewModel> GetByIdAsync(int? id)
         {
             var hotel = await this.hotelsRepository.All()
-                .Where(h => h.Id == id)
+                .Where(x => x.Id == id)
                 .To<HotelViewModel>().FirstOrDefaultAsync();
 
             return hotel;
@@ -67,13 +68,25 @@
                 AvailableRooms = inputModel.AvailableRooms,
                 ReservationType = inputModel.ReservationType,
                 FeedingType = inputModel.FeedingType,
-                CreatedOn = DateTime.UtcNow,
-                DeletedOn = inputModel.DeletedOn,
-                IsDeleted = inputModel.IsDeleted,
             };
 
             await this.hotelsRepository.AddAsync(hotel);
             await this.hotelsRepository.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var hotel = await this.hotelsRepository.All()
+               .FirstOrDefaultAsync(x => x.Id == id);
+
+            this.hotelsRepository.Delete(hotel);
+
+            await this.hotelsRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<HotelViewModel> GetAll()
+        {
+            return this.hotelsRepository.All().To<HotelViewModel>();
         }
     }
 }

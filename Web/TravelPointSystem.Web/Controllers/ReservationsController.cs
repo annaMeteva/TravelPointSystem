@@ -17,11 +17,11 @@
 
     public class ReservationsController : BaseController
     {
-        private readonly IReservationService reservationService;
+        private readonly IReservationsService reservationService;
         private readonly IUsersService usersService;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public ReservationsController(IReservationService reservationService, IUsersService usersService, UserManager<ApplicationUser> userManager)
+        public ReservationsController(IReservationsService reservationService, IUsersService usersService, UserManager<ApplicationUser> userManager)
         {
             this.reservationService = reservationService;
             this.usersService = usersService;
@@ -68,7 +68,7 @@
             var viewModel = new IndexLoggedInViewModel
             {
                 CurrentUser = userViewModel,
-                Reservations = this.reservationService.GetAllReservationsByUserId(userId),
+                Reservations = await this.reservationService.GetAllReservationsByUserIdAsync(userId),
             };
 
             return this.Redirect("/");
@@ -76,9 +76,9 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult ById(string id)
+        public async Task<IActionResult> ById(string id)
         {
-            var reservation = this.reservationService.GetById(id);
+            var reservation = await this.reservationService.GetByIdAsync(id);
 
             return this.View(reservation);
         }

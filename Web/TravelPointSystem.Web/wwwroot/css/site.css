@@ -27,7 +27,7 @@ button.accept-policy {
     font-size: 1rem;
     line-height: inherit;
 }
- 
+
 html {
     position: relative;
     min-height: 100%;
@@ -46,13 +46,23 @@ a.navbar-brand {
     border-bottom: 2px solid transparent;
 }
 
-.main-navbar a.nav-link-hover:hover {
-    border-bottom: 2px solid orange;
-}
+    .main-navbar a.nav-link-hover:hover {
+        border-bottom: 2px solid orange;
+    }
 
     .main-navbar a.nav-link-hover:active {
         border-bottom: 2px solid orange;
     }
+
+/*DropDown in navbar*/
+
+#dropdownMenuButton {
+    background-color: white;
+    color: black;
+}
+#dropdownMenuButton:hover {
+    background-color: ghostwhite;
+}
 
 body {
     /* Margin bottom by footer height */
@@ -75,7 +85,7 @@ main {
 }
 
 
- /*Home page settings*/
+/*Home page settings*/
 
 .home-banner-container {
     height: 400px;
@@ -83,33 +93,35 @@ main {
     background-size: cover;
 }
 
-.home-banner-join-buttons .btn-link{
+.home-banner-join-buttons .btn-link {
     font-size: 20px;
     font-weight: 600;
 }
+
 .home-banner-join-buttons .btn-primary {
     font-size: 18px;
 }
-   .home-carousel-products .card img {
+
+.home-carousel-products .card img {
     height: 400px;
 }
 
 
-   /*About page settings*/
+/*About page settings*/
 
 .about-us-cards .card, .about-us-benefits-cards .card {
     height: 250px;
 }
 
-.about-us-cards .card img {
-    width: 17%;
-    height: 67px;
-}
+    .about-us-cards .card img {
+        width: 17%;
+        height: 67px;
+    }
 
-.about-us-benefits-cards .card img{
-    width: 20%;
-    height: 70px;
-}
+    .about-us-benefits-cards .card img {
+        width: 20%;
+        height: 70px;
+    }
 
 
 /*Privacy page settings*/
@@ -135,6 +147,8 @@ main {
     background-repeat: no-repeat;
     background-position: center;
 }
+
+/*Hotels Pages*/
 
 #card-img-cover {
     object-fit: cover;

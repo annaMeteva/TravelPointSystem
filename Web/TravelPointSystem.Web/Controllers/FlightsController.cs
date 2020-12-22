@@ -47,11 +47,11 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult AllByDestinationsId(int startDestinationId, int endDestinationId)
+        public async Task<IActionResult> AllByDestinationsId(int startDestinationId, int endDestinationId)
         {
             var flights = new FlightsByDestinationsIdListViewModel
             {
-                Flights = this.flightsService.GetAllByDestinationsId(startDestinationId, endDestinationId),
+                Flights = await this.flightsService.GetAllByDestinationsIdAsync(startDestinationId, endDestinationId),
             };
 
             if (flights.Flights.Count() == 0)
