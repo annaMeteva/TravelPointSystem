@@ -53,6 +53,22 @@
             await this.flightCompaniesRepository.SaveChangesAsync();
         }
 
+        public async Task EditAsync(int id, FlightCompanyViewModel input)
+        {
+            var company = this.flightCompaniesRepository.All().FirstOrDefault(x => x.Id == id);
+
+            company.Name = input.Name;
+            company.IsDeleted = input.IsDeleted;
+
+            this.flightCompaniesRepository.Update(company);
+            await this.flightCompaniesRepository.SaveChangesAsync();
+        }
+
+        public bool Exists(int id)
+        {
+            return this.flightCompaniesRepository.All().Any(e => e.Id == id);
+        }
+
         public IEnumerable<FlightCompanyViewModel> GetAll()
         {
             return this.flightCompaniesRepository.All().OrderBy(x => x.Name).To<FlightCompanyViewModel>();

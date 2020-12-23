@@ -21,5 +21,9 @@
         Task CreateAsync(HotelInputModel inputModel);
 
         Task DeleteAsync(int id);
+
+        Task EditAsync(int id, HotelViewModel input);
+
+        bool Exists(int id);
     }
 }

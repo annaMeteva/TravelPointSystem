@@ -18,14 +18,12 @@
     {
         private readonly IFlightsService flightsService;
         private readonly IDestinationsService destinationsService;
-        private readonly IDeletableEntityRepository<Flight> flightsRepository;
         private readonly IFlightCompaniesService flightCompaniesService;
 
-        public FlightsController(IFlightsService flightsService, IDestinationsService destinationsService, IDeletableEntityRepository<Flight> flightsRepository, IFlightCompaniesService flightCompaniesService)
+        public FlightsController(IFlightsService flightsService, IDestinationsService destinationsService, IFlightCompaniesService flightCompaniesService)
         {
             this.flightsService = flightsService;
             this.destinationsService = destinationsService;
-            this.flightsRepository = flightsRepository;
             this.flightCompaniesService = flightCompaniesService;
         }
 
@@ -88,7 +86,7 @@
                 return this.NotFound();
             }
 
-            var flight = await this.flightsRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            var flight = await this.flightsService.GetByIdAsync(id);
             if (flight == null)
             {
                 return this.NotFound();
@@ -103,30 +101,29 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FlightNumber,PricePerPerson,CompanyId,DepartureDateTime,FlightTime,StartPointId,StartPointAirPort,EndPointId,EndPointAirPort,AvailableSeats,ReservationType,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Flight flight)
+        public async Task<IActionResult> Edit(string id, FlightViewModel flightViewModel)
         {
-            if (id != flight.Id)
+            if (id != flightViewModel.Id)
             {
                 return this.NotFound();
             }
 
             if (!this.ModelState.IsValid)
             {
-                this.ViewData["CompanyId"] = new SelectList(this.flightCompaniesService.GetAll(), "Id", "Name", flight.CompanyId);
-                this.ViewData["EndPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Continent", flight.EndPointId);
-                this.ViewData["StartPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Continent", flight.StartPointId);
+                this.ViewData["CompanyId"] = new SelectList(this.flightCompaniesService.GetAll(), "Id", "Name", flightViewModel.CompanyId);
+                this.ViewData["EndPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Continent", flightViewModel.EndPointId);
+                this.ViewData["StartPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Continent", flightViewModel.StartPointId);
 
-                return this.View(flight);
+                return this.View(flightViewModel);
             }
 
             try
             {
-                this.flightsRepository.Update(flight);
-                await this.flightsRepository.SaveChangesAsync();
+                await this.flightsService.EditAsync(id, flightViewModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.FlightExists(flight.Id))
+                if (!this.FlightExists(flightViewModel.Id))
                 {
                     return this.NotFound();
                 }
@@ -168,7 +165,7 @@
 
         private bool FlightExists(string id)
         {
-            return this.flightsRepository.All().Any(e => e.Id == id);
+            return this.flightsService.Exists(id);
         }
     }
 }

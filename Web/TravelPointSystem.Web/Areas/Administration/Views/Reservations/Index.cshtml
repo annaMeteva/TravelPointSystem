@@ -58,7 +58,7 @@
                         $@Html.DisplayFor(modelItem => item.Balance)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Destination.Town)
+                        @Html.DisplayFor(modelItem => item.Destination.Town),  @Html.DisplayFor(modelItem => item.Destination.Country)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Creator.CompanyName)

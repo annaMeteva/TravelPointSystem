@@ -51,6 +51,30 @@
             await this.busesRepository.SaveChangesAsync();
         }
 
+        public async Task EditAsync(string id, BusViewModel input)
+        {
+            var bus = this.busesRepository.All().FirstOrDefault(x => x.Id == id);
+
+            bus.BusNumber = input.BusNumber;
+            bus.PricePerPerson = input.PricePerPerson;
+            bus.DepartureDateTime = input.DepartureDateTime;
+            bus.TravellingTime = input.TravellingTime;
+            bus.AvailableSeats = input.AvailableSeats;
+            bus.StartPointId = input.StartPointId;
+            bus.StartPointStation = input.StartPointStation;
+            bus.EndPointId = input.EndPointId;
+            bus.EndPointStation = input.EndPointStation;
+            bus.IsDeleted = input.IsDeleted;
+
+            this.busesRepository.Update(bus);
+            await this.busesRepository.SaveChangesAsync();
+        }
+
+        public bool Exists(string id)
+        {
+            return this.busesRepository.All().Any(x => x.Id == id);
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePair()
         {
             return this.busesRepository.All().Select(x => new

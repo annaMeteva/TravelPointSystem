@@ -17,5 +17,9 @@
         Task CreateAsync(FlightCompanyInputModel inputModel);
 
         Task DeleteAsync(int? id);
+
+        Task EditAsync(int id, FlightCompanyViewModel input);
+
+        bool Exists(int id);
     }
 }

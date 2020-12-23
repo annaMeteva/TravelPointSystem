@@ -17,12 +17,10 @@
     public class FlightCompaniesController : AdministrationController
     {
         private readonly IFlightCompaniesService flightCompaniesService;
-        private readonly IDeletableEntityRepository<FlightCompany> flightCompaniesRepository;
 
-        public FlightCompaniesController(IFlightCompaniesService flightCompaniesService, IDeletableEntityRepository<FlightCompany> flightCompaniesRepository)
+        public FlightCompaniesController(IFlightCompaniesService flightCompaniesService)
         {
             this.flightCompaniesService = flightCompaniesService;
-            this.flightCompaniesRepository = flightCompaniesRepository;
         }
 
         [HttpGet]
@@ -78,7 +76,7 @@
                 return this.NotFound();
             }
 
-            var flightCompany = await this.flightCompaniesRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            var flightCompany = await this.flightCompaniesService.GetByIdAsync(id);
             if (flightCompany == null)
             {
                 return this.NotFound();
@@ -89,26 +87,25 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,IsDeleted,DeletedOn,Id")] FlightCompany flightCompany)
+        public async Task<IActionResult> Edit(int id, FlightCompanyViewModel companyViewModel)
         {
-            if (id != flightCompany.Id)
+            if (id != companyViewModel.Id)
             {
                 return this.NotFound();
             }
 
             if (!this.ModelState.IsValid)
             {
-                return this.View(flightCompany);
+                return this.View(companyViewModel);
             }
 
             try
             {
-                this.flightCompaniesRepository.Update(flightCompany);
-                await this.flightCompaniesRepository.SaveChangesAsync();
+                await this.flightCompaniesService.EditAsync(id, companyViewModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.FlightCompanyExists(flightCompany.Id))
+                if (!this.FlightCompanyExists(companyViewModel.Id))
                 {
                     return this.NotFound();
                 }
@@ -150,7 +147,7 @@
 
         private bool FlightCompanyExists(int id)
         {
-            return this.flightCompaniesRepository.All().Any(e => e.Id == id);
+            return this.flightCompaniesService.Exists(id);
         }
     }
 }

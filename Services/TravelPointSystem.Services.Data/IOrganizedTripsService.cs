@@ -21,5 +21,9 @@
         Task CreateAsync(OrganizedTripInputModel inputModel);
 
         Task DeleteAsync(string id);
+
+        Task EditAsync(string id, OrganizedTripViewModel input);
+
+        bool Exists(string id);
     }
 }

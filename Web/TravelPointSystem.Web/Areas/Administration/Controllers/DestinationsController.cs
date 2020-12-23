@@ -17,12 +17,10 @@
     public class DestinationsController : AdministrationController
     {
         private readonly IDestinationsService destinationsService;
-        private readonly IDeletableEntityRepository<Destination> destinationRepository;
 
-        public DestinationsController(IDestinationsService destinationsService, IDeletableEntityRepository<Destination> destinationRepository)
+        public DestinationsController(IDestinationsService destinationsService)
         {
             this.destinationsService = destinationsService;
-            this.destinationRepository = destinationRepository;
         }
 
         [HttpGet]
@@ -76,7 +74,7 @@
                 return this.NotFound();
             }
 
-            var destination = await this.destinationRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            var destination = await this.destinationsService.GetByIdAsync(id);
             if (destination == null)
             {
                 return this.NotFound();
@@ -87,26 +85,25 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Continent,Country,Town,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Destination destination)
+        public async Task<IActionResult> Edit(int id, DestinationViewModel destinationViewModel)
         {
-            if (id != destination.Id)
+            if (id != destinationViewModel.Id)
             {
                 return this.NotFound();
             }
 
             if (!this.ModelState.IsValid)
             {
-                return this.View(destination);
+                return this.View(destinationViewModel);
             }
 
             try
             {
-                this.destinationRepository.Update(destination);
-                await this.destinationRepository.SaveChangesAsync();
+                await this.destinationsService.EditAsync(id, destinationViewModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.DestinationExists(destination.Id))
+                if (!this.DestinationExists(destinationViewModel.Id))
                 {
                     return this.NotFound();
                 }
@@ -147,7 +144,7 @@
 
         private bool DestinationExists(int id)
         {
-            return this.destinationRepository.All().Any(e => e.Id == id);
+            return this.destinationsService.Exists(id);
         }
     }
 }

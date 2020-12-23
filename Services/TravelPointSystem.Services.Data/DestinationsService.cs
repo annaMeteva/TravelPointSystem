@@ -1,11 +1,12 @@
 ﻿namespace TravelPointSystem.Services.Data
 {
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Mapping;
@@ -87,6 +88,24 @@
             await this.tripsRepository.SaveChangesAsync();
 
             await this.destinationsRepository.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(int id, DestinationViewModel input)
+        {
+            var destination = this.destinationsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            destination.Continent = input.Continent;
+            destination.Country = input.Country;
+            destination.Town = input.Town;
+            destination.IsDeleted = input.IsDeleted;
+
+            this.destinationsRepository.Update(destination);
+            await this.destinationsRepository.SaveChangesAsync();
+        }
+
+        public bool Exists(int id)
+        {
+            return this.destinationsRepository.All().Any(e => e.Id == id);
         }
 
         public IEnumerable<DestinationViewModel> GetAll()

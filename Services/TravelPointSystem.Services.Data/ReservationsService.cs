@@ -154,6 +154,40 @@
             await this.reservationRepository.SaveChangesAsync();
         }
 
+        public async Task EditAsync(ReservationViewModel input, string id)
+        {
+            var reservation = this.reservationRepository.All().Include(x => x.Tourists).FirstOrDefault(x => x.Id == id);
+            var tourists = reservation.Tourists;
+
+            foreach (var tourist in tourists)
+            {
+                var updatedTourist = input.Tourists.FirstOrDefault(x => x.Id == tourist.Id);
+                tourist.FullName = updatedTourist.FullName;
+                tourist.DateOfBirth = updatedTourist.DateOfBirth;
+                tourist.PersonalNumber = updatedTourist.PersonalNumber;
+                tourist.PassportNumber = updatedTourist.PassportNumber;
+                tourist.PhoneNumber = updatedTourist.PhoneNumber;
+                tourist.TouristType = updatedTourist.TouristType;
+
+                this.touristRepository.Update(tourist);
+                await this.reservationRepository.SaveChangesAsync();
+            }
+
+            reservation.Price = input.Price;
+            reservation.Balance = input.Balance;
+            reservation.Profit = input.Profit;
+            reservation.IsAccepted = input.IsAccepted;
+            reservation.IsDeleted = input.IsDeleted;
+
+            this.reservationRepository.Update(reservation);
+            await this.reservationRepository.SaveChangesAsync();
+        }
+
+        public bool Exists(string id)
+        {
+            return this.reservationRepository.All().Any(e => e.Id == id);
+        }
+
         public async Task<IEnumerable<ReservationViewModel>> GetAllAsync()
         {
             return await this.reservationRepository.All()

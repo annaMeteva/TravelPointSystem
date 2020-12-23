@@ -1,5 +1,5 @@
 ﻿@using TravelPointSystem.Data.Models.Enums;
-@model TravelPointSystem.Data.Models.Hotel
+@model TravelPointSystem.Web.ViewModels.Hotels.HotelViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -57,20 +57,10 @@
             <select asp-for="FeedingType" asp-items="Html.GetEnumSelectList<FeedingType>()" class="form-control"></select>
             <span asp-validation-for="FeedingType" class="text-danger"></span>
         </div>
-        <div class="form-group">
-            <label asp-for="ReservationType" class="control-label"></label>
-            <select asp-for="ReservationType" asp-items="Html.GetEnumSelectList<ReservationType>()" class="form-control"></select>
-            <span asp-validation-for="ReservationType" class="text-danger"></span>
-        </div>
         <div class="form-group form-check">
             <label class="form-check-label">
                 <input class="form-check-input" asp-for="IsDeleted" /> @Html.DisplayNameFor(model => model.IsDeleted)
             </label>
-        </div>
-        <div class="form-group">
-            <label asp-for="DeletedOn" class="control-label"></label>
-            <input asp-for="DeletedOn" class="form-control" />
-            <span asp-validation-for="DeletedOn" class="text-danger"></span>
         </div>
         <input type="hidden" asp-for="Id" />
         <div class="form-group">

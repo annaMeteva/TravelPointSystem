@@ -23,7 +23,7 @@
                 ReservationsCount = this.reservationService.GetAllReservationsCount(),
                 NotAcceptedReservationsCount = this.reservationService.GetAllNotAcceptedReservationsCount(),
                 UsersCount = this.usersService.GetUsersCount(),
-                Lastest5Reservations = this.reservationService.GetLastest5Reservations()
+                Lastest5Reservations = this.reservationService.GetLastest5Reservations(),
             };
 
             return this.View(viewModel);

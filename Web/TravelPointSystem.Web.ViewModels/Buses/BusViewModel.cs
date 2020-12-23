@@ -14,30 +14,46 @@
     {
         public string Id { get; set; }
 
+        [Required]
         [Display(Name = "Bus Number")]
         public string BusNumber { get; set; }
 
-        [Display(Name = "Price")]
+        [Required]
+        [Display(Name = "Price per person")]
         public double PricePerPerson { get; set; }
 
+        [Required]
         [Display(Name = "Departure At")]
         public DateTime DepartureDateTime { get; set; }
 
+        [Required]
         [Display(Name = "Travelling Time")]
         public TimeSpan TravellingTime { get; set; }
 
+        [Required]
         [Display(Name = "Available Seats")]
+        [Range(1, 60)]
         public int AvailableSeats { get; set; }
+
+        // For EditAsync Action
+        [Display(Name = "Start Destination")]
+        public int StartPointId { get; set; }
 
         [Display(Name = "Start Destination")]
         public DestinationViewModel StartPoint { get; set; }
 
+        [Required]
         [Display(Name = "Start Station")]
         public string StartPointStation { get; set; }
+
+        // For EditAsync Action
+        [Display(Name = "End Destination")]
+        public int EndPointId { get; set; }
 
         [Display(Name = "End Destination")]
         public DestinationViewModel EndPoint { get; set; }
 
+        [Required]
         [Display(Name = "End Station")]
         public string EndPointStation { get; set; }
 

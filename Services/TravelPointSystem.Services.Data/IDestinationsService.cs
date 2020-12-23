@@ -32,5 +32,9 @@
         Task CreateAsync(DestinationInputModel inputModel);
 
         Task DeleteAsync(int? id);
+
+        Task EditAsync(int id, DestinationViewModel input);
+
+        bool Exists(int id);
     }
 }

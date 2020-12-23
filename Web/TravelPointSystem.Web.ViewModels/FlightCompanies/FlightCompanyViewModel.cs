@@ -12,6 +12,9 @@
     {
         public int Id { get; set; }
 
+        [Required]
+        [Display(Name = "Company Name")]
+        [MaxLength(25)]
         public string Name { get; set; }
 
         [Display(Name = "Created On")]

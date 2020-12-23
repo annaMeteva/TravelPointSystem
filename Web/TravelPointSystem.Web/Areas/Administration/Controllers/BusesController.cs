@@ -16,13 +16,11 @@
 
     public class BusesController : AdministrationController
     {
-        private readonly IDeletableEntityRepository<Bus> busesRepository;
         private readonly IBusesService busesService;
         private readonly IDestinationsService destinationsService;
 
-        public BusesController(IDeletableEntityRepository<Bus> busesRepository, IBusesService busesService, IDestinationsService destinationsService)
+        public BusesController(IBusesService busesService, IDestinationsService destinationsService)
         {
-            this.busesRepository = busesRepository;
             this.busesService = busesService;
             this.destinationsService = destinationsService;
         }
@@ -85,7 +83,7 @@
                 return this.NotFound();
             }
 
-            var bus = await this.busesRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            var bus = await this.busesService.GetByIdAsync(id);
             if (bus == null)
             {
                 return this.NotFound();
@@ -98,28 +96,27 @@
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("BusNumber,PricePerPerson,DepartureDateTime,TravellingTime,AvailableSeats,StartPointId,StartPointStation,EndPointId,EndPointStation,ReservationType,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Bus bus)
+        public async Task<IActionResult> Edit(string id, BusViewModel busViewModel)
         {
-            if (id != bus.Id)
+            if (id != busViewModel.Id)
             {
                 return this.NotFound();
             }
 
             if (!this.ModelState.IsValid)
             {
-                this.ViewData["EndPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", bus.EndPointId);
-                this.ViewData["StartPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", bus.StartPointId);
-                return this.View(bus);
+                this.ViewData["EndPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", busViewModel.EndPointId);
+                this.ViewData["StartPointId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", busViewModel.StartPointId);
+                return this.View(busViewModel);
             }
 
             try
             {
-                this.busesRepository.Update(bus);
-                await this.busesRepository.SaveChangesAsync();
+                await this.busesService.EditAsync(id, busViewModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.BusExists(bus.Id))
+                if (!this.BusExists(busViewModel.Id))
                 {
                     return this.NotFound();
                 }
@@ -161,7 +158,7 @@
 
         private bool BusExists(string id)
         {
-            return this.busesRepository.All().Any(e => e.Id == id);
+            return this.busesService.Exists(id);
         }
     }
 }

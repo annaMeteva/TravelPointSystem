@@ -16,13 +16,11 @@
 
     public class HotelsController : AdministrationController
     {
-        private readonly IDeletableEntityRepository<Hotel> hotelsRepository;
         private readonly IDestinationsService destinationsService;
         private readonly IHotelsService hotelsService;
 
-        public HotelsController(IDeletableEntityRepository<Hotel> hotelsRepository, IDestinationsService destinationsService, IHotelsService hotelsService)
+        public HotelsController(IDestinationsService destinationsService, IHotelsService hotelsService)
         {
-            this.hotelsRepository = hotelsRepository;
             this.destinationsService = destinationsService;
             this.hotelsService = hotelsService;
         }
@@ -83,49 +81,50 @@
                 return this.NotFound();
             }
 
-            var hotel = await this.hotelsRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            var hotel = await this.hotelsService.GetByIdAsync(id);
             if (hotel == null)
             {
                 return this.NotFound();
             }
 
             this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", hotel.DestinationId);
+
             return this.View(hotel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Name,ImageUrl,Description,Address,DestinationId,PricePerNightPerPerson,Stars,AvailableRooms,FeedingType,ReservationType,IsDeleted,DeletedOn,Id,ModifiedOn")] Hotel hotel)
+        public async Task<IActionResult> Edit(int id, HotelViewModel hotelViewModel)
         {
-            if (id != hotel.Id)
+            if (id != hotelViewModel.Id)
             {
                 return this.NotFound();
             }
 
-            if (this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                try
-                {
-                    this.hotelsRepository.Update(hotel);
-                    await this.hotelsRepository.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!this.HotelExists(hotel.Id))
-                    {
-                        return this.NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", hotelViewModel.DestinationId);
 
-                return this.RedirectToAction(nameof(this.Index));
+                return this.View(hotelViewModel);
             }
 
-            this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", hotel.DestinationId);
-            return this.View(hotel);
+            try
+            {
+                await this.hotelsService.EditAsync(id, hotelViewModel);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!this.HotelExists(hotelViewModel.Id))
+                {
+                    return this.NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return this.RedirectToAction(nameof(this.Index));
         }
 
         [HttpGet]
@@ -157,7 +156,7 @@
 
         private bool HotelExists(int id)
         {
-            return this.hotelsRepository.All().Any(e => e.Id == id);
+            return this.hotelsService.Exists(id);
         }
     }
 }

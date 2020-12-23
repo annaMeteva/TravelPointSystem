@@ -1,11 +1,12 @@
 ﻿namespace TravelPointSystem.Services.Data
 {
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Mapping;
@@ -87,6 +88,31 @@
         public IEnumerable<HotelViewModel> GetAll()
         {
             return this.hotelsRepository.All().To<HotelViewModel>();
+        }
+
+        public async Task EditAsync(int id, HotelViewModel input)
+        {
+            var hotel = this.hotelsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            hotel.Name = input.Name;
+            hotel.ImageUrl = input.ImageUrl;
+            hotel.Description = input.Description;
+            hotel.Address = input.Address;
+            hotel.DestinationId = input.DestinationId;
+            hotel.PricePerNightPerPerson = input.PricePerNightPerPerson;
+            hotel.Stars = input.Stars;
+            hotel.AvailableRooms = input.AvailableRooms;
+            hotel.FeedingType = input.FeedingType;
+            hotel.IsDeleted = input.IsDeleted;
+
+
+            this.hotelsRepository.Update(hotel);
+            await this.hotelsRepository.SaveChangesAsync();
+        }
+
+        public bool Exists(int id)
+        {
+            return this.hotelsRepository.All().Any(e => e.Id == id);
         }
     }
 }

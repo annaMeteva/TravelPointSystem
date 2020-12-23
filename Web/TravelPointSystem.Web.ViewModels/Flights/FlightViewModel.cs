@@ -15,33 +15,53 @@
     {
         public string Id { get; set; }
 
+        [Required]
         [Display(Name = "Flight Number")]
         public string FlightNumber { get; set; }
 
-        [Display(Name = "Price")]
+        [Required]
+        [Display(Name = "Price per person")]
         public double PricePerPerson { get; set; }
+
+        // For EditAsync Action
+        [Display(Name = "Company")]
+        public int CompanyId { get; set; }
 
         public FlightCompanyViewModel Company { get; set; }
 
+        [Required]
         [Display(Name = "Departure At")]
         public DateTime DepartureDateTime { get; set; }
 
+        [Required]
         [Display(Name = "Flight Time")]
         public TimeSpan FlightTime { get; set; }
+
+        // For EditAsync Action
+        [Display(Name = "Start Destination")]
+        public int StartPointId { get; set; }
 
         [Display(Name = "Start Destination")]
         public DestinationViewModel StartPoint { get; set; }
 
+        [Required]
         [Display(Name = "Start Airport")]
         public string StartPointAirPort { get; set; }
+
+        // For EditAsync Action
+        [Display(Name = "End Destination")]
+        public int EndPointId { get; set; }
 
         [Display(Name = "End Destination")]
         public DestinationViewModel EndPoint { get; set; }
 
+        [Required]
         [Display(Name = "End Airport")]
         public string EndPointAirPort { get; set; }
 
+        [Required]
         [Display(Name = "Available Seats")]
+        [Range(1, 900)]
         public int AvailableSeats { get; set; }
 
         [Display(Name = "Reservation Type")]

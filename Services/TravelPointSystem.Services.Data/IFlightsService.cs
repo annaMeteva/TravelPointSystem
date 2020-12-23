@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Text;
     using System.Threading.Tasks;
+
     using TravelPointSystem.Web.ViewModels.Flights;
 
     public interface IFlightsService
@@ -19,5 +20,9 @@
         Task CreateAsync(FlightInputModel inputModel);
 
         Task DeleteAsync(string id);
+
+        Task EditAsync(string id, FlightViewModel input);
+
+        bool Exists(string id);
     }
 }

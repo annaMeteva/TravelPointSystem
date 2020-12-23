@@ -12,10 +12,16 @@
     {
         public int Id { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Continent { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Country { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Town { get; set; }
 
         [Display(Name = "Created On")]

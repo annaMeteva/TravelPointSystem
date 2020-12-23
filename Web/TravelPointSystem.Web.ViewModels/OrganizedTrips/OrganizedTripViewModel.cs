@@ -15,28 +15,46 @@
     {
         public string Id { get; set; }
 
+        [Required]
+        [MaxLength(50)]
         public string Name { get; set; }
 
+        [Required]
         [Display(Name = "Image Link")]
         public string ImageUrl { get; set; }
 
+        [Required]
+        [MaxLength(500)]
         public string Description { get; set; }
 
-        [Display(Name = "Price")]
+        [Required]
+        [Display(Name = "Price per person")]
         public double PricePerPerson { get; set; }
 
+        [Required]
         [Display(Name = "Departure At")]
         public DateTime DepartureDateTime { get; set; }
 
+        [Required]
         [Display(Name = "Return At")]
         public DateTime ReturnDateTime { get; set; }
 
+        // For EditAsync Action
+        [Display(Name = "Destination")]
+        public int DestinationId { get; set; }
+
         public DestinationViewModel Destination { get; set; }
+
+        // For EditAsync Action
+        [Display(Name = "Hotel")]
+        public int HotelId { get; set; }
 
         public HotelViewModel Hotel { get; set; }
 
+        [Required]
         public TransportType Transport { get; set; }
 
+        [Required]
         [Display(Name = "Available Seats")]
         public int AvailableSeats { get; set; }
 

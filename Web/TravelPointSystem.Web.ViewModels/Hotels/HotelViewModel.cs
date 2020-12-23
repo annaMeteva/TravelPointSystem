@@ -14,22 +14,35 @@
     {
         public int Id { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
         [Display(Name = "Image Link")]
         public string ImageUrl { get; set; }
 
-        public string Name { get; set; }
-
+        [Required]
+        [MaxLength(500)]
         public string Description { get; set; }
 
+        [Required]
         public string Address { get; set; }
+
+        // For EditAsync Action
+        [Display(Name = "Destination")]
+        public int DestinationId { get; set; }
 
         public DestinationViewModel Destination { get; set; }
 
-        [Display(Name = "Price")]
+        [Required]
+        [Display(Name = "Price per person")]
         public double PricePerNightPerPerson { get; set; }
 
+        [Required]
+        [Range(1, 6)]
         public int Stars { get; set; }
 
+        [Required]
         [Display(Name = "Available Rooms")]
         public int AvailableRooms { get; set; }
 

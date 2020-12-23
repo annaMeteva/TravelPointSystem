@@ -24,5 +24,9 @@
         Task<IEnumerable<ReservationViewModel>> GetAllAsync();
 
         Task DeleteAsync(string id);
+
+        Task EditAsync(ReservationViewModel input, string id);
+
+        bool Exists(string id);
     }
 }

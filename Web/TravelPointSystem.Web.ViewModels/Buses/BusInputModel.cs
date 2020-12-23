@@ -35,7 +35,7 @@
         public int StartPointId { get; set; }
 
         [Required]
-        [Display(Name = "Start Station Name")]
+        [Display(Name = "Start Station")]
         public string StartPointStation { get; set; }
 
         [Required]
@@ -43,7 +43,7 @@
         public int EndPointId { get; set; }
 
         [Required]
-        [Display(Name = "End Station Name")]
+        [Display(Name = "End Station")]
         public string EndPointStation { get; set; }
 
         [Required]

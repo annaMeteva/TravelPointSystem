@@ -17,14 +17,12 @@
     public class OrganizedTripsController : AdministrationController
     {
         private readonly IOrganizedTripsService tripsService;
-        private readonly IDeletableEntityRepository<OrganizedTrip> tripRepository;
         private readonly IHotelsService hotelsService;
         private readonly IDestinationsService destinationsService;
 
-        public OrganizedTripsController(IOrganizedTripsService tripsService, IDeletableEntityRepository<OrganizedTrip> tripRepository, IHotelsService hotelsService, IDestinationsService destinationsService)
+        public OrganizedTripsController(IOrganizedTripsService tripsService, IHotelsService hotelsService, IDestinationsService destinationsService)
         {
             this.tripsService = tripsService;
-            this.tripRepository = tripRepository;
             this.hotelsService = hotelsService;
             this.destinationsService = destinationsService;
         }
@@ -86,41 +84,40 @@
                 return this.NotFound();
             }
 
-            var organizedTrip = await this.tripRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            var organizedTrip = await this.tripsService.GetByIdAsync(id);
             if (organizedTrip == null)
             {
                 return this.NotFound();
             }
 
             this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", organizedTrip.DestinationId);
-            this.ViewData["HotelId"] = new SelectList(this.hotelsService.GetAllAsKeyValuePairs(), organizedTrip.HotelId);
+            this.ViewData["HotelId"] = new SelectList(this.hotelsService.GetAll(), "Id", "Name", organizedTrip.HotelId);
             return this.View(organizedTrip);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Name,ImageUrl,Description,PricePerPerson,DepartureDateTime,ReturnDateTime,DestinationId,HotelId,Transport,AvailableSeats,ReservationType,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] OrganizedTrip organizedTrip)
+        public async Task<IActionResult> Edit(string id, OrganizedTripViewModel tripViewModel)
         {
-            if (id != organizedTrip.Id)
+            if (id != tripViewModel.Id)
             {
                 return this.NotFound();
             }
 
             if (!this.ModelState.IsValid)
             {
-                this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", organizedTrip.DestinationId);
-                this.ViewData["HotelId"] = new SelectList(this.hotelsService.GetAllAsKeyValuePairs(), organizedTrip.HotelId);
-                return this.View(organizedTrip);
+                this.ViewData["DestinationId"] = new SelectList(this.destinationsService.GetAll(), "Id", "Town", tripViewModel.DestinationId);
+                this.ViewData["HotelId"] = new SelectList(this.hotelsService.GetAll(), "Id", "Name", tripViewModel.HotelId);
+                return this.View(tripViewModel);
             }
 
             try
             {
-                this.tripRepository.Update(organizedTrip);
-                await this.tripRepository.SaveChangesAsync();
+                await this.tripsService.EditAsync(id, tripViewModel);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.OrganizedTripExists(organizedTrip.Id))
+                if (!this.OrganizedTripExists(tripViewModel.Id))
                 {
                     return this.NotFound();
                 }
@@ -161,7 +158,7 @@
 
         private bool OrganizedTripExists(string id)
         {
-            return this.tripRepository.All().Any(e => e.Id == id);
+            return this.tripsService.Exists(id);
         }
     }
 }

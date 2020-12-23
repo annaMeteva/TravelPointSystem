@@ -52,6 +52,31 @@
             await this.flightsRepository.SaveChangesAsync();
         }
 
+        public async Task EditAsync(string id, FlightViewModel input)
+        {
+            var flight = this.flightsRepository.All().FirstOrDefault(x => x.Id == id);
+
+            flight.FlightNumber = input.FlightNumber;
+            flight.PricePerPerson = input.PricePerPerson;
+            flight.CompanyId = input.CompanyId;
+            flight.DepartureDateTime = input.DepartureDateTime;
+            flight.FlightTime = input.FlightTime;
+            flight.StartPointId = input.StartPointId;
+            flight.StartPointAirPort = input.StartPointAirPort;
+            flight.EndPointId = input.EndPointId;
+            flight.EndPointAirPort = input.EndPointAirPort;
+            flight.AvailableSeats = input.AvailableSeats;
+            flight.IsDeleted = input.IsDeleted;
+
+            this.flightsRepository.Update(flight);
+            await this.flightsRepository.SaveChangesAsync();
+        }
+
+        public bool Exists(string id)
+        {
+            return this.flightsRepository.All().Any(e => e.Id == id);
+        }
+
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePair()
         {
             return this.flightsRepository.All().Select(x => new

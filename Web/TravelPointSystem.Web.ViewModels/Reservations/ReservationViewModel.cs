@@ -23,8 +23,7 @@
         [Display(Name = "Reservation Type")]
         public ReservationType ReservationType { get; set; }
 
-        public IEnumerable<TouristViewModel> Tourists { get; set; }
-
+        [Required]
         public double Price { get; set; }
 
         public double Balance { get; set; }
@@ -67,5 +66,7 @@
 
         [Display(Name = "Is Deleted")]
         public bool IsDeleted { get; set; }
+
+        public IList<TouristViewModel> Tourists { get; set; }
     }
 }

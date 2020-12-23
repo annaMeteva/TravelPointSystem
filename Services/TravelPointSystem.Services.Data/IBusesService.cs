@@ -20,5 +20,9 @@
         Task CreateAsync(BusInputModel inputModel);
 
         Task DeleteAsync(string id);
+
+        Task EditAsync(string id, BusViewModel input);
+
+        bool Exists(string id);
     }
 }

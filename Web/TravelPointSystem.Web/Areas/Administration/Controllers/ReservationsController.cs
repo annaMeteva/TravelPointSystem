@@ -12,28 +12,15 @@
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Services.Data;
+    using TravelPointSystem.Web.ViewModels.Reservations;
 
     public class ReservationsController : AdministrationController
     {
         private readonly IReservationsService reservationsService;
-        private readonly IDeletableEntityRepository<Reservation> reservationsRepository;
-        private readonly IDeletableEntityRepository<Bus> busesRepository;
-        private readonly IDeletableEntityRepository<Flight> flightsRepository;
-        private readonly IDeletableEntityRepository<Hotel> hotelsRepository;
-        private readonly IDeletableEntityRepository<OrganizedTrip> tripsRepository;
-        private readonly IDeletableEntityRepository<ApplicationUser> usersRepository;
-        private readonly IDeletableEntityRepository<Destination> destinationsRepository;
 
-        public ReservationsController(IReservationsService reservationsService, IDeletableEntityRepository<Reservation> reservationsRepository, IDeletableEntityRepository<Bus> busesRepository, IDeletableEntityRepository<Flight> flightsRepository, IDeletableEntityRepository<Hotel> hotelsRepository, IDeletableEntityRepository<OrganizedTrip> tripsRepository, IDeletableEntityRepository<ApplicationUser> usersRepository, IDeletableEntityRepository<Destination> destinationsRepository)
+        public ReservationsController(IReservationsService reservationsService)
         {
             this.reservationsService = reservationsService;
-            this.reservationsRepository = reservationsRepository;
-            this.busesRepository = busesRepository;
-            this.flightsRepository = flightsRepository;
-            this.hotelsRepository = hotelsRepository;
-            this.tripsRepository = tripsRepository;
-            this.usersRepository = usersRepository;
-            this.destinationsRepository = destinationsRepository;
         }
 
         [HttpGet]
@@ -69,49 +56,36 @@
                 return this.NotFound();
             }
 
-            var reservation = await this.reservationsRepository.All().FirstOrDefaultAsync(x => x.Id == id);
+            var reservation = await this.reservationsService.GetByIdAsync(id);
             if (reservation == null)
             {
                 return this.NotFound();
             }
 
-            this.ViewData["BusId"] = new SelectList(this.busesRepository.All(), "Id", "BusNumber", reservation.BusId);
-            this.ViewData["CreatorId"] = new SelectList(this.usersRepository.All(), "Id", "UserName", reservation.CreatorId);
-            this.ViewData["DestinationId"] = new SelectList(this.destinationsRepository.All(), "Id", "Town", reservation.DestinationId);
-            this.ViewData["FlightId"] = new SelectList(this.flightsRepository.All(), "Id", "FlightNumber", reservation.FlightId);
-            this.ViewData["HotelId"] = new SelectList(this.hotelsRepository.All(), "Id", "Name", reservation.HotelId);
-            this.ViewData["OrganizedTripId"] = new SelectList(this.tripsRepository.All(), "Id", "Name", reservation.OrganizedTripId);
             return this.View(reservation);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("ReservationType,Price,Balance,Profit,IsPaid,IsAccepted,DestinationId,CreatorId,HotelId,OrganizedTripId,FlightId,BusId,Departure,Return,IsDeleted,DeletedOn,Id,CreatedOn,ModifiedOn")] Reservation reservation)
+        public async Task<IActionResult> Edit(string id, ReservationViewModel reservationViewModel)
         {
-            if (id != reservation.Id)
+            if (id != reservationViewModel.Id)
             {
                 return this.NotFound();
             }
 
             if (!this.ModelState.IsValid)
             {
-                this.ViewData["BusId"] = new SelectList(this.busesRepository.All(), "Id", "BusNumber", reservation.BusId);
-                this.ViewData["CreatorId"] = new SelectList(this.usersRepository.All(), "Id", "UserName", reservation.CreatorId);
-                this.ViewData["DestinationId"] = new SelectList(this.destinationsRepository.All(), "Id", "Town", reservation.DestinationId);
-                this.ViewData["FlightId"] = new SelectList(this.flightsRepository.All(), "Id", "FlightNumber", reservation.FlightId);
-                this.ViewData["HotelId"] = new SelectList(this.hotelsRepository.All(), "Id", "Name", reservation.HotelId);
-                this.ViewData["OrganizedTripId"] = new SelectList(this.tripsRepository.All(), "Id", "Name", reservation.OrganizedTripId);
-                return this.View(reservation);
+                return this.View(reservationViewModel);
             }
 
             try
             {
-                this.reservationsRepository.Update(reservation);
-                await this.reservationsRepository.SaveChangesAsync();
+                await this.reservationsService.EditAsync(reservationViewModel, id);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!this.ReservationExists(reservation.Id))
+                if (!this.ReservationExists(reservationViewModel.Id))
                 {
                     return this.NotFound();
                 }
@@ -153,7 +127,7 @@
 
         private bool ReservationExists(string id)
         {
-            return this.reservationsRepository.All().Any(e => e.Id == id);
+            return this.reservationsService.Exists(id);
         }
     }
 }
