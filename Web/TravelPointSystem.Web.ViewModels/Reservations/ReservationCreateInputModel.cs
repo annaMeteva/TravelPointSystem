@@ -13,8 +13,6 @@
 
         public string ProductId { get; set; }
 
-        public int NumberOfTourists { get; set; }
-
         // For Hotel Reservation
         [DataType(DataType.Date)]
         [Display(Name = "Check In")]
@@ -23,6 +21,8 @@
         [DataType(DataType.Date)]
         [Display(Name = "Check Out")]
         public DateTime CheckOut { get; set; }
+
+        public int NumberOfTourists { get; set; }
 
         public IList<TouristCreateInputModel> Tourists { get; set; }
     }

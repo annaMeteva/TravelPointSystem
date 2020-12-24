@@ -15,6 +15,11 @@
         [Display(Name = "Please choose End Point")]
         public string EndPointId { get; set; }
 
+        [Required]
+        [Range(1, 4)]
+        [Display(Name = "Number of tourists")]
+        public int NumberOfTourists { get; set; }
+
         public IEnumerable<KeyValuePair<string, string>> StartDestinationItems { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> EndDestinationItems { get; set; }

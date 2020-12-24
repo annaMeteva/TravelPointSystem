@@ -42,16 +42,17 @@
                 inputModel.EndDestinationItems = this.destinationsService.GetAllEndCountriesForFlightsAsKeyValuePairs();
             }
 
-            return this.RedirectToAction("AllByDestinationsId", new { startDestinationId = inputModel.StartPointId, endDestinationId = inputModel.EndPointId });
+            return this.RedirectToAction("AllByDestinationsId", new { startDestinationId = inputModel.StartPointId, endDestinationId = inputModel.EndPointId, numberOfTourists = inputModel.NumberOfTourists });
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> AllByDestinationsId(int startDestinationId, int endDestinationId)
+        public async Task<IActionResult> AllByDestinationsId(int startDestinationId, int endDestinationId, int numberOfTourists)
         {
             var flights = new FlightsByDestinationsIdListViewModel
             {
                 Flights = await this.flightsService.GetAllByDestinationsIdAsync(startDestinationId, endDestinationId),
+                NumberOfTourists = numberOfTourists,
             };
 
             if (flights.Flights.Count() == 0)

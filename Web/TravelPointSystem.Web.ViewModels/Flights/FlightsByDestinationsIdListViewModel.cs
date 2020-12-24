@@ -6,6 +6,8 @@
 
     public class FlightsByDestinationsIdListViewModel
     {
+        public int NumberOfTourists { get; set; }
+
         public IEnumerable<FlightViewModel> Flights { get; set; }
     }
 }

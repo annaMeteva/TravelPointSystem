@@ -42,16 +42,17 @@
                 return this.View(inputModel);
             }
 
-            return this.RedirectToAction("AllByDestinationId", new { destinationId = int.Parse(inputModel.DestinationId) });
+            return this.RedirectToAction("AllByDestinationId", new { destinationId = int.Parse(inputModel.DestinationId), numberOfTourists = inputModel.NumberOfTourists });
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> AllByDestinationId(int destinationId)
+        public async Task<IActionResult> AllByDestinationId(int destinationId, int numberOfTourists)
         {
             var hotels = new HotelsByDestinationIdListViewModel
             {
                 Hotels = await this.hotelsService.GetAllByDestinationIdAsync(destinationId),
+                NumberOfTourists = numberOfTourists,
             };
 
             if (hotels.Hotels.Count() == 0)
@@ -66,10 +67,10 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> ById(int id)
+        public async Task<IActionResult> ById(int id, int numberOfTourists)
         {
             var hotel = await this.hotelsService.GetByIdAsync(id);
-
+            hotel.NumberOfTourists = numberOfTourists;
             return this.View(hotel);
         }
     }

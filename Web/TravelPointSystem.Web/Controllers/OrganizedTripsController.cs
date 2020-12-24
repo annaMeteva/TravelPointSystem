@@ -39,16 +39,17 @@
                 inputModel.DestinationItems = this.destinationsService.GetAllCountriesForTripsAsKeyValuePairs();
             }
 
-            return this.RedirectToAction("AllByDestinationId", new { destinationId = int.Parse(inputModel.DestinationId) });
+            return this.RedirectToAction("AllByDestinationId", new { destinationId = int.Parse(inputModel.DestinationId), numberOfTourists = inputModel.NumberOfTourists });
         }
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> AllByDestinationId(int destinationId)
+        public async Task<IActionResult> AllByDestinationId(int destinationId, int numberOfTourists)
         {
             var organizedTrips = new OrganizedTripsByDestinationIdListViewModel
             {
                 OrganizedTrips = await this.organizedTripsService.GetAllByDestinationIdAsync(destinationId),
+                NumberOfTourists = numberOfTourists,
             };
 
             if (organizedTrips.OrganizedTrips.Count() == 0)
@@ -63,9 +64,10 @@
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> ById(string id)
+        public async Task<IActionResult> ById(string id, int numberOfTourists)
         {
             var trip = await this.organizedTripsService.GetByIdAsync(id);
+            trip.NumberOfTourists = numberOfTourists;
 
             return this.View(trip);
         }

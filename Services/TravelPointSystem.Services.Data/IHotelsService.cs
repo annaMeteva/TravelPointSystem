@@ -25,5 +25,7 @@
         Task EditAsync(int id, HotelViewModel input);
 
         bool Exists(int id);
+
+        int GetHotelsCount();
     }
 }

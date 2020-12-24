@@ -183,14 +183,9 @@
             return destination;
         }
 
-        public IndexViewModel GetDestinationsCount()
+        public int GetDestinationsCount()
         {
-            var data = new IndexViewModel()
-            {
-                DestinationsCount = this.destinationsRepository.All().Count(),
-            };
-
-            return data;
+            return this.destinationsRepository.All().Count();
         }
     }
 }

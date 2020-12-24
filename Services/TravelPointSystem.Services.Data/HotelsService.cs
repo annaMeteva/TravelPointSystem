@@ -114,5 +114,10 @@
         {
             return this.hotelsRepository.All().Any(e => e.Id == id);
         }
+
+        public int GetHotelsCount()
+        {
+            return this.hotelsRepository.All().Count();
+        }
     }
 }

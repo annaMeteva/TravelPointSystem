@@ -8,6 +8,8 @@
 
     public class OrganizedTripsByDestinationIdListViewModel
     {
+        public int NumberOfTourists { get; set; }
+
         public IEnumerable<OrganizedTripViewModel> OrganizedTrips { get; set; }
     }
 }

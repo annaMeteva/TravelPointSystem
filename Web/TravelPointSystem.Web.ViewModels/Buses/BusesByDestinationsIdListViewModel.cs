@@ -6,6 +6,8 @@
 
     public class BusesByDestinationsIdListViewModel
     {
+        public int NumberOfTourists { get; set; }
+
         public IEnumerable<BusViewModel> Buses { get; set; }
     }
 }

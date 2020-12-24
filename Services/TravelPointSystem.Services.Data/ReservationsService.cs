@@ -128,7 +128,7 @@
             }
 
             reservation.Price = productPrice * reservation.Tourists.Count();
-            reservation.Profit = Math.Round(0.1 * productPrice, 2);
+            reservation.Profit = Math.Round(0.1 * reservation.Price, 2);
 
             await this.reservationRepository.AddAsync(reservation);
             await this.reservationRepository.SaveChangesAsync();

@@ -42,13 +42,13 @@
             </p>
 
             <p class="d-flex justify-content-center">
-                @if (Model.AvailableRooms == 0)
+                @if (Model.AvailableRooms == 0 || Model.AvailableRooms < (Model.NumberOfTourists / 2))
                 {
                     <a class="btn btn-primary disabled">No rooms</a>
                 }
                 else
                 {
-                    <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id.ToString()">Book</a>
+                    <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id.ToString()" asp-route-numberOfTourists="@Model.NumberOfTourists">Book</a>
                 }
             </p>
         </div>

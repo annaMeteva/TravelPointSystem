@@ -26,11 +26,9 @@
         [Display(Name = "Personal Number")]
         public ulong PersonalNumber { get; set; }
 
-        [Required]
         [Display(Name = "Passport Number")]
         public ulong PassportNumber { get; set; }
 
-        [Required]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 

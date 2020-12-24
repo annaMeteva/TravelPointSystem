@@ -9,7 +9,7 @@
 
     public interface IDestinationsService
     {
-        IndexViewModel GetDestinationsCount();
+        int GetDestinationsCount();
 
         IEnumerable<KeyValuePair<string, string>> GetAllCountriesForTripsAsKeyValuePairs();
 

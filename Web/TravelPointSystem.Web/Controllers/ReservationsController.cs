@@ -30,27 +30,30 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult Create(ReservationType reservationType)
+        public IActionResult Create(ReservationType reservationType, string id, int numberOfTourists)
         {
-            var inputModel = new ReservationCreateInputModel();
-            inputModel.ReservationType = reservationType;
+            var inputModel = new ReservationCreateInputModel
+            {
+                ReservationType = reservationType,
+                NumberOfTourists = numberOfTourists,
+                ProductId = id,
+            };
 
             return this.View(inputModel);
         }
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> Create(ReservationCreateInputModel inputModel, ReservationType reservationType, string id)
+        public async Task<IActionResult> Create(ReservationCreateInputModel inputModel, string id)
         {
             if (!this.ModelState.IsValid)
             {
-                inputModel.ReservationType = reservationType;
                 inputModel.ProductId = id;
                 return this.View(inputModel);
             }
 
-            inputModel.ProductId = id;
             var userId = this.userManager.GetUserId(this.User);
+            inputModel.ProductId = id;
 
             try
             {
@@ -59,17 +62,8 @@
             catch (Exception ex)
             {
                 this.ModelState.AddModelError(string.Empty, ex.Message);
-                inputModel.ReservationType = reservationType;
-                inputModel.ProductId = id;
                 return this.View(inputModel);
             }
-
-            var userViewModel = this.usersService.GetUserCompanyName(userId);
-            var viewModel = new IndexLoggedInViewModel
-            {
-                CurrentUser = userViewModel,
-                Reservations = await this.reservationService.GetAllReservationsByUserIdAsync(userId),
-            };
 
             return this.Redirect("/");
         }

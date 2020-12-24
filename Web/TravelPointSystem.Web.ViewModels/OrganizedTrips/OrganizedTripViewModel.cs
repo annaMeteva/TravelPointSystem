@@ -72,5 +72,7 @@
 
         [Display(Name = "Is Deleted")]
         public bool IsDeleted { get; set; }
+
+        public int NumberOfTourists { get; set; }
     }
 }

@@ -19,13 +19,15 @@
         private readonly IUsersService usersService;
         private readonly IReservationsService reservationService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly IHotelsService hotelsService;
 
-        public HomeController(IDestinationsService destinationsService, IUsersService usersService, IReservationsService reservationService, UserManager<ApplicationUser> userManager)
+        public HomeController(IDestinationsService destinationsService, IUsersService usersService, IReservationsService reservationService, UserManager<ApplicationUser> userManager, IHotelsService hotelsService)
         {
             this.destinationsService = destinationsService;
             this.usersService = usersService;
             this.reservationService = reservationService;
             this.userManager = userManager;
+            this.hotelsService = hotelsService;
         }
 
         [HttpGet]
@@ -41,7 +43,11 @@
                 return this.RedirectToAction("IndexLoggedIn");
             }
 
-            var viewModel = this.destinationsService.GetDestinationsCount();
+            var viewModel = new IndexViewModel
+            {
+                DestinationsCount = this.destinationsService.GetDestinationsCount(),
+                HotelsCount = this.hotelsService.GetHotelsCount(),
+            };
             return this.View(viewModel);
         }
 

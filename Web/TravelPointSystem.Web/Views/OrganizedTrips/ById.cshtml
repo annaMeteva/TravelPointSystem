@@ -50,13 +50,13 @@
             </p>
 
             <p class="d-flex justify-content-center">
-                @if (Model.AvailableSeats == 0)
+                @if (Model.AvailableSeats == 0 || Model.AvailableSeats < Model.NumberOfTourists)
                 {
                     <a class="btn btn-primary disabled">No Seats</a>
                 }
                 else
                 {
-                    <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id">Book</a>
+                    <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id" asp-route-numberOfTourists="@Model.NumberOfTourists">Book</a>
                 }
             </p>
 

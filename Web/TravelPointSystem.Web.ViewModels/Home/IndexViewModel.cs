@@ -7,5 +7,7 @@
     public class IndexViewModel
     {
         public int DestinationsCount { get; set; }
+
+        public int HotelsCount { get; set; }
     }
 }

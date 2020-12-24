@@ -22,14 +22,14 @@
                     <li class="list-group-item">Board: @hotel.FeedingType</li>
                 </ul>
                 <div class="card-body d-flex justify-content-between">
-                    <a class="btn btn-outline-primary" asp-action="ById" asp-route-id="@hotel.Id">View more</a>
-                    @if (hotel.AvailableRooms == 0)
+                    <a class="btn btn-outline-primary" asp-action="ById" asp-route-id="@hotel.Id" asp-route-numberOfTourists="@Model.NumberOfTourists">View more</a>
+                    @if (hotel.AvailableRooms == 0 || hotel.AvailableRooms < (Model.NumberOfTourists / 2))
                     {
                         <a class="btn btn-primary disabled">No Rooms</a>
                     }
                     else
                     {
-                        <a class="btn btn-primary" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@hotel.ReservationType" asp-route-id="@hotel.Id.ToString()">Book</a>
+                        <a class="btn btn-primary" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@hotel.ReservationType" asp-route-id="@hotel.Id.ToString()" asp-route-numberOfTourists="@Model.NumberOfTourists">Book</a>
                     }
                 </div>
             </div>

@@ -20,5 +20,11 @@
         <select asp-for="EndPointId" class="form-control" asp-items="endDestinationItems"></select>
         <span asp-validation-for="EndPointId" class="text-danger"></span>
     </div>
+    <div class="form-group">
+        <label asp-for="NumberOfTourists" class="control-label"></label>
+        <input asp-for="NumberOfTourists" class="form-control" />
+        <span asp-validation-for="NumberOfTourists" class="text-danger"></span>
+    </div>
+
     <button type="submit" class="btn btn-primary">Search</button>
 </form>

@@ -40,7 +40,7 @@
                         }
                         else
                         {
-                            <a class="btn btn-info" style="width: 100px;" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@flight.ReservationType" asp-route-id="@flight.Id">Book</a>
+                            <a class="btn btn-info" style="width: 100px;" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@flight.ReservationType" asp-route-id="@flight.Id" asp-route-numberOfTourists="@Model.NumberOfTourists">Book</a>
                         }
                     </div>
                 </div>
