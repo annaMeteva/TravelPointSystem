@@ -1,2 +1,2 @@
 # TravelPoint
- ASP.NET Core project for the course ASP.NET Core - February 2020
+ ASP.NET Core project for the course ASP.NET Core - September 2020
