@@ -22,7 +22,9 @@
             <p class="lead">
                 <span>$@Model.PricePerNightPerPerson    <i class="fa fa-user"></i></span>
             </p>
-
+            <p class="lead">
+                <span>$@Model.PricePerChild    <i class="fa fa-child"></i></span>
+            </p>
             <p class="lead font-weight-bold">
                 Board: <span class="lead font-weight-normal">@Model.FeedingType</span>
             </p>
@@ -46,7 +48,7 @@
                 {
                     <a class="btn btn-primary disabled">No rooms</a>
                 }
-                else
+                else if (Model.NumberOfTourists != 0)
                 {
                     <a class="btn btn-primary btn-lg" asp-controller="Reservations" asp-action="Create" asp-route-reservationType="@Model.ReservationType" asp-route-id="@Model.Id.ToString()" asp-route-numberOfTourists="@Model.NumberOfTourists">Book</a>
                 }

@@ -41,7 +41,7 @@
                 CreatorId = userId,
             };
 
-            double productPrice = 0;
+            double productPricePerAdult = 0;
 
             if (input.ReservationType.ToString() == "Flight")
             {
@@ -53,7 +53,7 @@
                     await this.flightRepository.SaveChangesAsync();
                 }
 
-                productPrice = flight.PricePerPerson;
+                productPricePerAdult = flight.PricePerPerson;
 
                 reservation.DestinationId = flight.EndPointId;
 
@@ -72,7 +72,7 @@
                     await this.busRepository.SaveChangesAsync();
                 }
 
-                productPrice = bus.PricePerPerson;
+                productPricePerAdult = bus.PricePerPerson;
 
                 reservation.DestinationId = bus.EndPointId;
 
@@ -91,7 +91,7 @@
                     await this.organizedTripRepository.SaveChangesAsync();
                 }
 
-                productPrice = organizedTrip.PricePerPerson;
+                productPricePerAdult = organizedTrip.PricePerPerson;
 
                 reservation.DestinationId = organizedTrip.DestinationId;
 
@@ -112,14 +112,14 @@
                     await this.hotelRepository.SaveChangesAsync();
                 }
 
-                productPrice = hotel.PricePerNightPerPerson;
+                productPricePerAdult = hotel.PricePerNightPerPerson;
 
                 reservation.DestinationId = hotel.DestinationId;
 
                 reservation.HotelId = int.Parse(input.ProductId);
                 reservation.Departure = input.CheckIn + new TimeSpan(14, 00, 00);
                 reservation.Return = input.CheckOut + new TimeSpan(12, 00, 00);
-                productPrice *= (input.CheckOut - input.CheckIn).Days;
+                productPricePerAdult *= (input.CheckOut - input.CheckIn).Days;
             }
 
             foreach (var inputTourist in input.Tourists)
@@ -127,7 +127,20 @@
                 reservation.Tourists.Add(new Tourist { FullName = inputTourist.FullName, DateOfBirth = inputTourist.DateOfBirth, TouristType = inputTourist.TouristType, PersonalNumber = inputTourist.PersonalNumber, PassportNumber = inputTourist.PassportNumber, PhoneNumber = inputTourist.PhoneNumber });
             }
 
-            reservation.Price = productPrice * reservation.Tourists.Count();
+
+            double productPricePerChild = Math.Round(productPricePerAdult / 2, 2);
+            var childs = reservation.Tourists.Where(x => x.TouristType.ToString() == "Child").Count();
+            var adults = reservation.Tourists.Count();
+            if (childs != 0)
+            {
+                reservation.Price = productPricePerChild * childs;
+                reservation.Price += productPricePerAdult * (adults - childs);
+            }
+            else
+            {
+                reservation.Price = productPricePerAdult * adults;
+            }
+
             reservation.Profit = Math.Round(0.1 * reservation.Price, 2);
 
             await this.reservationRepository.AddAsync(reservation);
@@ -191,6 +204,7 @@
         public async Task<IEnumerable<ReservationViewModel>> GetAllAsync()
         {
             return await this.reservationRepository.All()
+                .OrderByDescending(x => x.CreatedOn)
                 .To<ReservationViewModel>()
                 .ToListAsync();
         }

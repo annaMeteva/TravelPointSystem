@@ -31,6 +31,8 @@
         [Display(Name = "Price per person")]
         public double PricePerPerson { get; set; }
 
+        public double PricePerChild => Math.Round(this.PricePerPerson / 2, 2);
+
         [Required]
         [Display(Name = "Departure At")]
         public DateTime DepartureDateTime { get; set; }

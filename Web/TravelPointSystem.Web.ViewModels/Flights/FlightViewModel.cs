@@ -23,6 +23,8 @@
         [Display(Name = "Price per person")]
         public double PricePerPerson { get; set; }
 
+        public double PricePerChild => Math.Round(this.PricePerPerson / 2, 2);
+
         // For EditAsync Action
         [Display(Name = "Company")]
         public int CompanyId { get; set; }

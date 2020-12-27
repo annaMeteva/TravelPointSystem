@@ -38,6 +38,8 @@
         [Display(Name = "Price per person")]
         public double PricePerNightPerPerson { get; set; }
 
+        public double PricePerChild => Math.Round(this.PricePerNightPerPerson / 2, 2);
+
         [Required]
         [Range(1, 6)]
         public int Stars { get; set; }
