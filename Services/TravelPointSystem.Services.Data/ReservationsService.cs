@@ -49,7 +49,7 @@
 
                 if (flight.AvailableSeats != 0)
                 {
-                    flight.AvailableSeats--;
+                    flight.AvailableSeats -= reservation.Tourists.Count();
                     await this.flightRepository.SaveChangesAsync();
                 }
 
@@ -68,7 +68,7 @@
 
                 if (bus.AvailableSeats != 0)
                 {
-                    bus.AvailableSeats--;
+                    bus.AvailableSeats -= reservation.Tourists.Count();
                     await this.busRepository.SaveChangesAsync();
                 }
 
@@ -87,7 +87,7 @@
 
                 if (organizedTrip.AvailableSeats != 0)
                 {
-                    organizedTrip.AvailableSeats--;
+                    organizedTrip.AvailableSeats -= reservation.Tourists.Count();
                     await this.organizedTripRepository.SaveChangesAsync();
                 }
 
