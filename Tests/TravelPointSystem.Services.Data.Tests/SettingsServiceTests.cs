@@ -5,15 +5,12 @@
     using System.Threading.Tasks;
 
     using Microsoft.EntityFrameworkCore;
-
     using Moq;
-
-    using Xunit;
-
     using TravelPointSystem.Data;
     using TravelPointSystem.Data.Common.Repositories;
     using TravelPointSystem.Data.Models;
     using TravelPointSystem.Data.Repositories;
+    using Xunit;
 
     public class SettingsServiceTests
     {

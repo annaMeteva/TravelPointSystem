@@ -104,11 +104,9 @@
 
         public async Task<FlightViewModel> GetByIdAsync(string id)
         {
-            var flight = await this.flightsRepository.All()
+            return await this.flightsRepository.All()
                 .Where(x => x.Id == id)
                 .To<FlightViewModel>().FirstOrDefaultAsync();
-
-            return flight;
         }
     }
 }

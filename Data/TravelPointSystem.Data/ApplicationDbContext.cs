@@ -41,6 +41,7 @@
         public DbSet<Setting> Settings { get; set; }
 
         public DbSet<Tourist> Tourists { get; set; }
+        public object Bus { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

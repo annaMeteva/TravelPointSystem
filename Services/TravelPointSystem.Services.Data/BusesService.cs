@@ -102,11 +102,10 @@
 
         public async Task<BusViewModel> GetByIdAsync(string id)
         {
-            var bus = await this.busesRepository.All()
+            return await this.busesRepository.All()
                 .Where(x => x.Id == id)
                 .To<BusViewModel>().FirstOrDefaultAsync();
 
-            return bus;
         }
     }
 }
