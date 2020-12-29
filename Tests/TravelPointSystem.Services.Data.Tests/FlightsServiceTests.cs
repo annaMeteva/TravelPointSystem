@@ -167,38 +167,5 @@
             // Assert
             Assert.True(actualResult == expectedResult);
         }
-
-        [Fact]
-        public async Task GetByIdAsync_ShouldReturnCorrectResult()
-        {
-            // Arrange
-            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            var seeder = new FlightsServiceTestsSeeder();
-            await seeder.SeedFlightAsync(context);
-            var flightRepository = new EfDeletableEntityRepository<Flight>(context);
-
-            var service = new FlightsService(flightRepository);
-            var flightId = flightRepository.All().First().Id;
-
-            // Act
-            var actualResult = await service.GetByIdAsync(flightId);
-            var expectedResult = await flightRepository
-                .All().To<FlightViewModel>()
-                .FirstOrDefaultAsync(x => x.Id == flightId);
-
-            // Assert
-            Assert.True(actualResult.Id == expectedResult.Id);
-            Assert.True(expectedResult.FlightNumber == actualResult.FlightNumber);
-            Assert.True(expectedResult.AvailableSeats == actualResult.AvailableSeats);
-            Assert.True(expectedResult.PricePerPerson == actualResult.PricePerPerson);
-            Assert.True(expectedResult.ReservationType == actualResult.ReservationType);
-            Assert.True(expectedResult.StartPointId == actualResult.StartPointId);
-            Assert.True(expectedResult.StartPointAirPort == actualResult.StartPointAirPort);
-            Assert.True(expectedResult.EndPointId == actualResult.EndPointId);
-            Assert.True(expectedResult.EndPointAirPort == actualResult.EndPointAirPort);
-            Assert.True(expectedResult.DepartureDateTime == actualResult.DepartureDateTime);
-            Assert.True(expectedResult.FlightTime == actualResult.FlightTime);
-            Assert.True(expectedResult.CompanyId == actualResult.CompanyId);
-        }
     }
 }

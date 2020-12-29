@@ -15,6 +15,7 @@
         {
             var hotel = new Hotel
             {
+                Id = 1,
                 Name = "HotelName",
                 ImageUrl = "ImageUrl",
                 Description = "Description",

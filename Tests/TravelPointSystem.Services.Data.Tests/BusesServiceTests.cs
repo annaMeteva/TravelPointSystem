@@ -128,38 +128,6 @@
         }
 
         [Fact]
-        public async Task GetByIdAsync_ShouldReturnCorrectResult()
-        {
-            // Arrange
-            var context = ApplicationDbContextInMemoryFactory.InitializeContext();
-            var seeder = new BusesServiceTestsSeeder();
-            await seeder.SeedBusAsync(context);
-            var busRepository = new EfDeletableEntityRepository<Bus>(context);
-
-            var service = new BusesService(busRepository);
-            var busId = busRepository.All().First().Id;
-
-            // Act
-            var actualResult = await service.GetByIdAsync(busId);
-            var expectedResult = await busRepository
-                .All().To<BusViewModel>()
-                .FirstOrDefaultAsync(x => x.Id == busId);
-
-            // Assert
-            Assert.True(actualResult.Id == expectedResult.Id);
-            Assert.True(expectedResult.BusNumber == actualResult.BusNumber);
-            Assert.True(expectedResult.AvailableSeats == actualResult.AvailableSeats);
-            Assert.True(expectedResult.PricePerPerson == actualResult.PricePerPerson);
-            Assert.True(expectedResult.ReservationType == actualResult.ReservationType);
-            Assert.True(expectedResult.StartPointId == actualResult.StartPointId);
-            Assert.True(expectedResult.StartPointStation == actualResult.StartPointStation);
-            Assert.True(expectedResult.EndPointId == actualResult.EndPointId);
-            Assert.True(expectedResult.EndPointStation == actualResult.EndPointStation);
-            Assert.True(expectedResult.DepartureDateTime == actualResult.DepartureDateTime);
-            Assert.True(expectedResult.TravellingTime == actualResult.TravellingTime);
-        }
-
-        [Fact]
         public async Task IsExistingMethod_ShouldReturnTrueIfBusExists()
         {
             // Arrange

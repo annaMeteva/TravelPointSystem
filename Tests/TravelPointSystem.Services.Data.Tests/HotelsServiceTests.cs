@@ -58,6 +58,7 @@
             var hotel = hotelRepository.All().First();
             var model = new HotelViewModel
             {
+                Id = hotel.Id,
                 Name = hotel.Name,
                 ImageUrl = hotel.ImageUrl,
                 Description = hotel.Description,
@@ -159,6 +160,5 @@
             // Assert
             Assert.True(actualResult == expectedResult);
         }
-
     }
 }
